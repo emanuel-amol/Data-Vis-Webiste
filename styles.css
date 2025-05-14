@@ -21,8 +21,17 @@
   justify-content: flex-start;  /* <-- center content inside */
 }
 
+/* Logo styles */
+.logo-container {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 15px;
+}
 
-
+.logo {
+    height: 50px;
+    width: auto;
+}
 
 /* Each dropdown/input group */
 .filter-group {
@@ -72,8 +81,15 @@
 }
 
 /* Navigation buttons */
-.nav-buttons a {
+.nav-buttons {
   display: flex;
+  justify-content: center; /* center horizontally */
+  align-items: center;
+  gap: 1rem;
+  margin: 30px auto 20px;
+}
+
+.nav-btn {
   padding: 10px 20px;
   font-size: 16px;
   font-weight: 600;
@@ -81,18 +97,20 @@
   color: white;
   text-decoration: none;
   border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.2s ease-in-out;
+  display: inline-block;
+  white-space: nowrap;
 }
 
-.nav-buttons a:hover {
+.nav-btn:hover {
   background-color: #2563eb;
 }
 
-.nav-buttons a.active {
+.nav-btn.active {
   background-color: #1e40af;
 }
+
 
 /* Custom multi-select (jurisdiction) */
 .multi-select-wrapper {
@@ -154,5 +172,18 @@
   margin: 2px;
   border-radius: 12px;
   font-size: 13px;
+}
+
+/* Center the title */
+.heading {
+    text-align: center;
+    margin: 0;
+}
+
+/* Header background color */
+header {
+    background-color: #0C1A3C;
+    color: white;
+    padding: 10px 20px;
 }
 
