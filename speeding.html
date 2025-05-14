@@ -1,26 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speeding</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speeding</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Speeding Data Visualization</h1>
-        <nav>
-            <ul>
-                <li><a href="home.html">Home</a></li>
-                <li><a href="speeding.html">Speeding</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <p>Here you will find data visualizations related to speeding incidents.</p>
-    </main>
-    <footer>
-        <p>&copy; 2023 Data Visualization Website</p>
-    </footer>
+  <header>
+    <h1>Speeding Data Visualization</h1>
+    <nav class="nav-buttons">
+      <a href="home.html" class="nav-btn">Home</a>
+      <a href="speeding.html" class="nav-btn active">Speeding</a>
+    </nav>
+  </header>
+
+  <main>
+    <p>Here you will find data visualizations related to speeding incidents.</p>
+
+
+<div class="filter-bar">
+  <!-- Jurisdiction Dropdown -->
+  <div class="filter-group">
+    <label>Select jurisdiction</label>
+    <div class="multi-select-wrapper" id="jurisdiction-dropdown">
+      <div class="select-box" onclick="toggleDropdown()">Select jurisdictions ▼</div>
+      <div class="checkbox-list" id="checkbox-list">
+        <label><input type="checkbox" value="All" onchange="toggleAll(this)"> All</label>
+        <label><input type="checkbox" value="New South Wales" onchange="updateSelection()"> New South Wales</label>
+        <label><input type="checkbox" value="Victoria" onchange="updateSelection()"> Victoria</label>
+        <label><input type="checkbox" value="Queensland" onchange="updateSelection()"> Queensland</label>
+        <label><input type="checkbox" value="Western Australia" onchange="updateSelection()"> Western Australia</label>
+      </div>
+      <div class="selected-output" id="selected-output">Selected: All</div>
+    </div>
+  </div>
+
+  <!-- Year Dropdown -->
+  <div class="filter-group">
+    <label for="year">Select year</label>
+    <select id="year">
+      <option>2023</option>
+      <option>2022</option>
+      <option>2021</option>
+    </select>
+  </div>
+
+  <!-- Detection Method -->
+  <div class="filter-group">
+    <label for="detection">Select detection method</label>
+    <select id="detection">
+      <option>All</option>
+      <option>Camera</option>
+      <option>Police</option>
+    </select>
+  </div>
+
+  <!-- Reset Button -->
+  <div class="filter-group">
+    <label>&nbsp;</label> <!-- empty label to align -->
+    <button id="reset">RESET VIEW</button>
+  </div>
+</div>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Data Visualization Website</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
