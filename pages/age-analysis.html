@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Demographics - Road Safety Enforcement</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header>
+  <div class="container header-container">
+    <div class="logo-container">
+      <img src="images/logo.png" alt="Australian Government Logo" class="logo">
+    </div>
+    <h1 class="heading">Australian Road Safety Enforcement</h1>
+  </div>
+  
+  <nav class="nav-container">
+    <div class="container">
+      <div class="nav-buttons">
+        <a href="index.html" class="nav-btn active">Home</a>
+        <a href="pages/age-analysis.html" class="nav-btn">Age Demographics</a>
+        <a href="pages/time-trends.html" class="nav-btn">Time Trends</a>
+        <a href="pages/jurisdictions.html" class="nav-btn">Jurisdictions</a>
+        <a href="pages/about.html" class="nav-btn">About</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+  <main>
+    <div class="container">
+      <section class="page-header">
+        <h2>Age Demographics Analysis</h2>
+        <p>Explore how road safety violations are distributed across different age groups in Australia.</p>
+      </section>
+
+      <div class="filter-bar">
+        <!-- Jurisdiction Dropdown -->
+        <div class="filter-group">
+          <label>Select jurisdiction</label>
+          <div class="multi-select-wrapper" id="jurisdiction-dropdown">
+            <div class="select-box" onclick="toggleDropdown()">Select jurisdictions ▼</div>
+            <div class="checkbox-list" id="checkbox-list">
+              <label><input type="checkbox" value="All" onchange="toggleAll(this)" checked> All</label>
+              <label><input type="checkbox" value="ACT" onchange="updateSelection()"> ACT</label>
+              <label><input type="checkbox" value="NSW" onchange="updateSelection()"> NSW</label>
+              <label><input type="checkbox" value="NT" onchange="updateSelection()"> NT</label>
+              <label><input type="checkbox" value="QLD" onchange="updateSelection()"> QLD</label>
+              <label><input type="checkbox" value="SA" onchange="updateSelection()"> SA</label>
+              <label><input type="checkbox" value="TAS" onchange="updateSelection()"> TAS</label>
+              <label><input type="checkbox" value="VIC" onchange="updateSelection()"> VIC</label>
+              <label><input type="checkbox" value="WA" onchange="updateSelection()"> WA</label>
+            </div>
+            <div class="selected-output" id="selected-output">Selected: All</div>
+          </div>
+        </div>
+
+        <!-- Year Dropdown -->
+        <div class="filter-group">
+          <label>Select year</label>
+          <div class="multi-select-wrapper" id="year-dropdown">
+            <div class="select-box" onclick="toggleYearDropdown()">Select years ▼</div>
+            <div class="checkbox-list" id="year-checkbox-list">
+              <label><input type="checkbox" value="All" onchange="toggleAllYears(this)" checked> All</label>
+              <label><input type="checkbox" value="2023" onchange="updateYearSelection()"> 2023</label>
+              <label><input type="checkbox" value="2022" onchange="updateYearSelection()"> 2022</label>
+              <label><input type="checkbox" value="2021" onchange="updateYearSelection()"> 2021</label>
+              <label><input type="checkbox" value="2020" onchange="updateYearSelection()"> 2020</label>
+              <label><input type="checkbox" value="2019" onchange="updateYearSelection()"> 2019</label>
+              <label><input type="checkbox" value="2018" onchange="updateYearSelection()"> 2018</label>
+              <label><input type="checkbox" value="2017" onchange="updateYearSelection()"> 2017</label>
+              <label><input type="checkbox" value="2016" onchange="updateYearSelection()"> 2016</label>
+              <label><input type="checkbox" value="2015" onchange="updateYearSelection()"> 2015</label>
+              <label><input type="checkbox" value="2014" onchange="updateYearSelection()"> 2014</label>
+              <label><input type="checkbox" value="2013" onchange="updateYearSelection()"> 2013</label>
+              <label><input type="checkbox" value="2012" onchange="updateYearSelection()"> 2012</label>
+              <label><input type="checkbox" value="2011" onchange="updateYearSelection()"> 2011</label>
+              <label><input type="checkbox" value="2010" onchange="updateYearSelection()"> 2010</label>
+              <label><input type="checkbox" value="2009" onchange="updateYearSelection()"> 2009</label>
+              <label><input type="checkbox" value="2008" onchange="updateYearSelection()"> 2008</label>
+            </div>
+            <div class="selected-output" id="year-selected-output">Selected: All</div>
+          </div>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="filter-group">
+          <label>&nbsp;</label>
+          <button id="reset">RESET VIEW</button>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h3>Distribution of Fines Across Age Groups</h3>
+        <div class="chart-placeholder" id="age-distribution-chart">
+          <!-- This div will hold the D3 visualization in Standup 2 -->
+          <!-- For now, just show a placeholder image of the expected chart -->
+          <img src="../images/age-chart-placeholder.png" alt="Age Distribution Chart Placeholder" style="width: 100%; max-width: 800px; margin: 0 auto; display: block;">
+        </div>
+        <div class="chart-description">
+          <p>This chart shows the distribution of road safety enforcement fines across different age groups. The 40-64 age group accounts for the highest number of fines, followed by the 26-39 age group. The 0-16 age group has negligible fines, which is expected given limited driving in this demographic.</p>
+        </div>
+      </div>
+
+      <div class="data-insights">
+        <h2>Key Insights</h2>
+        <div class="insight-cards">
+          <div class="insight-card">
+            <h3>Middle-aged Adults</h3>
+            <p>The 40-64 age group receives the highest number of fines (approximately 604,750), despite conventional assumptions that younger drivers might be more heavily represented.</p>
+          </div>
+          <div class="insight-card">
+            <h3>Young Adults</h3>
+            <p>The 26-39 age group follows with approximately 430,000 fines, suggesting a significant impact on this demographic as well.</p>
+          </div>
+          <div class="insight-card">
+            <h3>Senior Drivers</h3>
+            <p>The 65+ age group shows significantly fewer fines than middle-aged adults, despite potentially higher driving experience.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+</body>
+</html>

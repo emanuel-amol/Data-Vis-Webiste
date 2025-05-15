@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time Trends - Road Safety Enforcement</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header>
+  <div class="container header-container">
+    <div class="logo-container">
+      <img src="images/logo.png" alt="Australian Government Logo" class="logo">
+    </div>
+    <h1 class="heading">Australian Road Safety Enforcement</h1>
+  </div>
+  
+  <nav class="nav-container">
+    <div class="container">
+      <div class="nav-buttons">
+        <a href="index.html" class="nav-btn active">Home</a>
+        <a href="pages/age-analysis.html" class="nav-btn">Age Demographics</a>
+        <a href="pages/time-trends.html" class="nav-btn">Time Trends</a>
+        <a href="pages/jurisdictions.html" class="nav-btn">Jurisdictions</a>
+        <a href="pages/about.html" class="nav-btn">About</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+  <main>
+    <div class="container">
+      <section class="page-header">
+        <h2>Time Trends Analysis</h2>
+        <p>Examine how road safety enforcement patterns have changed over time from 2008 to 2023.</p>
+      </section>
+
+      <div class="filter-bar">
+        <!-- Jurisdiction Dropdown -->
+        <div class="filter-group">
+          <label>Select jurisdiction</label>
+          <div class="multi-select-wrapper" id="jurisdiction-dropdown">
+            <div class="select-box" onclick="toggleDropdown()">Select jurisdictions ▼</div>
+            <div class="checkbox-list" id="checkbox-list">
+              <label><input type="checkbox" value="All" onchange="toggleAll(this)" checked> All</label>
+              <label><input type="checkbox" value="ACT" onchange="updateSelection()"> ACT</label>
+              <label><input type="checkbox" value="NSW" onchange="updateSelection()"> NSW</label>
+              <label><input type="checkbox" value="NT" onchange="updateSelection()"> NT</label>
+              <label><input type="checkbox" value="QLD" onchange="updateSelection()"> QLD</label>
+              <label><input type="checkbox" value="SA" onchange="updateSelection()"> SA</label>
+              <label><input type="checkbox" value="TAS" onchange="updateSelection()"> TAS</label>
+              <label><input type="checkbox" value="VIC" onchange="updateSelection()"> VIC</label>
+              <label><input type="checkbox" value="WA" onchange="updateSelection()"> WA</label>
+            </div>
+            <div class="selected-output" id="selected-output">Selected: All</div>
+          </div>
+        </div>
+
+        <!-- Detection Method -->
+        <div class="filter-group">
+          <label>Select detection method</label>
+          <div class="multi-select-wrapper" id="detection-dropdown">
+            <div class="select-box" onclick="toggleDetectionDropdown()">Select detection methods ▼</div>
+            <div class="checkbox-list" id="detection-checkbox-list">
+              <label><input type="checkbox" value="All" onchange="toggleAllDetection(this)" checked> All</label>
+              <label><input type="checkbox" value="Camera" onchange="updateDetectionSelection()"> Camera</label>
+              <label><input type="checkbox" value="Police" onchange="updateDetectionSelection()"> Police</label>
+            </div>
+            <div class="selected-output" id="detection-selected-output">Selected: All</div>
+          </div>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="filter-group">
+          <label>&nbsp;</label>
+          <button id="reset">RESET VIEW</button>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h3>Yearly Trends in Total Fines (2008-2023)</h3>
+        <div class="chart-placeholder" id="time-trends-chart">
+          <!-- This div will hold the D3 visualization in Standup 2 -->
+          <!-- For now, just show a placeholder image of the expected chart -->
+          <img src="../images/time-chart-placeholder.png" alt="Time Trends Chart Placeholder" style="width: 100%; max-width: 800px; margin: 0 auto; display: block;">
+        </div>
+        <div class="chart-description">
+          <p>The time series analysis reveals significant trends in enforcement activity from 2008 to 2023. Overall fine issuance has increased substantially since 2008, with a notable peak occurring in 2021, followed by a slight decline in 2022-2023. Several fluctuations appear to coincide with policy changes or enforcement campaigns.</p>
+        </div>
+      </div>
+
+      <div class="data-insights">
+        <h2>Key Insights</h2>
+        <div class="insight-cards">
+          <div class="insight-card">
+            <h3>Growth Period</h3>
+            <p>The period from 2010-2013 shows steady growth in fines, followed by more rapid increases after 2016.</p>
+          </div>
+          <div class="insight-card">
+            <h3>Recent Peak</h3>
+            <p>A significant peak occurred in 2021, which may correlate with specific enforcement initiatives or policy changes.</p>
+          </div>
+          <div class="insight-card">
+            <h3>Recent Trend</h3>
+            <p>There has been a slight decline in fine numbers during 2022-2023, which may indicate changing driver behaviors or enforcement priorities.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+</body>
+</html>

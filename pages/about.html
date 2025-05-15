@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - Road Safety Enforcement</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<header>
+  <div class="container header-container">
+    <div class="logo-container">
+      <img src="images/logo.png" alt="Australian Government Logo" class="logo">
+    </div>
+    <h1 class="heading">Australian Road Safety Enforcement</h1>
+  </div>
+  
+  <nav class="nav-container">
+    <div class="container">
+      <div class="nav-buttons">
+        <a href="index.html" class="nav-btn active">Home</a>
+        <a href="pages/age-analysis.html" class="nav-btn">Age Demographics</a>
+        <a href="pages/time-trends.html" class="nav-btn">Time Trends</a>
+        <a href="pages/jurisdictions.html" class="nav-btn">Jurisdictions</a>
+        <a href="pages/about.html" class="nav-btn">About</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+  <main>
+    <div class="container">
+      <section class="page-header">
+        <h2>About This Project</h2>
+        <p>Learn more about the data, methodology, and team behind this road safety enforcement visualization.</p>
+      </section>
+
+      <div class="about-section">
+        <h3>Background and Motivation</h3>
+        <p>Road safety enforcement is a critical component of public health and safety policy in Australia. The Bureau of Infrastructure and Transport Research Economics (BITRE) has been collecting and publishing Australian transport statistics since 1970, with road safety enforcement data collection dating back to 2008. In 2023, BITRE expanded their data collection to include more fine-grained details about road safety enforcement, including location, age groups, arrests, and charges.</p>
+        <p>Our visualization targets multiple audiences:</p>
+        <ul>
+          <li>Policy Makers and law enforcement agencies who need to understand patterns in road safety violations to allocate resources effectively.</li>
+          <li>Road safety researchers seeking to analyse trends in enforcement data.</li>
+          <li>General public interested in understanding road safety enforcement in their jurisdiction.</li>
+        </ul>
+      </div>
+
+      <div class="about-section">
+        <h3>Data Source</h3>
+        <p>The data used in this visualization is sourced from the Bureau of Infrastructure and Transport Research Economics (BITRE). Specifically, we are using the Road Safety Enforcement Data, which is publicly available at: <a href="https://www.bitre.gov.au/publications/2024/road-safety-enforcement-data" target="_blank">https://www.bitre.gov.au/publications/2024/road-safety-enforcement-data</a></p>
+        
+        <h4>Data Characteristics</h4>
+        <ul>
+          <li><strong>File Name:</strong> police_enforcement_2023_fines_20240920.csv</li>
+          <li><strong>Number of Records:</strong> 5,017</li>
+          <li><strong>Number of Attributes:</strong> 11</li>
+          <li><strong>Time Period:</strong> 2008-2023</li>
+          <li><strong>Update Frequency:</strong> Annual</li>
+        </ul>
+        
+        <h4>Key Attributes</h4>
+        <ul>
+          <li><strong>YEAR:</strong> Calendar year of data collection</li>
+          <li><strong>JURISDICTION:</strong> Australian state or territory (ACT, NSW, NT, QLD, SA, TAS, VIC, WA)</li>
+          <li><strong>LOCATION:</strong> Specific location category of enforcement</li>
+          <li><strong>AGE_GROUP:</strong> Age bracket of offenders (0-16, 17-25, 26-39, 40-64, 65 and over)</li>
+          <li><strong>METRIC:</strong> Type of measurement (e.g., "Mobile phone use while driving")</li>
+          <li><strong>DETECTION_METHOD:</strong> Method used to detect violation</li>
+          <li><strong>FINES:</strong> Number of fines issued</li>
+          <li><strong>ARRESTS:</strong> Number of arrests made</li>
+          <li><strong>CHARGES:</strong> Number of charges filed</li>
+        </ul>
+      </div>
+
+      <div class="about-section">
+        <h3>Visualization Design</h3>
+        <p>Our design approach focuses on clarity, accessibility, and interactivity. We've created visualizations that enable users to:</p>
+        <ul>
+          <li>Compare fine distributions across different age groups</li>
+          <li>Analyze trends in enforcement data over time (2008-2023)</li>
+          <li>Examine geographical patterns across Australian jurisdictions</li>
+          <li>Investigate the relationship between fines, arrests, and charges</li>
+        </ul>
+        
+        <p>The visualizations are built using D3.js, a powerful JavaScript library for creating data-driven documents. Users can interact with the visualizations through filtering options that allow for customized views of the data.</p>
+      </div>
+
+      <div class="about-section">
+        <h3>Team</h3>
+        <div class="team-members">
+          <div class="team-member">
+            <h4>Emanuel Singh</h4>
+            <p>Student ID: 104515032</p>
+            <p>Role: Data Analysis & Visualization Development</p>
+          </div>
+          <div class="team-member">
+            <h4>Sahil Amin</h4>
+            <p>Student ID: 104501837</p>
+            <p>Role: Web Development & UI Design</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+</body>
+</html>

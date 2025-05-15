@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jurisdictional Analysis - Road Safety Enforcement</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header>
+  <div class="container header-container">
+    <div class="logo-container">
+      <img src="images/logo.png" alt="Australian Government Logo" class="logo">
+    </div>
+    <h1 class="heading">Australian Road Safety Enforcement</h1>
+  </div>
+  
+  <nav class="nav-container">
+    <div class="container">
+      <div class="nav-buttons">
+        <a href="index.html" class="nav-btn active">Home</a>
+        <a href="pages/age-analysis.html" class="nav-btn">Age Demographics</a>
+        <a href="pages/time-trends.html" class="nav-btn">Time Trends</a>
+        <a href="pages/jurisdictions.html" class="nav-btn">Jurisdictions</a>
+        <a href="pages/about.html" class="nav-btn">About</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+  <main>
+    <div class="container">
+      <section class="page-header">
+        <h2>Jurisdictional Analysis</h2>
+        <p>Compare road safety enforcement patterns across different Australian jurisdictions.</p>
+      </section>
+
+      <div class="filter-bar">
+        <!-- Year Dropdown -->
+        <div class="filter-group">
+          <label>Select year range</label>
+          <div class="multi-select-wrapper" id="year-dropdown">
+            <div class="select-box" onclick="toggleYearDropdown()">Select years ▼</div>
+            <div class="checkbox-list" id="year-checkbox-list">
+              <label><input type="checkbox" value="All" onchange="toggleAllYears(this)" checked> All</label>
+              <label><input type="checkbox" value="2023" onchange="updateYearSelection()"> 2023</label>
+              <label><input type="checkbox" value="2022" onchange="updateYearSelection()"> 2022</label>
+              <label><input type="checkbox" value="2021" onchange="updateYearSelection()"> 2021</label>
+              <label><input type="checkbox" value="2020" onchange="updateYearSelection()"> 2020</label>
+              <label><input type="checkbox" value="2019" onchange="updateYearSelection()"> 2019</label>
+              <label><input type="checkbox" value="2018" onchange="updateYearSelection()"> 2018</label>
+              <label><input type="checkbox" value="2017" onchange="updateYearSelection()"> 2017</label>
+              <label><input type="checkbox" value="2016" onchange="updateYearSelection()"> 2016</label>
+              <label><input type="checkbox" value="2015" onchange="updateYearSelection()"> 2015</label>
+              <label><input type="checkbox" value="2014" onchange="updateYearSelection()"> 2014</label>
+              <label><input type="checkbox" value="2013" onchange="updateYearSelection()"> 2013</label>
+              <label><input type="checkbox" value="2012" onchange="updateYearSelection()"> 2012</label>
+              <label><input type="checkbox" value="2011" onchange="updateYearSelection()"> 2011</label>
+              <label><input type="checkbox" value="2010" onchange="updateYearSelection()"> 2010</label>
+              <label><input type="checkbox" value="2009" onchange="updateYearSelection()"> 2009</label>
+              <label><input type="checkbox" value="2008" onchange="updateYearSelection()"> 2008</label>
+            </div>
+            <div class="selected-output" id="year-selected-output">Selected: All</div>
+          </div>
+        </div>
+
+        <!-- Detection Method -->
+        <div class="filter-group">
+          <label>Select detection method</label>
+          <div class="multi-select-wrapper" id="detection-dropdown">
+            <div class="select-box" onclick="toggleDetectionDropdown()">Select detection methods ▼</div>
+            <div class="checkbox-list" id="detection-checkbox-list">
+              <label><input type="checkbox" value="All" onchange="toggleAllDetection(this)" checked> All</label>
+              <label><input type="checkbox" value="Camera" onchange="updateDetectionSelection()"> Camera</label>
+              <label><input type="checkbox" value="Police" onchange="updateDetectionSelection()"> Police</label>
+            </div>
+            <div class="selected-output" id="detection-selected-output">Selected: All</div>
+          </div>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="filter-group">
+          <label>&nbsp;</label>
+          <button id="reset">RESET VIEW</button>
+        </div>
+      </div>
+
+      <!-- Toggle between different visualizations -->
+      <div class="viz-tabs">
+        <button class="viz-tab active" data-tab="line-chart-tab">Line Chart</button>
+        <button class="viz-tab" data-tab="stacked-area-tab">Stacked Area</button>
+        <button class="viz-tab" data-tab="map-tab">Map View</button>
+      </div>
+
+      <!-- Line Chart Tab -->
+      <div id="line-chart-tab" class="tab-content">
+        <div class="chart-container">
+          <h3>Fine Trends by Jurisdiction (2008-2023)</h3>
+          <div class="chart-placeholder" id="jurisdiction-line-chart">
+            <!-- This div will hold the D3 visualization in Standup 2 -->
+            <!-- For now, just show a placeholder image of the expected chart -->
+            <img src="../images/jurisdiction-line-placeholder.png" alt="Jurisdiction Line Chart Placeholder" style="width: 100%; max-width: 800px; margin: 0 auto; display: block;">
+          </div>
+          <div class="chart-description">
+            <p>This line chart shows fine trends by jurisdiction from 2008 to 2023. Victoria (VIC) consistently shows the highest level of fines throughout most of the period, while New South Wales (NSW) shows a dramatic increase in fines from 2020-2021, surpassing other jurisdictions.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stacked Area Tab -->
+      <div id="stacked-area-tab" class="tab-content" style="display: none;">
+        <div class="chart-container">
+          <h3>Relative Contribution by Jurisdiction (2008-2023)</h3>
+          <div class="chart-placeholder" id="jurisdiction-area-chart">
+            <!-- This div will hold the D3 visualization in Standup 2 -->
+            <!-- For now, just show a placeholder image of the expected chart -->
+            <img src="../images/jurisdiction-area-placeholder.png" alt="Jurisdiction Area Chart Placeholder" style="width: 100%; max-width: 800px; margin: 0 auto; display: block;">
+          </div>
+          <div class="chart-description">
+            <p>This stacked area chart shows the relative contribution of each jurisdiction to total fines over time. It highlights how the proportion of fines from different jurisdictions has evolved from 2008 to 2023.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map Tab -->
+      <div id="map-tab" class="tab-content" style="display: none;">
+        <div class="chart-container">
+          <h3>Geographic Distribution of Fines</h3>
+          <div class="chart-placeholder" id="jurisdiction-map">
+            <!-- This div will hold the D3 visualization in Standup 2 -->
+            <!-- For now, just show a placeholder image of the expected chart -->
+            <img src="../images/jurisdiction-map-placeholder.png" alt="Jurisdiction Map Placeholder" style="width: 100%; max-width: 800px; margin: 0 auto; display: block;">
+          </div>
+          <div class="chart-description">
+            <p>This map visualization shows the geographic distribution of road safety fines across Australia. Darker colors indicate higher numbers of fines in that jurisdiction.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="data-insights">
+        <h2>Key Insights</h2>
+        <div class="insight-cards">
+          <div class="insight-card">
+            <h3>Victoria</h3>
+            <p>Victoria (VIC) consistently shows the highest level of fines throughout most of the period, suggesting more rigorous enforcement or different policy approaches.</p>
+          </div>
+          <div class="insight-card">
+            <h3>New South Wales</h3>
+            <p>New South Wales (NSW) shows a dramatic increase in fines from 2020-2021, surpassing other jurisdictions. This may indicate a significant policy shift or enforcement campaign.</p>
+          </div>
+          <div class="insight-card">
+            <h3>Smaller Jurisdictions</h3>
+            <p>Smaller jurisdictions (ACT, NT, TAS) show lower absolute numbers but potentially interesting per capita patterns when adjusted for population size.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+</body>
+</html>

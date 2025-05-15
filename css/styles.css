@@ -1,0 +1,521 @@
+/* Base styles and reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header styles */
+/* Header styles */
+header {
+  background-color: #0C1A3C;
+  color: white;
+  padding: 15px 0 0 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.logo-container {
+  flex: 0 0 auto;
+  margin-right: 20px;
+}
+
+.logo {
+  height: 50px;
+  width: auto;
+}
+
+.heading {
+  margin: 0;
+  font-weight: 600;
+  font-size: 2rem;
+  flex: 1;
+}
+
+/* Navigation */
+.nav-container {
+  background-color: #0C1A3C;
+  padding: 10px 0;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .logo-container {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  
+  .heading {
+    font-size: 1.5rem;
+  }
+}
+.nav-btn {
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #3b82f6;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.2s ease-in-out;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.nav-btn:hover {
+  background-color: #2563eb;
+}
+
+.nav-btn.active {
+  background-color: #1e40af;
+}
+
+/* Hero section */
+.hero {
+  background-color: #e8f4fe;
+  padding: 40px 0;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.hero h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #0C1A3C;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: #444;
+}
+
+/* Content sections */
+.overview {
+  padding: 30px 0;
+}
+
+.overview h2 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #0C1A3C;
+  text-align: center;
+}
+
+.overview p {
+  margin-bottom: 20px;
+  text-align: center;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.key-features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.feature {
+  flex: 1;
+  min-width: 300px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.feature h3 {
+  color: #0C1A3C;
+  margin-bottom: 15px;
+}
+
+.feature-link {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 8px 16px;
+  background-color: #3b82f6;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.feature-link:hover {
+  background-color: #2563eb;
+}
+
+/* Filter bar styles (retained from original) */
+.filter-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 1.5rem;
+  background-color: #e5e5e5;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  margin: 30px auto;
+  max-width: 1200px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+}
+
+.filter-group label {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+/* Chart containers */
+.chart-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 30px 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.chart-container h3 {
+  margin-bottom: 15px;
+  color: #0C1A3C;
+}
+
+.chart-description {
+  margin-top: 15px;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Data section */
+.data-insights {
+  background-color: #f0f7ff;
+  padding: 30px 0;
+  margin: 40px 0;
+}
+
+.data-insights h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #0C1A3C;
+}
+
+.insight-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.insight-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  flex: 1;
+  min-width: 250px;
+  max-width: 350px;
+}
+
+.insight-card h3 {
+  color: #0C1A3C;
+  margin-bottom: 10px;
+}
+
+/* Footer styles */
+.footer {
+  background-color: #0C1A3C;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* Dropdown styling (retained and improved from original) */
+.multi-select-wrapper {
+  position: relative;
+  min-width: 220px;
+  width: 100%;
+}
+
+.select-box {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  background: white;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.checkbox-list {
+  display: none;
+  position: absolute;
+  margin-top: 5px;
+  padding: 10px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-height: 150px;
+  overflow-y: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  width: 100%;
+}
+
+.checkbox-list label {
+  display: block;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.checkbox-list label:hover {
+  background-color: #f0f0f0;
+}
+
+.selected-output {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+/* Reset button */
+#reset {
+  height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+#reset:hover {
+  background-color: #f0f0f0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .key-features {
+    flex-direction: column;
+  }
+  
+  .nav-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .nav-btn {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .heading {
+    font-size: 1.5rem;
+  }
+}
+/* Additional styles for the new pages */
+
+/* Page header section */
+.page-header {
+  background-color: #e8f4fe;
+  padding: 30px 0;
+  text-align: center;
+  margin-bottom: 30px;
+  border-radius: 8px;
+}
+
+.page-header h2 {
+  color: #0C1A3C;
+  margin-bottom: 10px;
+}
+
+/* Tab navigation for visualizations */
+.viz-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 30px 0 20px;
+}
+
+.viz-tab {
+  padding: 10px 20px;
+  background-color: #e5e5e5;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.viz-tab:hover {
+  background-color: #d0d0d0;
+}
+
+.viz-tab.active {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content:first-of-type {
+  display: block;
+}
+
+/* About page styles */
+.about-section {
+  background-color: white;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.about-section h3 {
+  color: #0C1A3C;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #e5e5e5;
+  padding-bottom: 10px;
+}
+
+.about-section h4 {
+  color: #2563eb;
+  margin: 20px 0 10px;
+}
+
+.about-section ul {
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+.about-section ul li {
+  margin-bottom: 8px;
+}
+
+.team-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.team-member {
+  flex: 1;
+  min-width: 250px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Tooltip styles */
+.tooltip {
+  position: absolute;
+  background-color: #333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 1100;
+  max-width: 250px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px 5px 0;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+/* Chart placeholder styles for Stand-up 1 */
+.chart-placeholder {
+  background-color: #f5f5f5;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 15px 0;
+  text-align: center;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-placeholder::before {
+  content: 'D3.js visualization will be implemented in Stand-up 2';
+  color: #777;
+  font-style: italic;
+}
+
+.chart-placeholder img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
