@@ -86,11 +86,10 @@
 
       <!-- Toggle between different visualizations -->
       <div class="viz-tabs">
-        <button class="viz-tab active" data-tab="line-chart-tab">Line Chart</button>
+        <button class="viz-tab" data-tab="line-chart-tab">Line Chart</button>
         <button class="viz-tab" data-tab="stacked-area-tab">Stacked Area</button>
-        <button class="viz-tab" data-tab="map-tab">Map View</button>
+        <button class="viz-tab active" data-tab="map-tab">Map View</button>
       </div>
-
       <!-- Line Chart Tab -->
       <div id="line-chart-tab" class="tab-content">
         <div class="chart-container">
@@ -122,19 +121,17 @@
       </div>
 
       <!-- Map Tab -->
-      <div id="map-tab" class="tab-content" style="display: none;">
-        <div class="chart-container">
-          <h3>Geographic Distribution of Fines</h3>
-          <div class="chart-placeholder" id="jurisdiction-map">
-            <!-- This div will hold the D3 visualization in Standup 2 -->
-            <!-- For now, just show a placeholder image of the expected chart -->
-            <img src="../images/jurisdiction-map-placeholder.png" alt="Jurisdiction Map Placeholder" style="width: 100%; max-width: 800px; margin: 0 auto; display: block;">
-          </div>
-          <div class="chart-description">
-            <p>This map visualization shows the geographic distribution of road safety fines across Australia. Darker colors indicate higher numbers of fines in that jurisdiction.</p>
-          </div>
-        </div>
-      </div>
+      <div id="map-tab" class="tab-content" style="display: block;">
+  <div class="chart-container">
+    <h3>Geographic Distribution of Fines</h3>
+    <div id="jurisdiction-map">
+      <!-- The D3 map will be created here -->
+    </div>
+    <div class="chart-description">
+      <p>This map visualization shows the geographic distribution of road safety fines across Australia. Darker colors indicate higher numbers of fines in that jurisdiction.</p>
+    </div>
+  </div>
+</div>
 
       <div class="data-insights">
         <h2>Key Insights</h2>
@@ -161,7 +158,9 @@
       <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
     </div>
   </footer>
-
-  <script src="../js/script.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="../js/dataLoader.js"></script>
+<script src="../js/jurisdictionMap.js"></script>
+<script src="../js/script.js"></script>
 </body>
 </html>

@@ -540,3 +540,9 @@ header {
   min-height: 200px; /* Ensures space is reserved even if image fails */
   background-color: #f0f0f0; /* Shows a background if image fails */
 }
+
+#jurisdiction-map {
+  background-color: #f0f0f0;
+  min-height: 400px;
+  border: 1px solid #ccc;
+}
