@@ -230,13 +230,14 @@ header {
 /* Filter bar styles (retained from original) */
 .filter-bar {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-start; /* Align all filter-groups at the top */
   gap: 2rem;
   padding: 1.5rem;
-  background-color: #e5e5e5;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
-  margin: 30px auto;
+  background-color: #fff; /* match chart-container */
+  /* Remove box-shadow and border-radius for seamless join */
+  box-shadow: none;
+  border-radius: 0;
+  margin: 20px auto 0px auto;
   max-width: 1200px;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -246,22 +247,22 @@ header {
   display: flex;
   flex-direction: column;
   min-width: 220px;
+  /* No height, no justify-content */
 }
 
-.filter-group label {
-  font-weight: 600;
-  font-size: 15px;
-  margin-bottom: 6px;
-  color: #333;
+.filter-group:last-child {
+  align-items: flex-end;
+  min-width: 140px;
+  /* No height, no justify-content */
 }
 
 /* Chart containers */
 .chart-container {
-  background-color: white;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 30px 0;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  background-color: #fff;
+  border-radius: 0; /* Remove border-radius */
+  padding: 20px 0 20px 0; /* Remove right/left padding */
+  margin: 0 0 30px 0;
+  box-shadow: none; /* Remove box-shadow */
 }
 
 .chart-container h3 {
@@ -385,6 +386,8 @@ header {
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  margin: 0; /* Remove margin-top and margin-bottom */
+  align-self: flex-end;
 }
 
 #reset:hover {
@@ -412,7 +415,7 @@ header {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin: 30px 0 20px;
+  margin: 10px 0 10px; /* reduced top margin */
 }
 
 .viz-tab {
@@ -545,4 +548,12 @@ header {
   background-color: #f0f0f0;
   min-height: 400px;
   border: 1px solid #ccc;
+}
+
+#jurisdiction-map svg {
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+  /* Remove fixed width/height if set inline by D3 */
+  max-width: 100%;
 }

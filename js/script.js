@@ -1,13 +1,5 @@
-// Main script.js file with all required functionality
+// script.js - Fixed to make selection buttons work
 document.addEventListener("DOMContentLoaded", () => {
-  // Dropdown functionality for jurisdiction filter
-  window.toggleDropdown = function() {
-    const dropdownList = document.getElementById('checkbox-list');
-    if (dropdownList) {
-      dropdownList.style.display = dropdownList.style.display === 'block' ? 'none' : 'block';
-    }
-  };
-
   // Dropdown functionality for year filter  
   window.toggleYearDropdown = function() {
     const dropdownList = document.getElementById('year-checkbox-list');
@@ -22,15 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (dropdownList) {
       dropdownList.style.display = dropdownList.style.display === 'block' ? 'none' : 'block';
     }
-  };
-
-  // Toggle all jurisdictions
-  window.toggleAll = function(checkbox) {
-    const checkboxes = document.querySelectorAll('#checkbox-list input[type="checkbox"]:not([value="All"])');
-    checkboxes.forEach(item => {
-      item.checked = checkbox.checked;
-    });
-    updateSelection();
   };
 
   // Toggle all years
@@ -49,39 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
       item.checked = checkbox.checked;
     });
     updateDetectionSelection();
-  };
-
-  // Update jurisdiction selection display
-  window.updateSelection = function() {
-    const checkboxes = document.querySelectorAll('#checkbox-list input[type="checkbox"]:not([value="All"])');
-    const allCheckbox = document.querySelector('#checkbox-list input[value="All"]');
-    const selectedOutput = document.getElementById('selected-output');
-    
-    const selectedValues = [];
-    let allSelected = true;
-    
-    checkboxes.forEach(item => {
-      if (item.checked) {
-        selectedValues.push(item.value);
-      } else {
-        allSelected = false;
-      }
-    });
-    
-    if (allCheckbox) {
-      allCheckbox.checked = allSelected;
-    }
-    
-    if (selectedValues.length === 0) {
-      selectedOutput.textContent = 'Selected: None';
-    } else if (allSelected) {
-      selectedOutput.textContent = 'Selected: All';
-    } else {
-      selectedOutput.textContent = `Selected: ${selectedValues.join(', ')}`;
-    }
-    
-    // Here you would add code to update the charts based on selection
-    updateCharts();
   };
 
   // Update year selection display
@@ -113,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
       selectedOutput.textContent = `Selected: ${selectedValues.join(', ')}`;
     }
     
-    // Here you would add code to update the charts based on selection
+    // Update charts based on selection
     updateCharts();
   };
 
@@ -146,17 +96,13 @@ document.addEventListener("DOMContentLoaded", () => {
       selectedOutput.textContent = `Selected: ${selectedValues.join(', ')}`;
     }
     
-    // Here you would add code to update the charts based on selection
+    // Update charts based on selection
     updateCharts();
   };
 
   // Function to reset all filters
   function resetAllFilters() {
-    // Reset jurisdiction filter
-    const jurisdictionCheckboxes = document.querySelectorAll('#checkbox-list input[type="checkbox"]');
-    jurisdictionCheckboxes.forEach(item => {
-      item.checked = item.value === 'All';
-    });
+    console.log("Resetting all filters");
     
     // Reset year filter
     const yearCheckboxes = document.querySelectorAll('#year-checkbox-list input[type="checkbox"]');
@@ -171,9 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
     // Update displays
-    if (document.getElementById('selected-output')) {
-      document.getElementById('selected-output').textContent = 'Selected: All';
-    }
     if (document.getElementById('year-selected-output')) {
       document.getElementById('year-selected-output').textContent = 'Selected: All';
     }
@@ -191,11 +134,15 @@ document.addEventListener("DOMContentLoaded", () => {
     resetButton.addEventListener('click', resetAllFilters);
   }
   
-  // Placeholder function for chart updates - to be implemented with D3.js in Phase 2
-  function updateCharts() {
-    console.log('Charts would be updated here with D3.js in Standup 2');
-    // This will be implemented when we add actual D3.js visualizations
-  }
+  // Function for chart updates - connects to the jurisdictionMap
+  window.updateCharts = function() {
+    console.log('Updating charts based on filters');
+    
+    // If the jurisdiction map update function exists, call it
+    if (window.updateJurisdictionMap) {
+      window.updateJurisdictionMap();
+    }
+  };
 
   // Tabbed interface for jurisdictions.html
   const tabs = document.querySelectorAll('.viz-tab');
@@ -218,54 +165,62 @@ document.addEventListener("DOMContentLoaded", () => {
         // Show selected tab content
         const contentId = tab.getAttribute('data-tab');
         document.getElementById(contentId).style.display = 'block';
+        
+        // If switching to map tab, update it
+        if (contentId === 'map-tab' && window.updateJurisdictionMap) {
+          window.updateJurisdictionMap();
+        }
       });
     });
     
-    // Activate first tab by default
+    // Activate first tab by default (your original behavior)
     tabs[0].click();
   }
   
-  // Tooltip functionality
-  const tooltipElements = document.querySelectorAll('[data-tooltip]');
-  tooltipElements.forEach(element => {
-    element.addEventListener('mouseenter', (e) => {
-      const tooltipText = e.target.getAttribute('data-tooltip');
-      
-      // Create tooltip
-      const tooltip = document.createElement('div');
-      tooltip.className = 'tooltip';
-      tooltip.textContent = tooltipText;
-      
-      // Position tooltip
-      document.body.appendChild(tooltip);
-      const rect = e.target.getBoundingClientRect();
-      tooltip.style.top = `${rect.top - tooltip.offsetHeight - 10 + window.scrollY}px`;
-      tooltip.style.left = `${rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + window.scrollX}px`;
-      
-      // Store tooltip reference
-      e.target.tooltip = tooltip;
-    });
-    
-    element.addEventListener('mouseleave', (e) => {
-      if (e.target.tooltip) {
-        e.target.tooltip.remove();
-        e.target.tooltip = null;
-      }
-    });
-  });
-
   // For mobile, close dropdown when clicking outside
   document.addEventListener('click', (e) => {
     const dropdowns = [
-      document.getElementById('checkbox-list'),
       document.getElementById('year-checkbox-list'),
       document.getElementById('detection-checkbox-list')
     ];
     
     dropdowns.forEach(dropdown => {
-      if (dropdown && !e.target.closest('.multi-select-wrapper') && dropdown.style.display === 'block') {
+      if (dropdown && 
+          !e.target.closest('.multi-select-wrapper') && 
+          dropdown.style.display === 'block') {
         dropdown.style.display = 'none';
       }
     });
   });
+  
+  // Simple CSS fix for dropdowns
+  const style = document.createElement('style');
+  style.textContent = `
+    .checkbox-list {
+      display: none;
+      position: absolute;
+      z-index: 100; 
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      max-height: 300px;
+      overflow-y: auto;
+      width: 100%;
+    }
+    
+    #map-tooltip {
+      position: absolute;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      border-radius: 4px;
+      font-size: 14px;
+      pointer-events: none;
+      z-index: 1000;
+      max-width: 250px;
+    }
+  `;
+  document.head.appendChild(style);
 });
