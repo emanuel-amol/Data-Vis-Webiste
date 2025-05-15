@@ -20,35 +20,54 @@ body {
 }
 
 /* Header styles */
-/* Header styles */
 header {
   background-color: #0C1A3C;
   color: white;
-  padding: 15px 0 0 0;
+  padding: 0;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: relative;
+  min-height: 110px;
 }
 
-.header-container {
+.full-header {
+  position: relative;
   display: flex;
   align-items: center;
-  padding: 10px 20px;
+  justify-content: center;
+  min-height: 110px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 40px;
 }
 
 .logo-container {
-  flex: 0 0 auto;
-  margin-right: 20px;
+  position: absolute;
+  left: 40px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .logo {
-  height: 50px;
+  height: 100%;
+  max-height: 110px;
   width: auto;
+  min-width: 60px;
+  object-fit: contain;
+  display: block;
 }
 
 .heading {
-  margin: 0;
+  color: white;
   font-weight: 600;
-  font-size: 2rem;
-  flex: 1;
+  font-size: 2.2rem;
+  text-align: center;
+  margin: 0 auto;
+  flex: 0 1 auto;
+  z-index: 2;
+  width: 100%;
 }
 
 /* Navigation */
@@ -68,14 +87,39 @@ header {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .full-header {
+    flex-direction: column;
+    padding: 10px 10px 0 10px;
+    min-height: 80px;
+  }
+  .logo-container {
+    position: static;
+    margin-bottom: 10px;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+  }
+  .logo {
+    height: 60px;
+    max-height: 60px;
+  }
+  .heading {
+    font-size: 1.3rem;
+    text-align: center;
+  }
   .header-container {
     flex-direction: column;
     text-align: center;
   }
   
-  .logo-container {
-    margin-right: 0;
-    margin-bottom: 10px;
+  .nav-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .nav-btn {
+    width: 100%;
+    text-align: center;
   }
   
   .heading {
@@ -347,31 +391,6 @@ header {
   background-color: #f0f0f0;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .filter-bar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .key-features {
-    flex-direction: column;
-  }
-  
-  .nav-buttons {
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  .nav-btn {
-    width: 100%;
-    text-align: center;
-  }
-  
-  .heading {
-    font-size: 1.5rem;
-  }
-}
 /* Additional styles for the new pages */
 
 /* Page header section */
@@ -512,17 +531,6 @@ header {
   content: 'D3.js visualization will be implemented in Stand-up 2';
   color: #777;
   font-style: italic;
-}
-
-.chart-placeholder img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 4px;
-}
-img.logo {
-  height: 50px;
-  width: auto;
-  min-width: 50px; /* Prevents layout shift if image fails to load */
 }
 
 .chart-placeholder img {
