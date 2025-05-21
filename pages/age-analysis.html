@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Age Demographics - Road Safety Enforcement</title>
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/storytelling.css">
   <script src="https://d3js.org/d3.v7.min.js"></script>
-
 </head>
 <body>
   <header>
@@ -20,9 +20,10 @@
       <div class="container">
         <div class="nav-buttons">
           <a href="../index.html" class="nav-btn">Home</a>
-          <a href="age-analysis.html" class="nav-btn active">Age Demographics</a>
           <a href="time-trends.html" class="nav-btn">Time Trends</a>
           <a href="jurisdictions.html" class="nav-btn">Jurisdictions</a>
+          <a href="age-analysis.html" class="nav-btn active">Age Demographics</a>
+          <a href="insights.html" class="nav-btn">Key Insights</a>
           <a href="about.html" class="nav-btn">About</a>
         </div>
       </div>
@@ -35,6 +36,28 @@
         <h2>Age Demographics Analysis</h2>
         <p>Explore how road safety violations are distributed across different age groups in Australia.</p>
       </section>
+
+      <div class="age-story-intro">
+        <h3>The Age Paradox in Road Safety</h3>
+        
+        <p>While many assume that young drivers (17-25) would account for the most violations, our data tells a different story:</p>
+        
+        <div class="age-insight">
+          <div class="age-group-highlight">
+            <h4>40-64 Age Group</h4>
+            <span class="highlight-value">604,750 fines</span>
+            <p>Despite more driving experience, this group receives the highest number of fines, challenging assumptions about experience leading to better compliance.</p>
+          </div>
+          
+          <div class="age-group-highlight">
+            <h4>17-25 Age Group</h4>
+            <span class="highlight-value">298,300 fines</span>
+            <p>Often portrayed as high-risk drivers, this group actually receives fewer fines than the middle-aged group, though their per-license-holder rate remains high.</p>
+          </div>
+        </div>
+        
+        <p class="question-prompt">Question to consider: Could these patterns reflect differences in driving frequency rather than compliance behavior?</p>
+      </div>
 
       <div class="filter-bar">
         <!-- Jurisdiction Dropdown -->
@@ -58,8 +81,6 @@
           </div>
         </div>
 
-      
-
         <!-- Reset Button -->
         <div class="filter-group">
           <label>&nbsp;</label>
@@ -70,13 +91,11 @@
       <div class="chart-container">
         <h3>Distribution of Fines Across Age Groups</h3>
         <div class="chart-placeholder" id="age-distribution-chart">
-          <!-- D3 visualization will 
-           be rendered here by age-bar.js --> 
-              <svg width="800" height="500"></svg>
-               <script src="../js/age-bar.js"></script>
+          <!-- D3 visualization will be rendered here by age-bar.js --> 
+          <svg width="800" height="500"></svg>
         </div>
         <div class="chart-description">
-          <p>This chart shows the distribution of road safety enforcement fines across different age groups. The 40-64 age group accounts for the highest number of fines, followed by the 26-39 age group. The 0-16 age group has negligible fines, which is expected given limited driving in this demographic.</p>
+          <p>This chart shows the distribution of road safety enforcement fines across different age groups. The 40-64 age group accounts for the highest number of fines (over 600,000), followed by the 26-39 age group (approximately 430,000). The 17-25 age group, often assumed to be the highest risk, actually ranks third. The 0-16 age group has negligible fines, which is expected given limited driving in this demographic.</p>
         </div>
       </div>
 
@@ -85,15 +104,15 @@
         <div class="insight-cards">
           <div class="insight-card">
             <h3>Middle-aged Adults</h3>
-            <p>The 40-64 age group receives the highest number of fines (approximately 604,750), despite conventional assumptions that younger drivers might be more heavily represented.</p>
+            <p>The 40-64 age group receives the highest number of fines (approximately 604,750), challenging conventional assumptions that younger drivers might be more heavily represented in violation statistics.</p>
           </div>
           <div class="insight-card">
             <h3>Young Adults</h3>
-            <p>The 26-39 age group follows with approximately 430,000 fines, suggesting a significant impact on this demographic as well.</p>
+            <p>The 26-39 age group follows with approximately 430,000 fines, with the 17-25 group further behind at 298,300 fines, suggesting that experience alone doesn't necessarily lead to better compliance.</p>
           </div>
           <div class="insight-card">
             <h3>Senior Drivers</h3>
-            <p>The 65+ age group shows significantly fewer fines than middle-aged adults, despite potentially higher driving experience.</p>
+            <p>The 65+ age group shows significantly fewer fines than middle-aged adults, which may reflect reduced driving activity rather than necessarily better compliance behaviors.</p>
           </div>
         </div>
       </div>
@@ -107,6 +126,6 @@
   </footer>
 
   <script src="../js/script.js"></script>
-   
+  <script src="../js/age-bar.js"></script>
 </body>
 </html>
