@@ -6,6 +6,7 @@
   <title>Time Trends - Road Safety Enforcement</title>
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/storytelling.css">
+  <!-- Load D3.js first -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
@@ -126,7 +127,68 @@
     </div>
   </footer>
 
+  <!-- Load script.js before specific chart scripts -->
   <script src="../js/script.js"></script>
+  <!-- Load the fixed year-line.js -->
   <script src="../js/year-line.js"></script>
+  
+  <script>
+    // Additional script to ensure the dropdown functions are properly initialized
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log("Initializing time trends page dropdowns");
+      
+      // Define missing functions if they don't exist (backup)
+      if (!window.toggleDetectionDropdown) {
+        window.toggleDetectionDropdown = function() {
+          const dropdownList = document.getElementById('detection-checkbox-list');
+          if (dropdownList) {
+            dropdownList.style.display = dropdownList.style.display === 'block' ? 'none' : 'block';
+          }
+        };
+      }
+      
+      if (!window.toggleAllDetection) {
+        window.toggleAllDetection = function(checkbox) {
+          const checkboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]:not([value="All"])');
+          checkboxes.forEach(cb => cb.checked = checkbox.checked);
+          if (typeof updateDetectionSelection === 'function') {
+            updateDetectionSelection();
+          }
+        };
+      }
+      
+      if (!window.updateDetectionSelection) {
+        window.updateDetectionSelection = function() {
+          const checkboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]:not([value="All"])');
+          const allCheckbox = document.querySelector('#detection-checkbox-list input[value="All"]');
+          const output = document.getElementById('detection-selected-output');
+          
+          if (!output) return;
+          
+          const selected = Array.from(checkboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+            
+          const allSelected = selected.length === checkboxes.length;
+          
+          if (allCheckbox) {
+            allCheckbox.checked = allSelected;
+          }
+          
+          if (selected.length === 0) {
+            output.textContent = 'Selected: None';
+          } else if (allSelected) {
+            output.textContent = 'Selected: All';
+          } else {
+            output.textContent = `Selected: ${selected.join(', ')}`;
+          }
+          
+          if (typeof updateChart === 'function') {
+            updateChart();
+          }
+        };
+      }
+    });
+  </script>
 </body>
 </html>

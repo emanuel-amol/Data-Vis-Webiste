@@ -245,3 +245,187 @@
     font-size: 1.8rem;
   }
 }
+
+/* Add these responsive improvements to storytelling.css */
+
+/* Improved responsive design */
+@media (max-width: 768px) {
+  /* Storytelling elements */
+  .story-highlight {
+    padding: 12px 15px;
+  }
+  
+  .key-stat {
+    font-size: 1.8rem;
+  }
+  
+  .stat-card {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .chart-narrative {
+    padding: 15px;
+  }
+  
+  .comparison-highlight {
+    flex-direction: column;
+  }
+  
+  .comparison-item {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .age-insight {
+    flex-direction: column;
+  }
+  
+  .age-group-highlight {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .highlight-value {
+    font-size: 1.5rem;
+  }
+  
+  .story-path {
+    flex-wrap: wrap;
+  }
+  
+  .story-node {
+    width: 45%;
+    margin-bottom: 20px;
+  }
+  
+  .node-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+  
+  .story-line {
+    display: none; /* Hide on mobile */
+  }
+  
+  .insight-card-large {
+    padding: 20px;
+  }
+  
+  /* Fixes for charts and visualizations */
+  svg {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 500px;
+  }
+  
+  .chart-placeholder {
+    min-height: 250px;
+  }
+}
+
+/* Ensure tooltips work properly on all devices */
+#tooltip, #map-tooltip {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none;
+  max-width: 90vw; /* Prevent overflowing viewport */
+}
+
+/* Make filter dropdowns more robust */
+.checkbox-list {
+  width: 100%;
+  max-width: 300px;
+  z-index: 100;
+}
+
+/* Fix for small screens filter bar */
+@media (max-width: 576px) {
+  .filter-bar {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .filter-group {
+    min-width: 100%;
+  }
+  
+  .filter-group:last-child {
+    align-items: center;
+  }
+  
+  #reset {
+    width: 100%;
+  }
+  
+  .multi-select-wrapper {
+    width: 100%;
+  }
+  
+  .select-box {
+    width: 100%;
+  }
+  
+  .viz-tabs {
+    flex-direction: column;
+  }
+  
+  .viz-tab {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+}
+
+/* Chart container adaptations */
+.chart-container {
+  overflow-x: auto; /* Allow horizontal scrolling if needed */
+}
+
+/* Adapt the page header */
+@media (max-width: 576px) {
+  .page-header {
+    padding: 20px 0;
+  }
+  
+  .page-header h2 {
+    font-size: 1.4rem;
+  }
+  
+  /* Simplify data insights cards */
+  .data-insights {
+    padding: 20px 0;
+  }
+  
+  .insight-cards {
+    display: block;
+  }
+  
+  .insight-card {
+    width: 100%;
+    max-width: none;
+    margin-bottom: 15px;
+  }
+}
+
+/* Fix dropdown menu opening */
+.multi-select-wrapper {
+  position: relative;
+}
+
+.checkbox-list {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin-top: 5px;
+}
+
+/* Ensure chart containers work properly on mobile */
+@media (max-width: 576px) {
+  .chart-placeholder svg {
+    max-width: 100%;
+    max-height: 350px;
+  }
+}
