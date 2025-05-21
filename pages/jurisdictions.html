@@ -120,9 +120,7 @@
         <div class="chart-container">
           <h3>Fine Trends by Jurisdiction (2008-2023)</h3>
           <div class="chart-placeholder" id="jurisdiction-line-chart">
-            <!-- This div will hold the D3 visualization in Standup 2 -->
-            <!-- For now, just show a placeholder image of the expected chart -->
-            <img src="../images/jurisdiction-line-placeholder.png" alt="Jurisdiction Line Chart Placeholder" style="width: 100%; max-width: 800px; margin: 0 auto; display: block;">
+            <!-- D3.js chart will be rendered here by jurisdiction-line.js -->
           </div>
           <div class="chart-description">
             <p>This line chart shows fine trends by jurisdiction from 2008 to 2023. Victoria (VIC) consistently shows the highest level of fines throughout most of the period, while New South Wales (NSW) shows a dramatic increase in fines from 2020-2021, surpassing other jurisdictions. The chart reveals how different states have adopted varying enforcement approaches at different times.</p>
@@ -135,9 +133,7 @@
         <div class="chart-container">
           <h3>Relative Contribution by Jurisdiction (2008-2023)</h3>
           <div class="chart-placeholder" id="jurisdiction-area-chart">
-            <!-- This div will hold the D3 visualization in Standup 2 -->
-            <!-- For now, just show a placeholder image of the expected chart -->
-            <img src="../images/jurisdiction-area-placeholder.png" alt="Jurisdiction Area Chart Placeholder" style="width: 100%; max-width: 800px; margin: 0 auto; display: block;">
+            <!-- D3.js chart will be rendered here by jurisdiction-area.js -->
           </div>
           <div class="chart-description">
             <p>This stacked area chart shows the relative contribution of each jurisdiction to total fines over time. It highlights how the proportion of fines from different jurisdictions has evolved from 2008 to 2023, revealing shifts in enforcement priorities across Australia's states and territories. The growing area of NSW since 2019 demonstrates its increasing role in overall enforcement activity.</p>
@@ -183,9 +179,19 @@
       <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
     </div>
   </footer>
+  
+  <!-- Load D3.js before other scripts -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
+  
+  <!-- Load data handling scripts first -->
   <script src="../js/dataLoader.js"></script>
+  
+  <!-- Load the chart scripts -->
   <script src="../js/jurisdictionMap.js"></script>
+  <script src="../js/jurisdiction-line.js"></script>
+  <script src="../js/jurisdiction-area.js"></script>
+  
+  <!-- Load general UI script last -->
   <script src="../js/script.js"></script>
 </body>
 </html>
