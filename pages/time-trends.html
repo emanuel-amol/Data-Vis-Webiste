@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Trends - Road Safety Enforcement</title>
   <link rel="stylesheet" href="../css/styles.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
 </head>
 <body>
   <header>
@@ -79,9 +81,7 @@
       <div class="chart-container">
         <h3>Yearly Trends in Total Fines (2008-2023)</h3>
         <div class="chart-placeholder" id="time-trends-chart">
-          <!-- This div will hold the D3 visualization in Standup 2 -->
-          <!-- For now, just show a placeholder image of the expected chart -->
-          <img src="../images/time-chart-placeholder.png" alt="Time Trends Chart Placeholder" style="width: 100%; max-width: 800px; margin: 0 auto; display: block;">
+          <svg width="800" height="500"></svg>
         </div>
         <div class="chart-description">
           <p>The time series analysis reveals significant trends in enforcement activity from 2008 to 2023. Overall fine issuance has increased substantially since 2008, with a notable peak occurring in 2021, followed by a slight decline in 2022-2023. Several fluctuations appear to coincide with policy changes or enforcement campaigns.</p>
@@ -115,5 +115,6 @@
   </footer>
 
   <script src="../js/script.js"></script>
+  <script src="../js/year-line.js"></script>
 </body>
 </html>
