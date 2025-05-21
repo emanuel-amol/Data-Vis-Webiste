@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Age Demographics - Road Safety Enforcement</title>
   <link rel="stylesheet" href="../css/styles.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
 </head>
 <body>
   <header>
@@ -36,6 +38,7 @@
 
       <div class="filter-bar">
         <!-- Jurisdiction Dropdown -->
+         
         <div class="filter-group">
           <label>Select jurisdiction</label>
           <div class="multi-select-wrapper" id="jurisdiction-dropdown">
@@ -93,9 +96,10 @@
       <div class="chart-container">
         <h3>Distribution of Fines Across Age Groups</h3>
         <div class="chart-placeholder" id="age-distribution-chart">
-          <!-- This div will hold the D3 visualization in Standup 2 -->
-          <!-- For now, just show a placeholder image of the expected chart -->
-          <img src="../images/age-chart-placeholder.png" alt="Age Distribution Chart Placeholder" style="width: 100%; max-width: 800px; margin: 0 auto; display: block;">
+          <!-- D3 visualization will 
+           be rendered here by age-bar.js --> 
+              <svg width="800" height="500"></svg>
+               <script src="../js/age-bar.js"></script>
         </div>
         <div class="chart-description">
           <p>This chart shows the distribution of road safety enforcement fines across different age groups. The 40-64 age group accounts for the highest number of fines, followed by the 26-39 age group. The 0-16 age group has negligible fines, which is expected given limited driving in this demographic.</p>
@@ -129,5 +133,6 @@
   </footer>
 
   <script src="../js/script.js"></script>
+   
 </body>
 </html>

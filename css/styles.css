@@ -531,7 +531,6 @@ header {
 }
 
 .chart-placeholder::before {
-  content: 'D3.js visualization will be implemented in Stand-up 2';
   color: #777;
   font-style: italic;
 }
