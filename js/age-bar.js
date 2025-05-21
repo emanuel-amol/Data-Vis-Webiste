@@ -2,32 +2,54 @@ const margin = { top: 60, right: 120, bottom: 50, left: 60 },
       width = 800 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
 
+// Create chart group
 const svg = d3.select("svg")
   .append("g")
   .attr("transform", `translate(${margin.left},${margin.top})`);
 
-d3.csv("../data/police_enforcement_2023.csv").then(data => {
-  const ageOrder = ["0-16", "17-25", "26-39", "40-64", "65 and over"];
+const ageOrder = ["0-16", "17-25", "26-39", "40-64", "65 and over"];
+let rawData = []; // store full data
 
-  // ✅ Group and sum fines by AGE_GROUP
+// Load data once
+d3.csv("../data/police_enforcement_2023.csv").then(data => {
+  rawData = data;
+  updateChart(); // initial render
+});
+
+// ✅ This function filters & renders chart based on selected jurisdictions
+function updateChart() {
+  const selectedJurisdictions = Array.from(
+    document.querySelectorAll('#checkbox-list input[type="checkbox"]:checked')
+  )
+    .map(cb => cb.value)
+    .filter(v => v !== "All");
+
+  // Filter data by jurisdiction
+  const filtered = rawData.filter(d =>
+    selectedJurisdictions.length === 0 || selectedJurisdictions.includes(d.JURISDICTION)
+  );
+
+  // Group by AGE_GROUP and sum FINES
   const groupedData = d3.rollups(
-    data,
+    filtered,
     v => d3.sum(v, d => +d.FINES),
     d => d.AGE_GROUP
   ).map(([AGE_GROUP, total]) => ({
     AGE_GROUP,
     FINES: total
-  }))
-  .filter(d => ageOrder.includes(d.AGE_GROUP));
+  })).filter(d => ageOrder.includes(d.AGE_GROUP));
 
-  // ✅ Ensure data is in the right order
-  const filteredData = ageOrder.map(group => {
+  // Ensure ordered groups with 0s where missing
+  const orderedData = ageOrder.map(group => {
     const found = groupedData.find(d => d.AGE_GROUP === group);
     return {
       AGE_GROUP: group,
       FINES: found ? found.FINES : 0
     };
   });
+
+  // Clear previous chart
+  svg.selectAll("*").remove();
 
   // Scales
   const x = d3.scaleBand()
@@ -37,7 +59,7 @@ d3.csv("../data/police_enforcement_2023.csv").then(data => {
     .paddingOuter(0.2);
 
   const y = d3.scaleLinear()
-    .domain([0, d3.max(filteredData, d => d.FINES)])
+    .domain([0, d3.max(orderedData, d => d.FINES)])
     .nice()
     .range([height, 0]);
 
@@ -59,7 +81,7 @@ d3.csv("../data/police_enforcement_2023.csv").then(data => {
 
   // Bars
   svg.selectAll(".bar")
-    .data(filteredData)
+    .data(orderedData)
     .enter()
     .append("rect")
     .attr("class", "bar")
@@ -69,9 +91,9 @@ d3.csv("../data/police_enforcement_2023.csv").then(data => {
     .attr("height", d => height - y(d.FINES))
     .attr("fill", "steelblue");
 
-  // ✅ ONE label per bar (sum)
+  // Labels
   svg.selectAll(".label")
-    .data(filteredData)
+    .data(orderedData)
     .enter()
     .append("text")
     .attr("class", "label")
@@ -83,6 +105,7 @@ d3.csv("../data/police_enforcement_2023.csv").then(data => {
     .text(d => d.FINES.toLocaleString());
 
   // Title
+  d3.select("svg").selectAll(".title").remove(); // remove old
   d3.select("svg")
     .append("text")
     .attr("x", margin.left)
@@ -91,6 +114,7 @@ d3.csv("../data/police_enforcement_2023.csv").then(data => {
     .text("Bar Chart");
 
   // Legend
+  d3.select("svg").selectAll(".legend").remove(); // cleanup
   d3.select("svg")
     .append("circle")
     .attr("cx", width + margin.left + 20)
@@ -105,4 +129,7 @@ d3.csv("../data/police_enforcement_2023.csv").then(data => {
     .text("Sum(FINES)")
     .style("font-size", "12px")
     .attr("alignment-baseline", "middle");
-});
+}
+
+// 🔁 Hook into global updateCharts so `script.js` reset works
+window.updateCharts = updateChart;
