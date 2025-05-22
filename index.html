@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/storytelling.css">
   <link rel="stylesheet" href="css/advanced-interactions.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
   <header>
@@ -38,25 +39,31 @@
         <h2>The Story of Road Safety Enforcement in Australia</h2>
         <div class="story-highlight animated-reveal">
           <div class="surprise-stat">
-            <span class="big-number">604,750</span>
-            <p>Middle-aged adults (40-64) receive <strong>more road safety fines</strong> than any other age group in Australia, challenging the common perception that younger drivers are the primary offenders.</p>
+            <span class="big-number" id="middle-age-stat">2.8M+</span>
+            <p>Total fines issued across Australia from 2008-2023, with <strong>middle-aged adults (40-64)</strong> receiving more road safety fines than any other age group, challenging the common perception that younger drivers are the primary offenders.</p>
           </div>
         </div>
-        <p>Our advanced data visualization explores 15 years of road safety enforcement data using interactive analytics to uncover patterns that can help improve safety strategies and save lives.</p>
+        <p>Our comprehensive data visualization explores 15 years of road safety enforcement data (5,017 records) using interactive analytics to uncover patterns that can help improve safety strategies and save lives.</p>
         
         <!-- Interactive preview widgets -->
         <div class="preview-widgets">
           <div class="mini-chart" id="trend-preview">
             <h4>Trend Preview</h4>
-            <div class="sparkline-container"></div>
+            <div class="sparkline-container">
+              <div class="loading-state">Loading trend data...</div>
+            </div>
           </div>
           <div class="mini-chart" id="jurisdiction-preview">
             <h4>Top Jurisdictions</h4>
-            <div class="mini-bar-container"></div>
+            <div class="mini-bar-container">
+              <div class="loading-state">Loading jurisdiction data...</div>
+            </div>
           </div>
           <div class="mini-chart" id="age-preview">
             <h4>Age Distribution</h4>
-            <div class="mini-pie-container"></div>
+            <div class="mini-pie-container">
+              <div class="loading-state">Loading age data...</div>
+            </div>
           </div>
         </div>
       </div>
@@ -67,32 +74,32 @@
       <section class="stats-dashboard">
         <h2>Key Statistics</h2>
         <div class="stats-grid">
-          <div class="stat-card interactive-stat" data-detail="fines">
+          <div class="stat-card interactive-stat" data-detail="total-fines">
             <div class="stat-icon">📊</div>
-            <span class="key-stat counter" data-target="604750">0</span>
-            <span class="stat-description">Fines issued to 40-64 age group</span>
-            <div class="stat-change positive">↑ 23% from previous period</div>
+            <span class="key-stat counter" data-target="2847297" id="total-fines-stat">Loading...</span>
+            <span class="stat-description">Total fines issued (2008-2023)</span>
+            <div class="stat-change positive">↑ Based on 5,017 enforcement records</div>
           </div>
           
           <div class="stat-card interactive-stat" data-detail="peak-year">
             <div class="stat-icon">📈</div>
-            <span class="key-stat">2021</span>
+            <span class="key-stat" id="peak-year-stat">2021</span>
             <span class="stat-description">Peak enforcement year</span>
             <div class="stat-change positive">↑ 37% increase from 2020</div>
           </div>
           
           <div class="stat-card interactive-stat" data-detail="jurisdictions">
             <div class="stat-icon">🗺️</div>
-            <span class="key-stat">VIC & NSW</span>
+            <span class="key-stat">NSW & VIC</span>
             <span class="stat-description">Leading enforcement jurisdictions</span>
-            <div class="stat-change neutral">60% of total fines</div>
+            <div class="stat-change neutral">~65% of total enforcement activity</div>
           </div>
           
-          <div class="stat-card interactive-stat" data-detail="technology">
-            <div class="stat-icon">📱</div>
-            <span class="key-stat counter" data-target="85">0</span>
-            <span class="stat-description">% increase in mobile phone detection</span>
-            <div class="stat-change positive">↑ Since 2019</div>
+          <div class="stat-card interactive-stat" data-detail="age-groups">
+            <div class="stat-icon">👥</div>
+            <span class="key-stat">40-64</span>
+            <span class="stat-description">Age group with most fines</span>
+            <div class="stat-change positive">↑ Challenges youth stereotype</div>
           </div>
         </div>
       </section>
@@ -114,7 +121,7 @@
               <div class="node-content">
                 <h4>Time Trends</h4>
                 <p>Discover how enforcement patterns evolved over 15 years</p>
-                <div class="mini-insight">Peak in 2021: 37% increase</div>
+                <div class="mini-insight">2021 Peak: 37% increase</div>
               </div>
             </div>
             
@@ -127,7 +134,7 @@
               <div class="node-content">
                 <h4>Jurisdictional Patterns</h4>
                 <p>Compare enforcement strategies across states</p>
-                <div class="mini-insight">NSW: 132% growth in 2 years</div>
+                <div class="mini-insight">NSW: Dramatic mobile phone enforcement</div>
               </div>
             </div>
             
@@ -140,7 +147,7 @@
               <div class="node-content">
                 <h4>Age Demographics</h4>
                 <p>Uncover surprising patterns in age-related violations</p>
-                <div class="mini-insight">40-64 group: highest violators</div>
+                <div class="mini-insight">40-64 group: Unexpected leaders</div>
               </div>
             </div>
             
@@ -153,7 +160,7 @@
               <div class="node-content">
                 <h4>Comparative Analysis</h4>
                 <p>Advanced statistical comparisons and correlations</p>
-                <div class="mini-insight">New: Per-capita analysis</div>
+                <div class="mini-insight">Statistical significance testing</div>
               </div>
             </div>
             
@@ -173,9 +180,9 @@
         </div>
         
         <p class="story-description">
-          Our visualizations guide you through a comprehensive data journey, starting with temporal analysis, 
-          exploring geographical patterns, examining demographic insights, conducting advanced statistical 
-          comparisons, and synthesizing evidence-based recommendations for policy makers.
+          Our data-driven narrative reveals surprising insights: middle-aged drivers account for the most violations, 
+          enforcement technology dramatically impacts detection rates, and the 2021 peak represents a pivotal moment 
+          in Australian road safety enforcement history.
         </p>
         
         <div class="cta-container">
@@ -184,9 +191,9 @@
         </div>
       </section>
 
-      <!-- Enhanced Key Features with Interactive Previews -->
+      <!-- Enhanced Key Features with Data-Driven Previews -->
       <section class="features-section">
-        <h2>Explore Our Advanced Analytics</h2>
+        <h2>Explore Our Data-Driven Analytics</h2>
         
         <div class="feature-grid">
           <div class="feature-card enhanced" data-feature="demographics">
@@ -196,12 +203,14 @@
               </svg>
             </div>
             <h3>Age Demographics Analysis</h3>
-            <p>Advanced statistical analysis of age-related patterns with confidence intervals and significance testing.</p>
+            <p>Comprehensive analysis reveals that middle-aged adults (40-64) receive the most fines, contradicting common assumptions about young driver behavior.</p>
             <div class="feature-stats">
-              <span class="feature-stat">604,750 fines</span>
-              <span class="feature-label">40-64 age group</span>
+              <span class="feature-stat" id="age-stat-display">Loading...</span>
+              <span class="feature-label">40-64 age group share</span>
             </div>
-            <div class="feature-preview" id="age-preview-chart"></div>
+            <div class="feature-preview" id="age-preview-chart">
+              <div class="loading-state">Analyzing age distribution...</div>
+            </div>
             <a href="pages/age-analysis.html" class="feature-link">Explore Demographics</a>
           </div>
           
@@ -212,12 +221,14 @@
               </svg>
             </div>
             <h3>Time Trends Analysis</h3>
-            <p>Interactive time series with trend analysis, seasonal decomposition, and predictive modeling.</p>
+            <p>Interactive time series analysis reveals dramatic enforcement growth, with a 37% spike in 2021 following COVID-19 restrictions.</p>
             <div class="feature-stats">
-              <span class="feature-stat">37% increase</span>
-              <span class="feature-label">2020 to 2021</span>
+              <span class="feature-stat">37%</span>
+              <span class="feature-label">2020 to 2021 increase</span>
             </div>
-            <div class="feature-preview" id="trends-preview-chart"></div>
+            <div class="feature-preview" id="trends-preview-chart">
+              <div class="loading-state">Analyzing trends...</div>
+            </div>
             <a href="pages/time-trends.html" class="feature-link">Explore Trends</a>
           </div>
           
@@ -228,12 +239,14 @@
               </svg>
             </div>
             <h3>Jurisdictional Analysis</h3>
-            <p>Multi-layered geographic analysis with per-capita normalization and statistical comparisons.</p>
+            <p>Multi-dimensional geographic analysis reveals significant enforcement variations, with NSW and Victoria leading in total violations.</p>
             <div class="feature-stats">
-              <span class="feature-stat">8 jurisdictions</span>
-              <span class="feature-label">compared</span>
+              <span class="feature-stat">8</span>
+              <span class="feature-label">jurisdictions analyzed</span>
             </div>
-            <div class="feature-preview" id="jurisdiction-preview-chart"></div>
+            <div class="feature-preview" id="jurisdiction-preview-chart">
+              <div class="loading-state">Mapping enforcement data...</div>
+            </div>
             <a href="pages/jurisdictions.html" class="feature-link">Explore Geography</a>
           </div>
           
@@ -244,13 +257,15 @@
               </svg>
             </div>
             <div class="new-badge">NEW</div>
-            <h3>Comparative Analysis</h3>
-            <p>Advanced statistical comparisons, correlation analysis, and per-capita normalization.</p>
+            <h3>Statistical Analysis</h3>
+            <p>Advanced statistical methods including confidence intervals, correlation analysis, and significance testing provide robust insights.</p>
             <div class="feature-stats">
-              <span class="feature-stat">R² = 0.82</span>
-              <span class="feature-label">technology correlation</span>
+              <span class="feature-stat">95%</span>
+              <span class="feature-label">confidence intervals</span>
             </div>
-            <div class="feature-preview" id="comparative-preview-chart"></div>
+            <div class="feature-preview" id="comparative-preview-chart">
+              <div class="loading-state">Running statistical analysis...</div>
+            </div>
             <a href="pages/comparative-analysis.html" class="feature-link">Advanced Analytics</a>
           </div>
         </div>
@@ -261,20 +276,20 @@
         <h2>Data Quality & Methodology</h2>
         <div class="methodology-grid">
           <div class="method-card">
+            <h4>Comprehensive Dataset</h4>
+            <p>5,017 enforcement records spanning 15 years (2008-2023) across all Australian jurisdictions with detailed breakdowns by age, location, and detection method.</p>
+          </div>
+          <div class="method-card">
             <h4>Statistical Rigor</h4>
-            <p>Confidence intervals, significance testing, and correlation analysis ensure reliable insights.</p>
-          </div>
-          <div class="method-card">
-            <h4>Population Normalization</h4>
-            <p>Per-capita analysis provides fair comparisons across jurisdictions of different sizes.</p>
-          </div>
-          <div class="method-card">
-            <h4>Uncertainty Quantification</h4>
-            <p>Error bars and confidence bands communicate the reliability of our findings.</p>
+            <p>Confidence intervals, significance testing, and correlation analysis ensure reliable insights with quantified uncertainty.</p>
           </div>
           <div class="method-card">
             <h4>Interactive Exploration</h4>
-            <p>Brushing, linking, and filtering enable deep exploration of the data.</p>
+            <p>Brushing, linking, and filtering enable deep exploration of patterns across multiple dimensions of the data.</p>
+          </div>
+          <div class="method-card">
+            <h4>Evidence-Based Storytelling</h4>
+            <p>Every narrative claim is supported by statistical evidence, with clear citations to data sources and methodology.</p>
           </div>
         </div>
       </section>
@@ -286,15 +301,15 @@
       <div class="footer-content">
         <div class="footer-section">
           <h4>Data Source</h4>
-          <p>Bureau of Infrastructure and Transport Research Economics (BITRE)</p>
+          <p>Bureau of Infrastructure and Transport Research Economics (BITRE) - 5,017 records from 2008-2023</p>
         </div>
         <div class="footer-section">
           <h4>Last Updated</h4>
-          <p>December 2024</p>
+          <p>Dataset: September 2024<br>Analysis: December 2024</p>
         </div>
         <div class="footer-section">
           <h4>Contact</h4>
-          <p>COS30045 Data Visualization</p>
+          <p>COS30045 Data Visualization<br>Swinburne University</p>
         </div>
       </div>
       <div class="footer-bottom">
@@ -303,9 +318,44 @@
     </div>
   </footer>
 
-  <script src="js/utils/animations.js"></script>
+  <!-- Load scripts in correct order -->
   <script src="js/utils/statistics.js"></script>
+  <script src="js/utils/animations.js"></script>
+  <script src="js/dataLoader.js"></script>
   <script src="js/previews/home-previews.js"></script>
   <script src="js/script.js"></script>
+  
+  <script>
+    // Initialize statistics display when data loads
+    document.addEventListener('roadSafetyDataReady', function(event) {
+      const data = event.detail.data;
+      
+      // Update total fines statistic
+      const totalFines = data.stats.totalFines;
+      const totalFinesElement = document.getElementById('total-fines-stat');
+      if (totalFinesElement) {
+        AnimationUtils.animateCounter(totalFinesElement, totalFines, 2000);
+      }
+      
+      // Update middle age statistic
+      const middleAgeStat = document.getElementById('middle-age-stat');
+      const ageGroupStat = document.getElementById('age-stat-display');
+      
+      if (data.processed && data.processed.byAgeGroup) {
+        const middleAgeData = data.processed.byAgeGroup.find(d => d.ageGroup === '40-64');
+        if (middleAgeData) {
+          const percentage = ((middleAgeData.totalFines / totalFines) * 100).toFixed(1);
+          
+          if (middleAgeStat) {
+            middleAgeStat.textContent = `${percentage}%`;
+          }
+          
+          if (ageGroupStat) {
+            ageGroupStat.textContent = `${percentage}%`;
+          }
+        }
+      }
+    });
+  </script>
 </body>
 </html>
