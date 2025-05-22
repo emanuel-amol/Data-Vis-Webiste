@@ -1,6 +1,3 @@
-// Enhanced age-bar.js with storytelling elements
-// Replace your existing file in the js folder
-
 // Use the same dimensions as jurisdiction map
 const width = 800;
 const height = 600;
@@ -9,14 +6,13 @@ const margin = { top: 60, right: 150, bottom: 50, left: 80 };
 // Remove any existing SVG
 d3.select("#age-distribution-chart svg").remove();
 
-// Create SVG with same size and viewBox as jurisdiction map
+// Create SVG that fills the parent container, with white background
 const svg = d3.select("#age-distribution-chart")
   .append("svg")
-  .attr("width", width)
-  .attr("height", height)
+  .attr("width", "80%")
+  .attr("height", "70%")
   .attr("viewBox", `0 0 ${width} ${height}`)
-  .style("background-color", "#fff")
-  .style("border", "1px solid #ddd");
+  .style("background-color", "#fff");
 
 // Chart group
 const g = svg.append("g")

@@ -1,15 +1,18 @@
-// Fixed year-line.js - Enhanced time trends with real data structure and storytelling
-// Replace existing js/year-line.js with this file
+// --- Chart configuration for easy resizing ---
+const chartConfig = {
+  svgWidth: 1100,   // <--- Change this value to adjust the overall width of the graph
+  svgHeight: 700,   // <--- Change this value to adjust the overall height of the graph
+  margin: { top: 60, right: 120, bottom: 60, left: 80 } // <--- Adjust margins if needed
+};
+
+// Derived dimensions for the chart area
+const width = chartConfig.svgWidth - chartConfig.margin.left - chartConfig.margin.right;
+const height = chartConfig.svgHeight - chartConfig.margin.top - chartConfig.margin.bottom;
 
 // Define variables in global scope
 let completeData = [];
 let rawData = [];
 let svg, xScale, yScale, tooltip;
-
-// Initialize dimensions
-const margin = { top: 60, right: 120, bottom: 60, left: 80 },
-      width = 1000 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
 
 // Key events for storytelling annotations
 const keyEvents = [
@@ -104,16 +107,22 @@ function initChart() {
   // Select the SVG and clear it
   const svgElement = d3.select("#time-trends-chart svg");
   svgElement.selectAll("*").remove();
-  
+
+  // Set SVG size and viewBox for responsiveness
+  svgElement
+    .attr("width", chartConfig.svgWidth)
+    .attr("height", chartConfig.svgHeight)
+    .attr("viewBox", `0 0 ${chartConfig.svgWidth} ${chartConfig.svgHeight}`);
+
   // Create main chart group
   svg = svgElement
     .append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
+    .attr("transform", `translate(${chartConfig.margin.left},${chartConfig.margin.top})`);
 
   // Add chart title
   svgElement
     .append("text")
-    .attr("x", margin.left + width/2)
+    .attr("x", chartConfig.margin.left + width/2)
     .attr("y", 30)
     .attr("text-anchor", "middle")
     .attr("class", "chart-title")
@@ -125,7 +134,7 @@ function initChart() {
   // Add subtitle with key insight
   svgElement
     .append("text")
-    .attr("x", margin.left + width/2)
+    .attr("x", chartConfig.margin.left + width/2)
     .attr("y", 50)
     .attr("text-anchor", "middle")
     .attr("class", "chart-subtitle")
@@ -531,6 +540,50 @@ function addEventAnnotations() {
 }
 
 function addTrendAnalysis() {
+  // --- Positioning and sizing config for the trend box ---
+  const boxConfig = {
+    width: 180,
+    height: 80,
+    paddingX: 0, 
+    paddingY: 0,  
+    // You can change these values to move the box
+  };
+
+  // Calculate SVG dimensions
+  const svgWidth = chartConfig.svgWidth;
+  const svgHeight = chartConfig.svgHeight;
+
+  // Calculate box position (top right, outside chart area)
+  const boxX = svgWidth - boxConfig.width - boxConfig.paddingX;
+  const boxY = boxConfig.paddingY;
+
+  // --- Remove any previous box ---
+  const svgElement = d3.select("#time-trends-chart svg");
+  svgElement.selectAll(".trend-summary-outer").remove();
+
+  // --- Create the box group with transform/translate ---
+  const summaryBox = svgElement.append("g")
+    .attr("class", "trend-summary-outer")
+    .attr("transform", `translate(${boxX},${boxY})`);
+
+  // --- Draw the box background ---
+  summaryBox.append("rect")
+    .attr("width", boxConfig.width)
+    .attr("height", boxConfig.height)
+    .attr("fill", "#f8fafc")
+    .attr("stroke", "#e2e8f0")
+    .attr("stroke-width", 1)
+    .attr("rx", 8);
+
+  // --- Add text content ---
+  summaryBox.append("text")
+    .attr("x", 10)
+    .attr("y", 18)
+    .style("font-size", "11px")
+    .style("font-weight", "700")
+    .style("fill", "#1e293b")
+    .text("Trend Analysis:");
+
   // Calculate overall trend
   const firstYear = completeData[0];
   const lastYear = completeData[completeData.length - 1];
@@ -542,45 +595,23 @@ function addTrendAnalysis() {
     d.totalFines > max.totalFines ? d : max
   );
 
-  // Add trend summary box
-  const summaryBox = svg.append("g")
-    .attr("class", "trend-summary");
-
-  summaryBox.append("rect")
-    .attr("x", width - 200)
-    .attr("y", 10)
-    .attr("width", 190)
-    .attr("height", 80)
-    .attr("fill", "#f8fafc")
-    .attr("stroke", "#e2e8f0")
-    .attr("stroke-width", 1)
-    .attr("rx", 8);
-
   summaryBox.append("text")
-    .attr("x", width - 190)
-    .attr("y", 28)
-    .style("font-size", "11px")
-    .style("font-weight", "700")
-    .style("fill", "#1e293b")
-    .text("Trend Analysis:");
-
-  summaryBox.append("text")
-    .attr("x", width - 190)
-    .attr("y", 45)
+    .attr("x", 10)
+    .attr("y", 35)
     .style("font-size", "10px")
     .style("fill", "#475569")
     .text(`Overall Growth: ${overallGrowth.toFixed(1)}%`);
 
   summaryBox.append("text")
-    .attr("x", width - 190)
-    .attr("y", 60)
+    .attr("x", 10)
+    .attr("y", 50)
     .style("font-size", "10px")
     .style("fill", "#475569")
     .text(`Peak Year: ${peakYear.year}`);
 
   summaryBox.append("text")
-    .attr("x", width - 190)
-    .attr("y", 75)
+    .attr("x", 10)
+    .attr("y", 65)
     .style("font-size", "10px")
     .style("fill", "#475569")
     .text(`Peak Fines: ${peakYear.totalFines.toLocaleString()}`);
