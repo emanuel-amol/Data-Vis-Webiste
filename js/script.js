@@ -181,13 +181,31 @@ document.addEventListener("DOMContentLoaded", () => {
     resetButton.addEventListener('click', resetAllFilters);
   }
 
-  // Global chart update hook
+  // Global chart update hook - Updated to handle all jurisdiction charts
   window.updateCharts = function() {
     console.log("updateCharts called");
+    
+    // Update jurisdiction map
     if (window.updateJurisdictionMap) {
+      console.log("Updating jurisdiction map");
       window.updateJurisdictionMap();
     }
+    
+    // Update jurisdiction line chart
+    if (window.updateJurisdictionLineChart) {
+      console.log("Updating jurisdiction line chart");
+      window.updateJurisdictionLineChart();
+    }
+    
+    // Update jurisdiction area chart
+    if (window.updateJurisdictionAreaChart) {
+      console.log("Updating jurisdiction area chart");
+      window.updateJurisdictionAreaChart();
+    }
+    
+    // Update age analysis chart (if present)
     if (window.updateChart) {
+      console.log("Updating age analysis chart");
       window.updateChart();
     }
   };
@@ -199,22 +217,42 @@ document.addEventListener("DOMContentLoaded", () => {
   if (tabs.length > 0) {
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
+        console.log("Tab clicked:", tab.getAttribute('data-tab'));
+        
+        // Remove active class from all tabs and hide all content
         tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
         tabContents.forEach(c => c.style.display = 'none');
+        
+        // Add active class to clicked tab
+        tab.classList.add('active');
+        
+        // Show corresponding content
         const contentId = tab.getAttribute('data-tab');
         const contentElement = document.getElementById(contentId);
         if (contentElement) {
           contentElement.style.display = 'block';
+          
+          // Initialize or update the visualization based on the active tab
           if (contentId === 'map-tab' && window.updateJurisdictionMap) {
+            console.log("Initializing map tab");
             window.updateJurisdictionMap();
+          } else if (contentId === 'line-chart-tab' && window.updateJurisdictionLineChart) {
+            console.log("Initializing line chart tab");
+            window.updateJurisdictionLineChart();
+          } else if (contentId === 'stacked-area-tab' && window.updateJurisdictionAreaChart) {
+            console.log("Initializing area chart tab");
+            window.updateJurisdictionAreaChart();
           }
         }
       });
     });
+    
     // Activate the first tab or the one that's marked active
     const activeTab = document.querySelector('.viz-tab.active') || tabs[0];
-    if (activeTab) activeTab.click();
+    if (activeTab) {
+      console.log("Activating initial tab:", activeTab.getAttribute('data-tab'));
+      activeTab.click();
+    }
   }
 
   // Close dropdowns if clicked outside
@@ -296,11 +334,24 @@ document.addEventListener("DOMContentLoaded", () => {
       z-index: 1000;
       max-width: 250px;
     }
+    
+    .jurisdiction-line-tooltip, .jurisdiction-area-tooltip {
+      position: absolute;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      border-radius: 4px;
+      font-size: 12px;
+      pointer-events: none;
+      z-index: 1000;
+      max-width: 250px;
+    }
   `;
   document.head.appendChild(style);
   
   // Initialize any charts that might be on the page
   if (typeof updateCharts === 'function') {
+    console.log("Initial chart update");
     updateCharts();
   }
 });
