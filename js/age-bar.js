@@ -1,41 +1,44 @@
-// Use the same dimensions as jurisdiction map
-const width = 800;
-const height = 600;
-const margin = { top: 60, right: 150, bottom: 50, left: 80 };
+// Set improved chart dimensions for better axis spacing and legend placement
+const width = 700; // Reduced width to give space for legend
+const height = 400;
+const margin = { top: 60, right: 200, bottom: 70, left: 100 }; // Increased right margin for legend
 
 // Remove any existing SVG
 d3.select("#age-distribution-chart svg").remove();
 
-// Create SVG that fills the parent container, with white background
+// Create SVG with improved size and spacing
 const svg = d3.select("#age-distribution-chart")
   .append("svg")
-  .attr("width", "80%")
-  .attr("height", "70%")
-  .attr("viewBox", `0 0 ${width} ${height}`)
-  .style("background-color", "#fff");
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+  .style("background-color", "#fff")
+  .attr("role", "img")
+  .attr("aria-label", "Bar chart showing distribution of fines across age groups");
 
-// Chart group
+// Chart group with proper margin
 const g = svg.append("g")
   .attr("transform", `translate(${margin.left},${margin.top})`);
 
-// Add meaningful title with insight
-d3.select("svg")
-  .append("text")
-  .attr("x", margin.left)
-  .attr("y", margin.top - 25)
+// Add clear title (no duplicate)
+svg.append("text")
+  .attr("x", (width + margin.left + margin.right) / 2)
+  .attr("y", 32)
+  .attr("text-anchor", "middle")
   .attr("class", "title")
   .text("Distribution of Fines Across Age Groups")
-  .style("font-size", "18px")
-  .style("font-weight", "bold");
+  .style("font-size", "20px")
+  .style("font-weight", "bold")
+  .style("fill", "#1f2937");
 
-// Add subtitle with insight
-d3.select("svg")
-  .append("text")
-  .attr("x", margin.left)
-  .attr("y", margin.top - 5)
+// Add subtitle
+svg.append("text")
+  .attr("x", (width + margin.left + margin.right) / 2)
+  .attr("y", 54)
+  .attr("text-anchor", "middle")
   .attr("class", "subtitle")
-  .text("Middle-aged adults receive more fines than young drivers")
-  .style("font-size", "14px")
+  .text("Middle-aged adults (40-64) receive the most fines")
+  .style("font-size", "13px")
   .style("fill", "#666");
 
 // Add tooltip for interactive storytelling
@@ -152,63 +155,80 @@ function updateChart() {
   });
 
   // Clear previous chart
-  svg.selectAll("*").remove();
+  g.selectAll("*").remove();
 
   // Scales
   const x = d3.scaleBand()
     .domain(ageOrder)
     .range([0, width])
-    .paddingInner(0.2)
-    .paddingOuter(0.2);
+    .padding(0.18);
 
   const y = d3.scaleLinear()
-    .domain([0, d3.max(orderedData, d => d.FINES) * 1.1]) // Add padding for annotations
+    .domain([0, d3.max(orderedData, d => d.FINES) * 1.08])
     .nice()
     .range([height, 0]);
 
-  // Gridlines for easier data reading
-  svg.append("g")
+  // Add gridlines
+  g.append("g")
     .attr("class", "grid")
-    .attr("opacity", 0.3)
     .call(d3.axisLeft(y)
       .tickSize(-width)
       .tickFormat("")
-    );
+    )
+    .selectAll("line")
+    .attr("stroke", "#e5e7eb")
+    .attr("stroke-dasharray", "2,2");
 
-  // Axes with better formatting
-  svg.append("g")
+  // X Axis
+  g.append("g")
     .attr("transform", `translate(0,${height})`)
     .call(d3.axisBottom(x))
-    .selectAll("text")
-    .style("font-weight", d => d === "40-64" ? "bold" : "normal"); // Highlight key age group
+    .call(g => g.selectAll("text")
+      .attr("font-size", "13px")
+      .attr("fill", "#374151")
+      .attr("font-weight", d => d === "40-64" ? "bold" : "normal")
+      .attr("transform", "rotate(-20)")
+      .attr("text-anchor", "end")
+      .attr("dx", "-0.5em")
+      .attr("dy", "0.15em")
+    );
 
-  svg.append("g")
+  // Y Axis
+  g.append("g")
     .call(d3.axisLeft(y)
-      .tickFormat(d => d3.format(",.0f")(d))); // Format numbers with commas
+      .ticks(8)
+      .tickFormat(d3.format(",.0f"))
+    )
+    .call(g => g.selectAll("text")
+      .attr("font-size", "13px")
+      .attr("fill", "#374151")
+    );
 
-  // Add axis labels
-  svg.append("text")
+  // Axis labels
+  g.append("text")
     .attr("text-anchor", "middle")
-    .attr("x", width/2)
-    .attr("y", height + 40)
+    .attr("x", width / 2)
+    .attr("y", height + 55) // slightly more space below x-axis
     .text("Age Group")
-    .style("font-size", "12px");
+    .style("font-size", "14px")
+    .style("fill", "#1f2937");
 
-  svg.append("text")
+  g.append("text")
     .attr("text-anchor", "middle")
-    .attr("transform", "rotate(-90)")
-    .attr("x", -height/2)
-    .attr("y", -40)
+    .attr("transform", `rotate(-90)`)
+    .attr("x", -height / 2)
+    .attr("y", -65) // <-- Move y-axis label further left to avoid clashing with tick labels
     .text("Number of Fines")
-    .style("font-size", "12px");
+    .style("font-size", "14px")
+    .style("fill", "#1f2937");
 
-  // Enhanced color scale for storytelling
+  // Color scale
   const colorScale = d3.scaleOrdinal()
     .domain(ageOrder)
-    .range(["#c6dbef", "#9ecae1", "#6baed6", "#3182bd", "#08519c"]);
+    .range(["#c6dbef", "#9ecae1", "#6baed6", "#e31a1c", "#08519c"]);
 
-  // Bars with storytelling enhancements
-  svg.selectAll(".bar")
+  // Bars
+  g.selectAll(".bar")
     .data(orderedData)
     .enter()
     .append("rect")
@@ -217,116 +237,54 @@ function updateChart() {
     .attr("y", d => y(d.FINES))
     .attr("width", x.bandwidth())
     .attr("height", d => height - y(d.FINES))
-    .attr("fill", d => d.AGE_GROUP === "40-64" ? "#e31a1c" : colorScale(d.AGE_GROUP)) // Highlight key finding
-    .attr("stroke", d => d.AGE_GROUP === "40-64" ? "#c00" : "none")
-    .attr("stroke-width", d => d.AGE_GROUP === "40-64" ? 1 : 0)
-    .on("mouseover", function(event, d) {
-      // Show tooltip with context
+    .attr("fill", d => d.AGE_GROUP === "40-64" ? "#e31a1c" : colorScale(d.AGE_GROUP))
+    .attr("stroke", "#222")
+    .attr("stroke-width", d => d.AGE_GROUP === "40-64" ? 1.5 : 0.5)
+    .attr("tabindex", 0)
+    .attr("aria-label", d => `${d.AGE_GROUP}: ${d.FINES.toLocaleString()} fines`)
+    .on("mouseover focus", function(event, d) {
       tooltip.style("visibility", "visible")
         .html(`
           <strong>${d.AGE_GROUP}</strong><br>
           Fines: ${d.FINES.toLocaleString()}<br>
           <em>${ageContext[d.AGE_GROUP]}</em>
         `);
-      
-      // Highlight the bar
       d3.select(this)
-        .transition()
-        .duration(200)
-        .attr("opacity", 0.8);
+        .attr("fill", "#f87171");
     })
     .on("mousemove", function(event) {
       tooltip
         .style("top", (event.pageY - 10) + "px")
         .style("left", (event.pageX + 10) + "px");
     })
-    .on("mouseout", function() {
+    .on("mouseout blur", function(event, d) {
       tooltip.style("visibility", "hidden");
-      
       d3.select(this)
-        .transition()
-        .duration(200)
-        .attr("opacity", 1);
+        .attr("fill", d => d.AGE_GROUP === "40-64" ? "#e31a1c" : colorScale(d.AGE_GROUP));
     });
 
   // Value labels
-  svg.selectAll(".label")
+  g.selectAll(".label")
     .data(orderedData)
     .enter()
     .append("text")
     .attr("class", "label")
     .attr("x", d => x(d.AGE_GROUP) + x.bandwidth() / 2)
-    .attr("y", d => y(d.FINES) - 5)
+    .attr("y", d => y(d.FINES) - 8)
     .attr("text-anchor", "middle")
-    .style("font-size", "12px")
+    .style("font-size", "13px")
     .style("font-weight", d => d.AGE_GROUP === "40-64" ? "bold" : "normal")
-    .text(d => d.FINES.toLocaleString());
+    .style("fill", "#222")
+    .text(d => d.FINES > 0 ? d.FINES.toLocaleString() : "");
 
-  // Remove contextual story box (Key Finding)
-  // svg.append("rect")
-  //   .attr("x", width - 200)
-  //   .attr("y", 10)
-  //   .attr("width", 190)
-  //   .attr("height", 100)
-  //   .attr("fill", "#f8f9fa")
-  //   .attr("stroke", "#ddd")
-  //   .attr("stroke-width", 1)
-  //   .attr("rx", 4);
-  // svg.append("text")
-  //   .attr("x", width - 190)
-  //   .attr("y", 30)
-  //   .attr("font-size", "12px")
-  //   .attr("font-weight", "bold")
-  //   .text("Key Finding:");
-  // svg.append("text")
-  //   .attr("x", width - 190)
-  //   .attr("y", 50)
-  //   .attr("font-size", "11px")
-  //   .attr("fill", "#333")
-  //   .text("Middle-aged adults (40-64)");
-  // svg.append("text")
-  //   .attr("x", width - 190)
-  //   .attr("y", 65)
-  //   .attr("font-size", "11px")
-  //   .attr("fill", "#333")
-  //   .text("receive the most fines despite");
-  // svg.append("text")
-  //   .attr("x", width - 190)
-  //   .attr("y", 80)
-  //   .attr("font-size", "11px")
-  //   .attr("fill", "#333")
-  //   .text("having more driving experience.");
-
-  // Add annotation for the surprisingly low young driver rate
-  const youngDriverData = orderedData.find(d => d.AGE_GROUP === "17-25");
-  if (youngDriverData) {
-    svg.append("text")
-      .attr("x", x("17-25") + x.bandwidth()/2)
-      .attr("y", y(youngDriverData.FINES) - 25)
-      .attr("text-anchor", "middle")
-      .attr("font-size", "11px")
-      .attr("fill", "#666")
-      .text("Expected to be highest?");
-  }
-
-  // Legend styled and positioned like jurisdiction map
+  // Legend (clear, concise, accessible)
+  svg.selectAll(".legend").remove();
   const legend = svg.append("g")
     .attr("class", "legend")
-    .attr("transform", "translate(20, 20)");
-
-  legend.append("rect")
-    .attr("x", -10)
-    .attr("y", -10)
-    .attr("width", 170)
-    .attr("height", 60)
-    .attr("fill", "white")
-    .attr("opacity", 0.9)
-    .attr("rx", 5)
-    .attr("stroke", "#ccc")
-    .attr("stroke-width", 1);
+    .attr("transform", `translate(${width + margin.left + 30},${margin.top + 30})`);
 
   const legendData = [
-    { color: "#ef4444", label: "40-64" },
+    { color: "#e31a1c", label: "40-64 (Middle-aged)" },
     { color: "#6baed6", label: "Other Age Groups" }
   ];
 
@@ -335,33 +293,27 @@ function updateChart() {
     .enter()
     .append("g")
     .attr("class", "legend-item")
-    .attr("transform", (d, i) => `translate(0, ${i * 24})`)
+    .attr("transform", (d, i) => `translate(0, ${i * 32})`)
     .each(function(d) {
       d3.select(this)
         .append("rect")
-        .attr("width", 18)
-        .attr("height", 18)
+        .attr("width", 22)
+        .attr("height", 22)
         .attr("fill", d.color)
         .attr("stroke", "#999")
         .attr("stroke-width", 0.5);
 
       d3.select(this)
         .append("text")
-        .attr("x", 28)
-        .attr("y", 13)
-        .attr("font-size", "14px")
+        .attr("x", 30)
+        .attr("y", 16)
+        .attr("font-size", "15px")
+        .attr("fill", "#222")
         .text(d.label);
     });
 
-  // Remove key finding box update
-  // const maxGroup = orderedData.reduce((max, d) => d.FINES > max.FINES ? d : max, orderedData[0]);
-  // const keyFindingBox = document.getElementById('key-finding-box');
-  // if (keyFindingBox) {
-  //   keyFindingBox.innerHTML = `
-  //     <strong>Key Finding:</strong><br>
-  //     ${maxGroup.AGE_GROUP} group receives the most fines (${maxGroup.FINES.toLocaleString()})
-  //   `;
-  // }
+  // Accessibility: add ARIA roles and keyboard navigation
+  svg.attr("tabindex", 0);
 }
 
 // 🔁 Hook into global updateCharts so `script.js` reset works
