@@ -427,6 +427,17 @@ function renderChart() {
 
   // Add trend analysis annotation
   addTrendAnalysis();
+
+  // Find the year with the largest year-over-year increase
+  const maxChange = completeData.reduce((max, d) => 
+    Math.abs(d.yearOverYearChange) > Math.abs(max.yearOverYearChange) ? d : max, completeData[0]);
+  const yoyBox = document.getElementById('yoy-key-insight');
+  if (yoyBox) {
+    yoyBox.innerHTML = `
+      <strong>Largest Year-over-Year Change:</strong><br>
+      ${maxChange.year}: ${maxChange.yearOverYearChange.toFixed(1)}% (${maxChange.yearOverYearAbsolute > 0 ? '+' : ''}${maxChange.yearOverYearAbsolute.toLocaleString()})
+    `;
+  }
 }
 
 function showTooltip(event, d) {

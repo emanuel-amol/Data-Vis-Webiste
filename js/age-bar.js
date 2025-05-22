@@ -333,6 +333,16 @@ function updateChart() {
     .text("Other age groups")
     .style("font-size", "12px")
     .attr("alignment-baseline", "middle");
+  
+  // After you have orderedData:
+  const maxGroup = orderedData.reduce((max, d) => d.FINES > max.FINES ? d : max, orderedData[0]);
+  const keyFindingBox = document.getElementById('key-finding-box');
+  if (keyFindingBox) {
+    keyFindingBox.innerHTML = `
+      <strong>Key Finding:</strong><br>
+      ${maxGroup.AGE_GROUP} group receives the most fines (${maxGroup.FINES.toLocaleString()})
+    `;
+  }
 }
 
 // 🔁 Hook into global updateCharts so `script.js` reset works
