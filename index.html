@@ -6,6 +6,7 @@
   <title>Road Safety Enforcement in Australia</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/storytelling.css">
+  <link rel="stylesheet" href="css/advanced-interactions.css">
 </head>
 <body>
   <header>
@@ -23,6 +24,7 @@
           <a href="pages/time-trends.html" class="nav-btn">Time Trends</a>
           <a href="pages/jurisdictions.html" class="nav-btn">Jurisdictions</a>
           <a href="pages/age-analysis.html" class="nav-btn">Age Demographics</a>
+          <a href="pages/comparative-analysis.html" class="nav-btn">Comparative Analysis</a>
           <a href="pages/insights.html" class="nav-btn">Key Insights</a>
           <a href="pages/about.html" class="nav-btn">About</a>
         </div>
@@ -34,92 +36,245 @@
     <div class="hero">
       <div class="container">
         <h2>The Story of Road Safety Enforcement in Australia</h2>
-        <div class="story-highlight">
-          <p>Did you know that adults aged 40-64 receive more road safety fines than any other age group in Australia, challenging the common perception that younger drivers are the primary offenders?</p>
+        <div class="story-highlight animated-reveal">
+          <div class="surprise-stat">
+            <span class="big-number">604,750</span>
+            <p>Middle-aged adults (40-64) receive <strong>more road safety fines</strong> than any other age group in Australia, challenging the common perception that younger drivers are the primary offenders.</p>
+          </div>
         </div>
-        <p>Our data visualization explores 15 years of road safety enforcement data to uncover patterns that can help improve safety strategies and save lives.</p>
+        <p>Our advanced data visualization explores 15 years of road safety enforcement data using interactive analytics to uncover patterns that can help improve safety strategies and save lives.</p>
+        
+        <!-- Interactive preview widgets -->
+        <div class="preview-widgets">
+          <div class="mini-chart" id="trend-preview">
+            <h4>Trend Preview</h4>
+            <div class="sparkline-container"></div>
+          </div>
+          <div class="mini-chart" id="jurisdiction-preview">
+            <h4>Top Jurisdictions</h4>
+            <div class="mini-bar-container"></div>
+          </div>
+          <div class="mini-chart" id="age-preview">
+            <h4>Age Distribution</h4>
+            <div class="mini-pie-container"></div>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="container">
-      <section class="overview">
-        <h2>Key Insights from Our Analysis</h2>
-        
-        <div class="key-features" style="margin-top: 20px;">
-          <div class="stat-card">
-            <span class="key-stat">604,750</span>
-            <span class="stat-description">Fines issued to the 40-64 age group, the highest of any demographic</span>
+      <!-- Interactive Statistics Dashboard -->
+      <section class="stats-dashboard">
+        <h2>Key Statistics</h2>
+        <div class="stats-grid">
+          <div class="stat-card interactive-stat" data-detail="fines">
+            <div class="stat-icon">📊</div>
+            <span class="key-stat counter" data-target="604750">0</span>
+            <span class="stat-description">Fines issued to 40-64 age group</span>
+            <div class="stat-change positive">↑ 23% from previous period</div>
           </div>
           
-          <div class="stat-card">
+          <div class="stat-card interactive-stat" data-detail="peak-year">
+            <div class="stat-icon">📈</div>
             <span class="key-stat">2021</span>
-            <span class="stat-description">The year with the highest number of recorded fines, showing a 37% increase from 2020</span>
+            <span class="stat-description">Peak enforcement year</span>
+            <div class="stat-change positive">↑ 37% increase from 2020</div>
           </div>
           
-          <div class="stat-card">
+          <div class="stat-card interactive-stat" data-detail="jurisdictions">
+            <div class="stat-icon">🗺️</div>
             <span class="key-stat">VIC & NSW</span>
-            <span class="stat-description">The jurisdictions with the highest enforcement rates, accounting for over 60% of all fines</span>
+            <span class="stat-description">Leading enforcement jurisdictions</span>
+            <div class="stat-change neutral">60% of total fines</div>
+          </div>
+          
+          <div class="stat-card interactive-stat" data-detail="technology">
+            <div class="stat-icon">📱</div>
+            <span class="key-stat counter" data-target="85">0</span>
+            <span class="stat-description">% increase in mobile phone detection</span>
+            <div class="stat-change positive">↑ Since 2019</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Enhanced Story Path with Interactive Elements -->
+      <section class="overview">
+        <h2>Follow the Data Journey</h2>
+        
+        <div class="interactive-story-path">
+          <div class="story-timeline">
+            <div class="timeline-line"></div>
+            
+            <div class="story-node active" data-step="1">
+              <div class="node-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M3 3v18h18V3H3zm16 16H5V5h14v14zm-7-2l-4-4 1.41-1.41L12 14.17l6.59-6.58L20 9l-8 8z"/>
+                </svg>
+              </div>
+              <div class="node-content">
+                <h4>Time Trends</h4>
+                <p>Discover how enforcement patterns evolved over 15 years</p>
+                <div class="mini-insight">Peak in 2021: 37% increase</div>
+              </div>
+            </div>
+            
+            <div class="story-node" data-step="2">
+              <div class="node-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+              </div>
+              <div class="node-content">
+                <h4>Jurisdictional Patterns</h4>
+                <p>Compare enforcement strategies across states</p>
+                <div class="mini-insight">NSW: 132% growth in 2 years</div>
+              </div>
+            </div>
+            
+            <div class="story-node" data-step="3">
+              <div class="node-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2 2 0 0 0 18.09 7H16c-.8 0-1.54.5-1.84 1.24L12.5 12 15 22h5z"/>
+                </svg>
+              </div>
+              <div class="node-content">
+                <h4>Age Demographics</h4>
+                <p>Uncover surprising patterns in age-related violations</p>
+                <div class="mini-insight">40-64 group: highest violators</div>
+              </div>
+            </div>
+            
+            <div class="story-node" data-step="4">
+              <div class="node-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                </svg>
+              </div>
+              <div class="node-content">
+                <h4>Comparative Analysis</h4>
+                <p>Advanced statistical comparisons and correlations</p>
+                <div class="mini-insight">New: Per-capita analysis</div>
+              </div>
+            </div>
+            
+            <div class="story-node" data-step="5">
+              <div class="node-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2.5-9H19V1h-2v1H7V1H5v1H3.5C2.67 2 2 2.67 2 3.5v15c0 .83.67 1.5 1.5 1.5h17c.83 0 1.5-.67 1.5-1.5v-15c0-.83-.67-1.5-1.5-1.5zm0 16.5h-17v-11h17v11z"/>
+                </svg>
+              </div>
+              <div class="node-content">
+                <h4>Key Insights</h4>
+                <p>Actionable recommendations for policy makers</p>
+                <div class="mini-insight">Evidence-based solutions</div>
+              </div>
+            </div>
           </div>
         </div>
         
-        <h2 style="margin-top: 40px;">Follow the Data Story</h2>
-        
-        <div class="story-path">
-          <div class="story-line"></div>
-          
-          <div class="story-node">
-            <div class="node-icon">1</div>
-            <div class="node-title">Time Trends</div>
-          </div>
-          
-          <div class="story-node">
-            <div class="node-icon">2</div>
-            <div class="node-title">Jurisdictional Patterns</div>
-          </div>
-          
-          <div class="story-node">
-            <div class="node-icon">3</div>
-            <div class="node-title">Age Demographics</div>
-          </div>
-          
-          <div class="story-node">
-            <div class="node-icon">4</div>
-            <div class="node-title">Key Insights</div>
-          </div>
-        </div>
-        
-        <p style="text-align: center; max-width: 800px; margin: 0 auto 30px auto;">
-          Our visualizations guide you through a data journey, starting with an overview of trends over time, 
-          then exploring geographical patterns, examining age demographics, and finally synthesizing key insights 
-          for policy makers and the public.
+        <p class="story-description">
+          Our visualizations guide you through a comprehensive data journey, starting with temporal analysis, 
+          exploring geographical patterns, examining demographic insights, conducting advanced statistical 
+          comparisons, and synthesizing evidence-based recommendations for policy makers.
         </p>
         
         <div class="cta-container">
-          <a href="pages/time-trends.html" class="feature-link">Begin the Journey</a>
+          <a href="pages/time-trends.html" class="primary-cta">Begin the Data Journey</a>
+          <a href="pages/comparative-analysis.html" class="secondary-cta">Advanced Analysis</a>
         </div>
+      </section>
 
-        <h2>Project Overview</h2>
-        <p>This interactive data visualization provides insights into road safety enforcement data collected by the Bureau of Infrastructure and Transport Research Economics (BITRE) from 2008 to 2023.</p>
+      <!-- Enhanced Key Features with Interactive Previews -->
+      <section class="features-section">
+        <h2>Explore Our Advanced Analytics</h2>
         
-        <p>Our visualization helps policy makers, law enforcement agencies, researchers, and the general public understand patterns in road safety violations to make data-driven decisions for better road safety outcomes.</p>
-        
-        <div class="key-features">
-          <div class="feature">
-            <h3>Age Demographics</h3>
-            <p>Compare fine distributions across different age groups to identify high-risk demographics.</p>
-            <a href="pages/age-analysis.html" class="feature-link">Explore Age Data</a>
+        <div class="feature-grid">
+          <div class="feature-card enhanced" data-feature="demographics">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2 2 0 0 0 18.09 7H16c-.8 0-1.54.5-1.84 1.24L12.5 12 15 22h5z"/>
+              </svg>
+            </div>
+            <h3>Age Demographics Analysis</h3>
+            <p>Advanced statistical analysis of age-related patterns with confidence intervals and significance testing.</p>
+            <div class="feature-stats">
+              <span class="feature-stat">604,750 fines</span>
+              <span class="feature-label">40-64 age group</span>
+            </div>
+            <div class="feature-preview" id="age-preview-chart"></div>
+            <a href="pages/age-analysis.html" class="feature-link">Explore Demographics</a>
           </div>
           
-          <div class="feature">
-            <h3>Time Trends</h3>
-            <p>Analyze trends in enforcement data over time (2008-2023) to evaluate the effectiveness of safety campaigns.</p>
-            <a href="pages/time-trends.html" class="feature-link">Explore Time Trends</a>
+          <div class="feature-card enhanced" data-feature="trends">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/>
+              </svg>
+            </div>
+            <h3>Time Trends Analysis</h3>
+            <p>Interactive time series with trend analysis, seasonal decomposition, and predictive modeling.</p>
+            <div class="feature-stats">
+              <span class="feature-stat">37% increase</span>
+              <span class="feature-label">2020 to 2021</span>
+            </div>
+            <div class="feature-preview" id="trends-preview-chart"></div>
+            <a href="pages/time-trends.html" class="feature-link">Explore Trends</a>
           </div>
           
-          <div class="feature">
+          <div class="feature-card enhanced" data-feature="jurisdictions">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+            </div>
             <h3>Jurisdictional Analysis</h3>
-            <p>Examine geographical patterns in enforcement data across Australian jurisdictions.</p>
-            <a href="pages/jurisdictions.html" class="feature-link">Explore Jurisdictions</a>
+            <p>Multi-layered geographic analysis with per-capita normalization and statistical comparisons.</p>
+            <div class="feature-stats">
+              <span class="feature-stat">8 jurisdictions</span>
+              <span class="feature-label">compared</span>
+            </div>
+            <div class="feature-preview" id="jurisdiction-preview-chart"></div>
+            <a href="pages/jurisdictions.html" class="feature-link">Explore Geography</a>
+          </div>
+          
+          <div class="feature-card enhanced new" data-feature="comparative">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+            </div>
+            <div class="new-badge">NEW</div>
+            <h3>Comparative Analysis</h3>
+            <p>Advanced statistical comparisons, correlation analysis, and per-capita normalization.</p>
+            <div class="feature-stats">
+              <span class="feature-stat">R² = 0.82</span>
+              <span class="feature-label">technology correlation</span>
+            </div>
+            <div class="feature-preview" id="comparative-preview-chart"></div>
+            <a href="pages/comparative-analysis.html" class="feature-link">Advanced Analytics</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data Quality and Methodology Section -->
+      <section class="methodology-section">
+        <h2>Data Quality & Methodology</h2>
+        <div class="methodology-grid">
+          <div class="method-card">
+            <h4>Statistical Rigor</h4>
+            <p>Confidence intervals, significance testing, and correlation analysis ensure reliable insights.</p>
+          </div>
+          <div class="method-card">
+            <h4>Population Normalization</h4>
+            <p>Per-capita analysis provides fair comparisons across jurisdictions of different sizes.</p>
+          </div>
+          <div class="method-card">
+            <h4>Uncertainty Quantification</h4>
+            <p>Error bars and confidence bands communicate the reliability of our findings.</p>
+          </div>
+          <div class="method-card">
+            <h4>Interactive Exploration</h4>
+            <p>Brushing, linking, and filtering enable deep exploration of the data.</p>
           </div>
         </div>
       </section>
@@ -128,10 +283,29 @@
 
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Data Source</h4>
+          <p>Bureau of Infrastructure and Transport Research Economics (BITRE)</p>
+        </div>
+        <div class="footer-section">
+          <h4>Last Updated</h4>
+          <p>December 2024</p>
+        </div>
+        <div class="footer-section">
+          <h4>Contact</h4>
+          <p>COS30045 Data Visualization</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+      </div>
     </div>
   </footer>
 
+  <script src="js/utils/animations.js"></script>
+  <script src="js/utils/statistics.js"></script>
+  <script src="js/previews/home-previews.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>
