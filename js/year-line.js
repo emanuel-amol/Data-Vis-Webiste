@@ -36,16 +36,60 @@ const keyEvents = [
   }
 ];
 
+// Only attach the event listener once
+let dataReadyHandled = false;
+
 // Initialize chart when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
   console.log("Time trends: Initializing chart");
   initChart();
-  
-  // Check if data is already loaded
-  if (window.roadSafetyData && window.roadSafetyData.raw) {
-    console.log("Time trends: Using pre-loaded data");
+
+  // Try to use global data, or load if not present
+  if (window.roadSafetyData && window.roadSafetyData.raw && window.roadSafetyData.raw.length > 0) {
     rawData = window.roadSafetyData.raw;
-    updateChart();
+    convertRawDataTypes();
+    _updateTimeTrendsChart();
+  } else {
+    // Listen for data ready event (in case dataLoader finishes after us)
+    if (!dataReadyHandled) {
+      document.addEventListener('roadSafetyDataReady', function(event) {
+        if (dataReadyHandled) return;
+        dataReadyHandled = true;
+        console.log("Time trends: Data ready event received (late)");
+        rawData = event.detail.data.raw;
+        convertRawDataTypes();
+        _updateTimeTrendsChart();
+      }, { once: true });
+    }
+
+    // Fallback: try to load CSV directly if not present after short delay
+    setTimeout(() => {
+      if ((!window.roadSafetyData || !window.roadSafetyData.raw || window.roadSafetyData.raw.length === 0) && (!rawData || rawData.length === 0)) {
+        console.log("Time trends: No global data found, trying both CSV paths...");
+        d3.csv("../data/police_enforcement_2023_fines_20240920.csv")
+          .then(data => {
+            if (!data || data.length === 0) throw new Error("Empty data");
+            rawData = data;
+            convertRawDataTypes();
+            console.log("Loaded fallback CSV (20240920):", rawData[0]);
+            _updateTimeTrendsChart();
+          })
+          .catch(() => {
+            d3.csv("../data/police_enforcement_2023.csv")
+              .then(data2 => {
+                if (!data2 || data2.length === 0) throw new Error("Empty data2");
+                rawData = data2;
+                convertRawDataTypes();
+                console.log("Loaded fallback CSV (2023):", rawData[0]);
+                _updateTimeTrendsChart();
+              })
+              .catch(() => {
+                createFallbackData();
+                _updateTimeTrendsChart();
+              });
+          });
+      }
+    }, 800);
   }
 });
 
@@ -53,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('roadSafetyDataReady', function(event) {
   console.log("Time trends: Data ready event received");
   rawData = event.detail.data.raw;
-  updateChart();
+  _updateTimeTrendsChart();
 });
 
 function initChart() {
@@ -109,11 +153,22 @@ function initChart() {
   }
 }
 
-function updateChart() {
+function convertRawDataTypes() {
+  if (!rawData) return;
+  rawData.forEach(d => {
+    if (typeof d.YEAR === "string" || typeof d.YEAR === "number") d.YEAR = +d.YEAR;
+    if (typeof d.FINES === "string" || typeof d.FINES === "number") d.FINES = +d.FINES;
+  });
+}
+
+// Change this function name to avoid recursion
+function _updateTimeTrendsChart() {
+  // Always ensure fallback data if rawData is empty
   if (!rawData || rawData.length === 0) {
-    console.log("Time trends: No data available, creating fallback");
+    console.log("Time trends: No data available, using fallback data.");
     createFallbackData();
   }
+  console.log("Time trends: Rendering chart with", rawData.length, "records");
 
   // Process data with current filters
   const selectedJurisdictions = getSelectedJurisdictions();
@@ -557,11 +612,11 @@ function getSelectedDetectionMethods() {
 // Hook into global update system
 window.updateChart = function() {
   console.log("Time trends: Global update requested");
-  updateChart();
+  _updateTimeTrendsChart();
 };
 
 // Export for external use
 window.timeTrends = {
-  updateChart: updateChart,
+  updateChart: _updateTimeTrendsChart,
   getData: () => completeData
 };
