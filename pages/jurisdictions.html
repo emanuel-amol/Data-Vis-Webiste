@@ -38,7 +38,7 @@
 
       <div class="jurisdiction-story">
         <h3>Understanding Geographical Patterns</h3>
-        <p>The map reveals significant disparities in enforcement across Australian jurisdictions:</p>
+        <p>The visualizations reveal significant disparities in enforcement across Australian jurisdictions:</p>
         
         <div class="comparison-highlight">
           <div class="comparison-item">
@@ -55,7 +55,7 @@
           </div>
         </div>
         
-        <p class="storytelling-tip">Interact with the map to see how patterns change when filtering by year and detection method.</p>
+        <p class="storytelling-tip">Interact with the visualizations and use filters to see how patterns change when filtering by year and detection method.</p>
       </div>
 
       <div class="filter-bar">
@@ -110,17 +110,17 @@
 
       <!-- Toggle between different visualizations -->
       <div class="viz-tabs">
-        <button class="viz-tab" data-tab="line-chart-tab">Line Chart</button>
+        <button class="viz-tab active" data-tab="line-chart-tab">Line Chart</button>
         <button class="viz-tab" data-tab="stacked-area-tab">Stacked Area</button>
-        <button class="viz-tab active" data-tab="map-tab">Map View</button>
+        <button class="viz-tab" data-tab="map-tab">Map View</button>
       </div>
       
       <!-- Line Chart Tab -->
-      <div id="line-chart-tab" class="tab-content">
+      <div id="line-chart-tab" class="tab-content" style="display: block;">
         <div class="chart-container">
           <h3>Fine Trends by Jurisdiction (2008-2023)</h3>
           <div class="chart-placeholder" id="jurisdiction-line-chart">
-            <!-- D3.js chart will be rendered here -->
+            <!-- D3 line chart will be rendered here -->
           </div>
           <div class="chart-description">
             <p>This line chart shows fine trends by jurisdiction from 2008 to 2023. Victoria (VIC) consistently shows the highest level of fines throughout most of the period, while New South Wales (NSW) shows a dramatic increase in fines from 2020-2021, surpassing other jurisdictions. The chart reveals how different states have adopted varying enforcement approaches at different times.</p>
@@ -133,7 +133,7 @@
         <div class="chart-container">
           <h3>Relative Contribution by Jurisdiction (2008-2023)</h3>
           <div class="chart-placeholder" id="jurisdiction-area-chart">
-            <!-- D3.js chart will be rendered here -->
+            <!-- D3 stacked area chart will be rendered here -->
           </div>
           <div class="chart-description">
             <p>This stacked area chart shows the relative contribution of each jurisdiction to total fines over time. It highlights how the proportion of fines from different jurisdictions has evolved from 2008 to 2023, revealing shifts in enforcement priorities across Australia's states and territories. The growing area of NSW since 2019 demonstrates its increasing role in overall enforcement activity.</p>
@@ -142,7 +142,7 @@
       </div>
 
       <!-- Map Tab -->
-      <div id="map-tab" class="tab-content" style="display: block;">
+      <div id="map-tab" class="tab-content" style="display: none;">
         <div class="chart-container">
           <h3>Geographic Distribution of Fines</h3>
           <div id="jurisdiction-map">
@@ -182,39 +182,13 @@
   
   <!-- Load D3.js first -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
-  
-  <!-- Load data processing scripts -->
+  <!-- Load data loader -->
   <script src="../js/dataLoader.js"></script>
-  
-  <!-- Load visualization scripts -->
+  <!-- Load all chart scripts -->
   <script src="../js/jurisdictionMap.js"></script>
-  <script src="../js/jurisdiction-area.js"></script>
   <script src="../js/jurisdiction-line.js"></script>
-  
-  <!-- Load general UI script -->
+  <script src="../js/jurisdiction-area.js"></script>
+  <!-- Load main script last -->
   <script src="../js/script.js"></script>
-  
-  <script>
-    // Direct event bindings for tab handling
-    document.addEventListener('DOMContentLoaded', function() {
-      // Setup tab switching
-      document.querySelectorAll('.viz-tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-          // Remove active class from all tabs
-          document.querySelectorAll('.viz-tab').forEach(t => t.classList.remove('active'));
-          
-          // Add active class to clicked tab
-          this.classList.add('active');
-          
-          // Hide all tab contents
-          document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
-          
-          // Show the selected tab content
-          const contentId = this.getAttribute('data-tab');
-          document.getElementById(contentId).style.display = 'block';
-        });
-      });
-    });
-  </script>
 </body>
 </html>
