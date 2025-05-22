@@ -1,81 +1,91 @@
+// Fixed main script.js - Enhanced with real data integration and error handling
+// Replace existing js/script.js with this file
+
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("Script.js loaded and running");
+  console.log("Main script initialized");
   
-  // Toggle dropdown for Jurisdiction
-  window.toggleDropdown = function () {
+  // Initialize global state
+  window.currentFilters = {
+    jurisdictions: [],
+    years: [],
+    detectionMethods: []
+  };
+
+  // Enhanced dropdown toggle functions
+  window.toggleDropdown = function() {
     const dropdownList = document.getElementById('checkbox-list');
     if (dropdownList) {
-      dropdownList.style.display = dropdownList.style.display === 'block' ? 'none' : 'block';
+      const isVisible = dropdownList.style.display === 'block';
+      hideAllDropdowns();
+      if (!isVisible) {
+        dropdownList.style.display = 'block';
+      }
     }
   };
 
-  // Toggle all Jurisdictions
-  window.toggleAll = function (checkbox) {
+  window.toggleYearDropdown = function() {
+    const dropdownList = document.getElementById('year-checkbox-list');
+    if (dropdownList) {
+      const isVisible = dropdownList.style.display === 'block';
+      hideAllDropdowns();
+      if (!isVisible) {
+        dropdownList.style.display = 'block';
+      }      
+    }
+  };
+
+  window.toggleDetectionDropdown = function() {
+    const dropdownList = document.getElementById('detection-checkbox-list');
+    if (dropdownList) {
+      const isVisible = dropdownList.style.display === 'block';
+      hideAllDropdowns();
+      if (!isVisible) {
+        dropdownList.style.display = 'block';
+      }
+    }
+  };
+
+  function hideAllDropdowns() {
+    const dropdowns = [
+      'checkbox-list',
+      'year-checkbox-list', 
+      'detection-checkbox-list'
+    ];
+    
+    dropdowns.forEach(id => {
+      const dropdown = document.getElementById(id);
+      if (dropdown) {
+        dropdown.style.display = 'none';
+      }
+    });
+  }
+
+  // Enhanced toggle all functions with validation
+  window.toggleAll = function(checkbox) {
     const checkboxes = document.querySelectorAll('#checkbox-list input[type="checkbox"]:not([value="All"])');
     checkboxes.forEach(cb => cb.checked = checkbox.checked);
     updateSelection();
   };
 
-  // Toggle all Years
   window.toggleAllYears = function(checkbox) {
     const checkboxes = document.querySelectorAll('#year-checkbox-list input[type="checkbox"]:not([value="All"])');
     checkboxes.forEach(cb => cb.checked = checkbox.checked);
     updateYearSelection();
   };
 
-  // Toggle all Detection Methods
   window.toggleAllDetection = function(checkbox) {
     const checkboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]:not([value="All"])');
     checkboxes.forEach(cb => cb.checked = checkbox.checked);
     updateDetectionSelection();
   };
 
-  // ✅ Toggle all Detection Methods
-  window.toggleAllDetection = function (checkbox) {
-    const checkboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]:not([value="All"])');
-    checkboxes.forEach(cb => cb.checked = checkbox.checked);
-    updateDetectionSelection();
-  };
-
-  // Update detection method output + trigger chart
-  window.updateDetectionSelection = function () {
-    const checkboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]:not([value="All"])');
-    const allCheckbox = document.querySelector('#detection-checkbox-list input[value="All"]');
-    const output = document.getElementById('detection-selected-output');
-
-    const selected = [];
-    let allSelected = true;
-
-    checkboxes.forEach(cb => {
-      if (cb.checked) {
-        selected.push(cb.value);
-      } else {
-        allSelected = false;
-      }
-    });
-
-    if (allCheckbox) {
-      allCheckbox.checked = allSelected;
-    }
-
-    if (selected.length === 0) {
-      output.textContent = 'Selected: None';
-    } else if (allSelected) {
-      output.textContent = 'Selected: All';
-    } else {
-      output.textContent = `Selected: ${selected.join(', ')}`;
-    }
-
-    updateCharts(); // 🔁 refresh chart
-  };
-
-  // Update jurisdiction selection
-  window.updateSelection = function () {
+  // Enhanced selection update functions with state management
+  window.updateSelection = function() {
     const checkboxes = document.querySelectorAll('#checkbox-list input[type="checkbox"]:not([value="All"])');
     const allCheckbox = document.querySelector('#checkbox-list input[value="All"]');
     const output = document.getElementById('selected-output');
 
-    if (!output) return; // Guard clause if element doesn't exist
+    if (!output) return;
 
     const selected = [];
     let allSelected = true;
@@ -88,28 +98,36 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    // Update the "All" checkbox state
     if (allCheckbox) {
       allCheckbox.checked = allSelected;
     }
 
+    // Update display text
     if (selected.length === 0) {
       output.textContent = 'Selected: None';
     } else if (allSelected) {
       output.textContent = 'Selected: All';
     } else {
-      output.textContent = `Selected: ${selected.join(', ')}`;
+      const displayText = selected.length > 3 
+        ? `Selected: ${selected.slice(0, 3).join(', ')} +${selected.length - 3} more`
+        : `Selected: ${selected.join(', ')}`;
+      output.textContent = displayText;
     }
 
-    updateCharts(); // 🔁 Triggers update in chart
+    // Update global state
+    window.currentFilters.jurisdictions = selected;
+    
+    // Trigger chart updates with debouncing
+    debounceUpdate();
   };
 
-  // Update year selection text and trigger chart update
   window.updateYearSelection = function() {
     const checkboxes = document.querySelectorAll('#year-checkbox-list input[type="checkbox"]:not([value="All"])');
     const allCheckbox = document.querySelector('#year-checkbox-list input[value="All"]');
     const output = document.getElementById('year-selected-output');
     
-    if (!output) return; // Guard clause if element doesn't exist
+    if (!output) return;
 
     const selected = [];
     let allSelected = true;
@@ -131,19 +149,22 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (allSelected) {
       output.textContent = 'Selected: All';
     } else {
-      output.textContent = `Selected: ${selected.join(', ')}`;
+      const displayText = selected.length > 4 
+        ? `Selected: ${selected.slice(0, 4).join(', ')} +${selected.length - 4} more`
+        : `Selected: ${selected.join(', ')}`;
+      output.textContent = displayText;
     }
 
-    updateCharts(); // 🔁 Triggers update in chart
+    window.currentFilters.years = selected;
+    debounceUpdate();
   };
 
-  // Update detection method selection text and trigger chart update
   window.updateDetectionSelection = function() {
     const checkboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]:not([value="All"])');
     const allCheckbox = document.querySelector('#detection-checkbox-list input[value="All"]');
     const output = document.getElementById('detection-selected-output');
     
-    if (!output) return; // Guard clause if element doesn't exist
+    if (!output) return;
 
     const selected = [];
     let allSelected = true;
@@ -168,58 +189,133 @@ document.addEventListener("DOMContentLoaded", () => {
       output.textContent = `Selected: ${selected.join(', ')}`;
     }
 
-    updateCharts(); // refresh chart
+    window.currentFilters.detectionMethods = selected;
+    debounceUpdate();
   };
 
-  // RESET logic now supports jurisdiction
+  // Debounced update function to prevent excessive chart refreshes
+  let updateTimeout;
+  function debounceUpdate() {
+    clearTimeout(updateTimeout);
+    updateTimeout = setTimeout(() => {
+      console.log("Debounced update triggered with filters:", window.currentFilters);
+      updateCharts();
+    }, 300);
+  }
+
+  // Enhanced reset function
   function resetAllFilters() {
     console.log("Resetting all filters");
 
-    // Year reset (if applicable)
+    // Reset year checkboxes
     const yearCheckboxes = document.querySelectorAll('#year-checkbox-list input[type="checkbox"]');
     yearCheckboxes.forEach(cb => cb.checked = cb.value === 'All');
     const yearOutput = document.getElementById('year-selected-output');
     if (yearOutput) yearOutput.textContent = 'Selected: All';
 
-    // Detection reset
+    // Reset detection checkboxes
     const detectionCheckboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]');
     detectionCheckboxes.forEach(cb => cb.checked = cb.value === 'All');
     const detectionOutput = document.getElementById('detection-selected-output');
     if (detectionOutput) detectionOutput.textContent = 'Selected: All';
 
-    // ✅ Reset jurisdiction checkboxes
+    // Reset jurisdiction checkboxes
     const jurisdictionCheckboxes = document.querySelectorAll('#checkbox-list input[type="checkbox"]');
     jurisdictionCheckboxes.forEach(cb => cb.checked = cb.value === 'All');
     const jurisdictionOutput = document.getElementById('selected-output');
     if (jurisdictionOutput) jurisdictionOutput.textContent = 'Selected: All';
 
+    // Reset global state
+    window.currentFilters = {
+      jurisdictions: [],
+      years: [],
+      detectionMethods: []
+    };
+
+    // Hide all dropdowns
+    hideAllDropdowns();
+
+    // Trigger update
     updateCharts();
   }
 
+  // Attach reset button event
   const resetButton = document.getElementById('reset');
   if (resetButton) {
     resetButton.addEventListener('click', resetAllFilters);
   }
 
-  // Global chart update hook
+  // Enhanced chart update system with error handling
   window.updateCharts = function() {
-    if (window.updateJurisdictionMap) {
-      window.updateJurisdictionMap();
+    console.log("Global chart update requested");
+    
+    const updates = [];
+
+    // Age analysis chart
+    if (typeof window.updateChart === 'function') {
+      updates.push({ name: 'Age Analysis', fn: window.updateChart });
     }
-    if (window.updateChart) {
-      window.updateChart();
+
+    // Time trends chart
+    if (window.timeTrends && typeof window.timeTrends.updateChart === 'function') {
+      updates.push({ name: 'Time Trends', fn: window.timeTrends.updateChart });
+    }
+
+    // Jurisdiction map
+    if (typeof window.updateJurisdictionMap === 'function') {
+      updates.push({ name: 'Jurisdiction Map', fn: window.updateJurisdictionMap });
+    }
+
+    // Jurisdiction line chart
+    if (typeof window.updateJurisdictionLineChart === 'function') {
+      updates.push({ name: 'Jurisdiction Line', fn: window.updateJurisdictionLineChart });
+    }
+
+    // Jurisdiction area chart
+    if (typeof window.updateJurisdictionAreaChart === 'function') {
+      updates.push({ name: 'Jurisdiction Area', fn: window.updateJurisdictionAreaChart });
+    }
+
+    // Enhanced age analysis
+    if (window.enhancedAgeAnalysis && typeof window.enhancedAgeAnalysis.updateFilters === 'function') {
+      updates.push({ name: 'Enhanced Age Analysis', fn: window.enhancedAgeAnalysis.updateFilters });
+    }
+
+    // Enhanced time trends
+    if (window.enhancedTimeTrends && typeof window.enhancedTimeTrends.updateFilters === 'function') {
+      updates.push({ name: 'Enhanced Time Trends', fn: window.enhancedTimeTrends.updateFilters });
+    }
+
+    // Execute all updates with error handling
+    updates.forEach(update => {
+      try {
+        console.log(`Updating ${update.name}...`);
+        update.fn();
+      } catch (error) {
+        console.error(`Error updating ${update.name}:`, error);
+      }
+    });
+
+    if (updates.length === 0) {
+      console.log("No chart update functions found");
+    } else {
+      console.log(`Updated ${updates.length} visualizations`);
     }
   };
 
-  // Tabbed interface (unchanged)
+  // Enhanced tabbed interface with loading states
   const tabs = document.querySelectorAll('.viz-tab');
   const tabContents = document.querySelectorAll('.tab-content');
+
   if (tabs.length > 0) {
     tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        console.log("Tab clicked:", tab.getAttribute('data-tab'));
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetTab = tab.getAttribute('data-tab');
         
-        // Remove active class from all tabs and hide all content
+        console.log("Tab clicked:", targetTab);
+        
+        // Remove active class from all tabs
         tabs.forEach(t => t.classList.remove('active'));
         tabContents.forEach(c => c.style.display = 'none');
         
@@ -227,130 +323,215 @@ document.addEventListener("DOMContentLoaded", () => {
         tab.classList.add('active');
         
         // Show corresponding content
-        const contentId = tab.getAttribute('data-tab');
-        const contentElement = document.getElementById(contentId);
+        const contentElement = document.getElementById(targetTab);
         if (contentElement) {
           contentElement.style.display = 'block';
           
-          // Initialize or update the visualization based on the active tab
-          if (contentId === 'map-tab' && window.updateJurisdictionMap) {
-            console.log("Initializing map tab");
-            window.updateJurisdictionMap();
-          } else if (contentId === 'line-chart-tab' && window.updateJurisdictionLineChart) {
-            console.log("Initializing line chart tab");
-            window.updateJurisdictionLineChart();
-          } else if (contentId === 'stacked-area-tab' && window.updateJurisdictionAreaChart) {
-            console.log("Initializing area chart tab");
-            window.updateJurisdictionAreaChart();
-          }
+          // Initialize visualization based on tab with delay for DOM rendering
+          setTimeout(() => {
+            try {
+              switch(targetTab) {
+                case 'map-tab':
+                  if (window.updateJurisdictionMap) {
+                    window.updateJurisdictionMap();
+                  }
+                  break;
+                case 'line-chart-tab':
+                  if (window.updateJurisdictionLineChart) {
+                    window.updateJurisdictionLineChart();
+                  }
+                  break;
+                case 'stacked-area-tab':
+                  if (window.updateJurisdictionAreaChart) {
+                    window.updateJurisdictionAreaChart();
+                  }
+                  break;
+                case 'per-capita-tab':
+                case 'correlation-tab':
+                case 'regression-tab':
+                case 'statistical-tab':
+                  // Advanced analysis tabs - trigger specific updates if available
+                  if (window.updateAdvancedAnalysis) {
+                    window.updateAdvancedAnalysis(targetTab);
+                  }
+                  break;
+                case 'enhanced-time-trends':
+                  if (window.enhancedTimeTrends) {
+                    window.enhancedTimeTrends.updateFilters();
+                  }
+                  break;
+                case 'enhanced-age-chart':
+                  if (window.enhancedAgeAnalysis) {
+                    window.enhancedAgeAnalysis.updateFilters();
+                  }
+                  break;
+              }
+            } catch (error) {
+              console.error(`Error initializing ${targetTab}:`, error);
+            }
+          }, 100);
         }
       });
     });
     
-    // Activate the first tab or the one that's marked active
+    // Activate the first tab or the one marked active
     const activeTab = document.querySelector('.viz-tab.active') || tabs[0];
     if (activeTab) {
-      console.log("Activating initial tab:", activeTab.getAttribute('data-tab'));
-      activeTab.click();
+      setTimeout(() => {
+        activeTab.click();
+      }, 500); // Delay to ensure data is loaded
     }
   }
 
+  // Enhanced click outside handler
   document.addEventListener('click', (e) => {
-    const dropdowns = [
-      document.getElementById('year-checkbox-list'),
-      document.getElementById('detection-checkbox-list'),
-      document.getElementById('checkbox-list') // ✅ added jurisdiction
+    const dropdownSelectors = [
+      '.multi-select-wrapper',
+      '#checkbox-list',
+      '#year-checkbox-list',
+      '#detection-checkbox-list'
     ];
 
-    dropdowns.forEach(item => {
-      const dropdown = document.getElementById(item.id);
-      if (dropdown &&
-          !e.target.closest('.multi-select-wrapper') &&
-          dropdown.style.display === 'block') {
-        dropdown.style.display = 'none';
-      }
-    });
+    const clickedInsideDropdown = dropdownSelectors.some(selector => 
+      e.target.closest(selector)
+    );
+
+    if (!clickedInsideDropdown) {
+      hideAllDropdowns();
+    }
   });
 
-  // Style fixes
-  const style = document.createElement('style');
-  style.textContent = `
-    @media (max-width: 768px) {
-      .filter-bar {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      
-      .filter-group {
-        width: 100%;
-        margin-bottom: 15px;
-      }
-      
-      .multi-select-wrapper {
-        width: 100%;
-      }
-      
-      .checkbox-list {
-        width: 100%;
-      }
-      
-      #reset {
-        width: 100%;
-      }
-      
-      .viz-tabs {
-        flex-wrap: wrap;
-      }
-      
-      .viz-tab {
-        flex: 1 0 calc(50% - 10px);
-        margin-bottom: 10px;
-      }
-    }
-    
-    .checkbox-list {
-      display: none;
-      position: absolute;
-      z-index: 100;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      padding: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      max-height: 300px;
-      overflow-y: auto;
-      width: 100%;
+  // Data validation and error reporting
+  window.validateDataIntegrity = function() {
+    if (!window.roadSafetyData) {
+      console.warn("Road safety data not loaded");
+      return false;
     }
 
-    #map-tooltip {
-      position: absolute;
-      padding: 8px 12px;
-      background: rgba(0,0,0,0.8);
-      color: white;
-      border-radius: 4px;
-      font-size: 14px;
-      pointer-events: none;
-      z-index: 1000;
-      max-width: 250px;
-    }
+    const data = window.roadSafetyData;
     
-    .jurisdiction-line-tooltip, .jurisdiction-area-tooltip {
-      position: absolute;
-      padding: 8px 12px;
-      background: rgba(0,0,0,0.8);
-      color: white;
-      border-radius: 4px;
-      font-size: 12px;
-      pointer-events: none;
-      z-index: 1000;
-      max-width: 250px;
+    // Basic validation
+    const checks = [
+      { name: 'Raw data exists', test: () => data.raw && data.raw.length > 0 },
+      { name: 'Processed data exists', test: () => data.processed },
+      { name: 'Statistics available', test: () => data.stats },
+      { name: 'Year data exists', test: () => data.processed.byYear && data.processed.byYear.length > 0 },
+      { name: 'Age data exists', test: () => data.processed.byAgeGroup && data.processed.byAgeGroup.length > 0 },
+      { name: 'Jurisdiction data exists', test: () => data.processed.byJurisdiction && data.processed.byJurisdiction.length > 0 }
+    ];
+
+    let allPassed = true;
+    checks.forEach(check => {
+      try {
+        const passed = check.test();
+        console.log(`✓ ${check.name}: ${passed ? 'PASS' : 'FAIL'}`);
+        if (!passed) allPassed = false;
+      } catch (error) {
+        console.error(`✗ ${check.name}: ERROR`, error);
+        allPassed = false;
+      }
+    });
+
+    return allPassed;
+  };
+
+  // Initialize data validation when data loads
+  document.addEventListener('roadSafetyDataReady', function(event) {
+    console.log("Main script: Data ready event received");
+    
+    setTimeout(() => {
+      const isValid = window.validateDataIntegrity();
+      if (isValid) {
+        console.log("✓ Data integrity validation passed");
+        
+        // Initialize default filter states
+        updateSelection();
+        updateYearSelection();
+        updateDetectionSelection();
+        
+        // Trigger initial chart updates
+        setTimeout(() => {
+          updateCharts();
+        }, 1000);
+        
+      } else {
+        console.error("✗ Data integrity validation failed");
+      }
+    }, 500);
+  });
+
+  // Performance monitoring
+  window.measurePerformance = function(name, fn) {
+    const startTime = performance.now();
+    try {
+      const result = fn();
+      const endTime = performance.now();
+      console.log(`⏱️ ${name}: ${(endTime - startTime).toFixed(2)}ms`);
+      return result;
+    } catch (error) {
+      const endTime = performance.now();
+      console.error(`❌ ${name}: ${(endTime - startTime).toFixed(2)}ms (ERROR)`, error);
+      throw error;
     }
-  `;
-  document.head.appendChild(style);
-  
-  // Initialize any charts that might be on the page
-  if (typeof updateCharts === 'function') {
-    console.log("Initial chart update");
-    updateCharts();
+  };
+
+  // Accessibility improvements
+  function enhanceAccessibility() {
+    // Add keyboard navigation for dropdowns
+    document.querySelectorAll('.select-box').forEach(selectBox => {
+      selectBox.setAttribute('tabindex', '0');
+      selectBox.setAttribute('role', 'button');
+      selectBox.setAttribute('aria-haspopup', 'listbox');
+      
+      selectBox.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectBox.click();
+        }
+      });
+    });
+
+    // Add ARIA labels to checkboxes
+    document.querySelectorAll('.checkbox-list input[type="checkbox"]').forEach(checkbox => {
+      const label = checkbox.closest('label');
+      if (label) {
+        const labelText = label.textContent.trim();
+        checkbox.setAttribute('aria-label', `Filter by ${labelText}`);
+      }
+    });
+
+    // Add keyboard navigation for tabs
+    document.querySelectorAll('.viz-tab').forEach(tab => {
+      tab.setAttribute('tabindex', '0');
+      tab.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          tab.click();
+        }
+      });
+    });
   }
+
+  // Initialize accessibility enhancements
+  enhanceAccessibility();
+
+  // Add responsive behavior
+  function handleResize() {
+    // Trigger chart resize/redraw if needed
+    if (window.innerWidth !== window.lastWidth) {
+      window.lastWidth = window.innerWidth;
+      
+      // Debounce resize updates
+      clearTimeout(window.resizeTimeout);
+      window.resizeTimeout = setTimeout(() => {
+        console.log("Window resized, updating charts");
+        updateCharts();
+      }, 500);
+    }
+  }
+
+  window.addEventListener('resize', handleResize);
+  window.lastWidth = window.innerWidth;
+
+  console.log("Main script initialization complete");
 });
