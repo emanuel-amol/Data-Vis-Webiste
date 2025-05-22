@@ -4,9 +4,9 @@
 let jurisdictionAreaData = [];
 let jurisdictionAreaSvg, jurisdictionAreaX, jurisdictionAreaY, jurisdictionAreaTooltip;
 
-// Chart dimensions
-const jurisdictionAreaMargin = { top: 60, right: 150, bottom: 50, left: 80 };
-const jurisdictionAreaWidth = 800 - jurisdictionAreaMargin.left - jurisdictionAreaMargin.right;
+// Chart dimensions (make SVG and chart area fit the box)
+const jurisdictionAreaMargin = { top: 60, right: 180, bottom: 60, left: 80 };
+const jurisdictionAreaWidth = 1000 - jurisdictionAreaMargin.left - jurisdictionAreaMargin.right;
 const jurisdictionAreaHeight = 500 - jurisdictionAreaMargin.top - jurisdictionAreaMargin.bottom;
 
 // Color scale for different jurisdictions (same as line chart for consistency)
@@ -38,11 +38,13 @@ function initJurisdictionAreaChart() {
   const container = d3.select("#jurisdiction-area-chart");
   container.selectAll("*").remove(); // Clear any existing content
   
-  // Create SVG
+  // Create SVG that fills the parent container and fits the box, with white background
   const svg = d3.select("#jurisdiction-area-chart")
     .append("svg")
     .attr("width", jurisdictionAreaWidth + jurisdictionAreaMargin.left + jurisdictionAreaMargin.right)
-    .attr("height", jurisdictionAreaHeight + jurisdictionAreaMargin.top + jurisdictionAreaMargin.bottom);
+    .attr("height", jurisdictionAreaHeight + jurisdictionAreaMargin.top + jurisdictionAreaMargin.bottom)
+    .attr("viewBox", `0 0 ${jurisdictionAreaWidth + jurisdictionAreaMargin.left + jurisdictionAreaMargin.right} ${jurisdictionAreaHeight + jurisdictionAreaMargin.top + jurisdictionAreaMargin.bottom}`)
+    .style("background-color", "#fff");
 
   jurisdictionAreaSvg = svg.append("g")
     .attr("transform", `translate(${jurisdictionAreaMargin.left},${jurisdictionAreaMargin.top})`);
