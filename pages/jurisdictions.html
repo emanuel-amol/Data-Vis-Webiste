@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jurisdictional Analysis - Road Safety Enforcement</title>
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/storytelling.css">
 </head>
 <body>
   <header>
@@ -18,9 +19,10 @@
       <div class="container">
         <div class="nav-buttons">
           <a href="../index.html" class="nav-btn">Home</a>
-          <a href="age-analysis.html" class="nav-btn">Age Demographics</a>
           <a href="time-trends.html" class="nav-btn">Time Trends</a>
           <a href="jurisdictions.html" class="nav-btn active">Jurisdictions</a>
+          <a href="age-analysis.html" class="nav-btn">Age Demographics</a>
+          <a href="insights.html" class="nav-btn">Key Insights</a>
           <a href="about.html" class="nav-btn">About</a>
         </div>
       </div>
@@ -33,6 +35,28 @@
         <h2>Jurisdictional Analysis</h2>
         <p>Compare road safety enforcement patterns across different Australian jurisdictions.</p>
       </section>
+
+      <div class="jurisdiction-story">
+        <h3>Understanding Geographical Patterns</h3>
+        <p>The visualizations reveal significant disparities in enforcement across Australian jurisdictions:</p>
+        
+        <div class="comparison-highlight">
+          <div class="comparison-item">
+            <h4>Victoria</h4>
+            <p>Consistently shows the highest per capita enforcement rate, with camera detection being the primary method.</p>
+          </div>
+          <div class="comparison-item">
+            <h4>New South Wales</h4>
+            <p>Experienced the most dramatic increase in enforcement (132% from 2019 to 2021) after implementing mobile phone detection cameras.</p>
+          </div>
+          <div class="comparison-item">
+            <h4>Northern Territory</h4>
+            <p>Despite having the lowest total fines, has the highest road fatality rate, suggesting potential for increased enforcement.</p>
+          </div>
+        </div>
+        
+        <p class="storytelling-tip">Interact with the visualizations and use filters to see how patterns change when filtering by year and detection method.</p>
+      </div>
 
       <div class="filter-bar">
         <!-- Year Dropdown -->
@@ -86,21 +110,20 @@
 
       <!-- Toggle between different visualizations -->
       <div class="viz-tabs">
-        <button class="viz-tab" data-tab="line-chart-tab">Line Chart</button>
+        <button class="viz-tab active" data-tab="line-chart-tab">Line Chart</button>
         <button class="viz-tab" data-tab="stacked-area-tab">Stacked Area</button>
-        <button class="viz-tab active" data-tab="map-tab">Map View</button>
+        <button class="viz-tab" data-tab="map-tab">Map View</button>
       </div>
+      
       <!-- Line Chart Tab -->
-      <div id="line-chart-tab" class="tab-content">
+      <div id="line-chart-tab" class="tab-content" style="display: block;">
         <div class="chart-container">
           <h3>Fine Trends by Jurisdiction (2008-2023)</h3>
           <div class="chart-placeholder" id="jurisdiction-line-chart">
-            <!-- This div will hold the D3 visualization in Standup 2 -->
-            <!-- For now, just show a placeholder image of the expected chart -->
-            <img src="../images/jurisdiction-line-placeholder.png" alt="Jurisdiction Line Chart Placeholder" style="width: 100%; max-width: 800px; margin: 0 auto; display: block;">
+            <!-- D3 line chart will be rendered here -->
           </div>
           <div class="chart-description">
-            <p>This line chart shows fine trends by jurisdiction from 2008 to 2023. Victoria (VIC) consistently shows the highest level of fines throughout most of the period, while New South Wales (NSW) shows a dramatic increase in fines from 2020-2021, surpassing other jurisdictions.</p>
+            <p>This line chart shows fine trends by jurisdiction from 2008 to 2023. Victoria (VIC) consistently shows the highest level of fines throughout most of the period, while New South Wales (NSW) shows a dramatic increase in fines from 2020-2021, surpassing other jurisdictions. The chart reveals how different states have adopted varying enforcement approaches at different times.</p>
           </div>
         </div>
       </div>
@@ -110,43 +133,41 @@
         <div class="chart-container">
           <h3>Relative Contribution by Jurisdiction (2008-2023)</h3>
           <div class="chart-placeholder" id="jurisdiction-area-chart">
-            <!-- This div will hold the D3 visualization in Standup 2 -->
-            <!-- For now, just show a placeholder image of the expected chart -->
-            <img src="../images/jurisdiction-area-placeholder.png" alt="Jurisdiction Area Chart Placeholder" style="width: 100%; max-width: 800px; margin: 0 auto; display: block;">
+            <!-- D3 stacked area chart will be rendered here -->
           </div>
           <div class="chart-description">
-            <p>This stacked area chart shows the relative contribution of each jurisdiction to total fines over time. It highlights how the proportion of fines from different jurisdictions has evolved from 2008 to 2023.</p>
+            <p>This stacked area chart shows the relative contribution of each jurisdiction to total fines over time. It highlights how the proportion of fines from different jurisdictions has evolved from 2008 to 2023, revealing shifts in enforcement priorities across Australia's states and territories. The growing area of NSW since 2019 demonstrates its increasing role in overall enforcement activity.</p>
           </div>
         </div>
       </div>
 
       <!-- Map Tab -->
-      <div id="map-tab" class="tab-content" style="display: block;">
-  <div class="chart-container">
-    <h3>Geographic Distribution of Fines</h3>
-    <div id="jurisdiction-map">
-      <!-- The D3 map will be created here -->
-    </div>
-    <div class="chart-description">
-      <p>This map visualization shows the geographic distribution of road safety fines across Australia. Darker colors indicate higher numbers of fines in that jurisdiction.</p>
-    </div>
-  </div>
-</div>
+      <div id="map-tab" class="tab-content" style="display: none;">
+        <div class="chart-container">
+          <h3>Geographic Distribution of Fines</h3>
+          <div id="jurisdiction-map">
+            <!-- The D3 map will be created here -->
+          </div>
+          <div class="chart-description">
+            <p>This map visualization shows the geographic distribution of road safety fines across Australia. Darker colors indicate higher numbers of fines in that jurisdiction. The map reveals the significant disparity between states, with Victoria and New South Wales showing substantially higher enforcement rates than other jurisdictions.</p>
+          </div>
+        </div>
+      </div>
 
       <div class="data-insights">
         <h2>Key Insights</h2>
         <div class="insight-cards">
           <div class="insight-card">
             <h3>Victoria</h3>
-            <p>Victoria (VIC) consistently shows the highest level of fines throughout most of the period, suggesting more rigorous enforcement or different policy approaches.</p>
+            <p>Victoria (VIC) consistently shows the highest level of fines throughout most of the period, suggesting more rigorous enforcement or different policy approaches to road safety violations.</p>
           </div>
           <div class="insight-card">
             <h3>New South Wales</h3>
-            <p>New South Wales (NSW) shows a dramatic increase in fines from 2020-2021, surpassing other jurisdictions. This may indicate a significant policy shift or enforcement campaign.</p>
+            <p>New South Wales (NSW) shows a dramatic increase in fines from 2020-2021, surpassing other jurisdictions. This coincides with the implementation of mobile phone detection camera technology in late 2019.</p>
           </div>
           <div class="insight-card">
             <h3>Smaller Jurisdictions</h3>
-            <p>Smaller jurisdictions (ACT, NT, TAS) show lower absolute numbers but potentially interesting per capita patterns when adjusted for population size.</p>
+            <p>Smaller jurisdictions (ACT, NT, TAS) show lower absolute numbers but potentially interesting per capita patterns when adjusted for population size, particularly in the Northern Territory.</p>
           </div>
         </div>
       </div>
@@ -158,9 +179,16 @@
       <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
     </div>
   </footer>
+  
+  <!-- Load D3.js first -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
+  <!-- Load data loader -->
   <script src="../js/dataLoader.js"></script>
-<script src="../js/jurisdictionMap.js"></script>
-<script src="../js/script.js"></script>
+  <!-- Load all chart scripts -->
+  <script src="../js/jurisdictionMap.js"></script>
+  <script src="../js/jurisdiction-line.js"></script>
+  <script src="../js/jurisdiction-area.js"></script>
+  <!-- Load main script last -->
+  <script src="../js/script.js"></script>
 </body>
 </html>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About - Road Safety Enforcement</title>
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/storytelling.css">
 </head>
 <body>
 <header>
@@ -18,9 +19,10 @@
     <div class="container">
       <div class="nav-buttons">
         <a href="../index.html" class="nav-btn">Home</a>
-        <a href="age-analysis.html" class="nav-btn">Age Demographics</a>
         <a href="time-trends.html" class="nav-btn">Time Trends</a>
         <a href="jurisdictions.html" class="nav-btn">Jurisdictions</a>
+        <a href="age-analysis.html" class="nav-btn">Age Demographics</a>
+        <a href="insights.html" class="nav-btn">Key Insights</a>
         <a href="about.html" class="nav-btn active">About</a>
       </div>
     </div>
@@ -37,11 +39,16 @@
       <div class="about-section">
         <h3>Background and Motivation</h3>
         <p>Road safety enforcement is a critical component of public health and safety policy in Australia. The Bureau of Infrastructure and Transport Research Economics (BITRE) has been collecting and publishing Australian transport statistics since 1970, with road safety enforcement data collection dating back to 2008. In 2023, BITRE expanded their data collection to include more fine-grained details about road safety enforcement, including location, age groups, arrests, and charges.</p>
+        
+        <div class="story-highlight">
+          <p>Our project's core mission is to transform raw enforcement data into a compelling narrative that reveals patterns and insights to help improve road safety policy and public awareness.</p>
+        </div>
+        
         <p>Our visualization targets multiple audiences:</p>
         <ul>
-          <li>Policy Makers and law enforcement agencies who need to understand patterns in road safety violations to allocate resources effectively.</li>
-          <li>Road safety researchers seeking to analyse trends in enforcement data.</li>
-          <li>General public interested in understanding road safety enforcement in their jurisdiction.</li>
+          <li><strong>Policy Makers and law enforcement agencies</strong> who need to understand patterns in road safety violations to allocate resources effectively.</li>
+          <li><strong>Road safety researchers</strong> seeking to analyse trends in enforcement data.</li>
+          <li><strong>General public</strong> interested in understanding road safety enforcement in their jurisdiction.</li>
         </ul>
       </div>
 
@@ -73,13 +80,22 @@
       </div>
 
       <div class="about-section">
-        <h3>Visualization Design</h3>
-        <p>Our design approach focuses on clarity, accessibility, and interactivity. We've created visualizations that enable users to:</p>
+        <h3>Visualization Design & Storytelling Approach</h3>
+        <p>Our design approach focuses on clarity, accessibility, and narrative storytelling. We've created visualizations that guide users through a cohesive data journey:</p>
         <ul>
-          <li>Compare fine distributions across different age groups</li>
-          <li>Analyze trends in enforcement data over time (2008-2023)</li>
-          <li>Examine geographical patterns across Australian jurisdictions</li>
-          <li>Investigate the relationship between fines, arrests, and charges</li>
+          <li><strong>Time Trends Analysis:</strong> Establishes the historical context and overall patterns</li>
+          <li><strong>Jurisdictional Analysis:</strong> Explores geographical variations in enforcement</li>
+          <li><strong>Age Demographics Analysis:</strong> Examines demographic patterns that challenge common assumptions</li>
+          <li><strong>Key Insights:</strong> Synthesizes findings and offers actionable recommendations</li>
+        </ul>
+        
+        <p>Throughout our visualizations, we emphasize:</p>
+        <ul>
+          <li>Clear narrative structure to guide the user's understanding</li>
+          <li>Contextual information to explain why patterns matter</li>
+          <li>Visual hierarchy to highlight key findings</li>
+          <li>Interactive elements that encourage exploration</li>
+          <li>Synthesis of insights across different dimensions of the data</li>
         </ul>
         
         <p>The visualizations are built using D3.js, a powerful JavaScript library for creating data-driven documents. Users can interact with the visualizations through filtering options that allow for customized views of the data.</p>

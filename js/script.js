@@ -1,15 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("Script.js loaded and running");
+  
   // Toggle dropdown for Jurisdiction
   window.toggleDropdown = function () {
     const dropdownList = document.getElementById('checkbox-list');
-    if (dropdownList) {
-      dropdownList.style.display = dropdownList.style.display === 'block' ? 'none' : 'block';
-    }
-  };
-
-  // ✅ Toggle dropdown for Detection Method
-  window.toggleDetectionDropdown = function () {
-    const dropdownList = document.getElementById('detection-checkbox-list');
     if (dropdownList) {
       dropdownList.style.display = dropdownList.style.display === 'block' ? 'none' : 'block';
     }
@@ -20,6 +14,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const checkboxes = document.querySelectorAll('#checkbox-list input[type="checkbox"]:not([value="All"])');
     checkboxes.forEach(cb => cb.checked = checkbox.checked);
     updateSelection();
+  };
+
+  // Toggle all Years
+  window.toggleAllYears = function(checkbox) {
+    const checkboxes = document.querySelectorAll('#year-checkbox-list input[type="checkbox"]:not([value="All"])');
+    checkboxes.forEach(cb => cb.checked = checkbox.checked);
+    updateYearSelection();
+  };
+
+  // Toggle all Detection Methods
+  window.toggleAllDetection = function(checkbox) {
+    const checkboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]:not([value="All"])');
+    checkboxes.forEach(cb => cb.checked = checkbox.checked);
+    updateDetectionSelection();
   };
 
   // ✅ Toggle all Detection Methods
@@ -67,6 +75,76 @@ document.addEventListener("DOMContentLoaded", () => {
     const allCheckbox = document.querySelector('#checkbox-list input[value="All"]');
     const output = document.getElementById('selected-output');
 
+    if (!output) return; // Guard clause if element doesn't exist
+
+    const selected = [];
+    let allSelected = true;
+
+    checkboxes.forEach(cb => {
+      if (cb.checked) {
+        selected.push(cb.value);
+      } else {
+        allSelected = false;
+      }
+    });
+
+    if (allCheckbox) {
+      allCheckbox.checked = allSelected;
+    }
+
+    if (selected.length === 0) {
+      output.textContent = 'Selected: None';
+    } else if (allSelected) {
+      output.textContent = 'Selected: All';
+    } else {
+      output.textContent = `Selected: ${selected.join(', ')}`;
+    }
+
+    updateCharts(); // 🔁 Triggers update in chart
+  };
+
+  // Update year selection text and trigger chart update
+  window.updateYearSelection = function() {
+    const checkboxes = document.querySelectorAll('#year-checkbox-list input[type="checkbox"]:not([value="All"])');
+    const allCheckbox = document.querySelector('#year-checkbox-list input[value="All"]');
+    const output = document.getElementById('year-selected-output');
+    
+    if (!output) return; // Guard clause if element doesn't exist
+
+    const selected = [];
+    let allSelected = true;
+
+    checkboxes.forEach(cb => {
+      if (cb.checked) {
+        selected.push(cb.value);
+      } else {
+        allSelected = false;
+      }
+    });
+
+    if (allCheckbox) {
+      allCheckbox.checked = allSelected;
+    }
+
+    if (selected.length === 0) {
+      output.textContent = 'Selected: None';
+    } else if (allSelected) {
+      output.textContent = 'Selected: All';
+    } else {
+      output.textContent = `Selected: ${selected.join(', ')}`;
+    }
+
+    updateCharts(); // 🔁 Triggers update in chart
+  };
+
+  // Update detection method selection text and trigger chart update
+  window.updateDetectionSelection = function() {
+    const checkboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]:not([value="All"])');
+    const allCheckbox = document.querySelector('#detection-checkbox-list input[value="All"]');
+    const output = document.getElementById('detection-selected-output');
+    
+    if (!output) return; // Guard clause if element doesn't exist
+
     const selected = [];
     let allSelected = true;
 
@@ -93,6 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCharts(); // refresh chart
   };
 
+  // RESET logic now supports jurisdiction
   function resetAllFilters() {
     console.log("Resetting all filters");
 
@@ -108,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const detectionOutput = document.getElementById('detection-selected-output');
     if (detectionOutput) detectionOutput.textContent = 'Selected: All';
 
-    // Jurisdiction reset
+    // ✅ Reset jurisdiction checkboxes
     const jurisdictionCheckboxes = document.querySelectorAll('#checkbox-list input[type="checkbox"]');
     jurisdictionCheckboxes.forEach(cb => cb.checked = cb.value === 'All');
     const jurisdictionOutput = document.getElementById('selected-output');
@@ -122,49 +201,113 @@ document.addEventListener("DOMContentLoaded", () => {
     resetButton.addEventListener('click', resetAllFilters);
   }
 
-  window.updateCharts = function () {
-    if (window.updateJurisdictionMap) window.updateJurisdictionMap();
-    if (window.updateChart) window.updateChart();
+  // Global chart update hook
+  window.updateCharts = function() {
+    if (window.updateJurisdictionMap) {
+      window.updateJurisdictionMap();
+    }
+    if (window.updateChart) {
+      window.updateChart();
+    }
   };
 
-  // Tabs
+  // Tabbed interface (unchanged)
   const tabs = document.querySelectorAll('.viz-tab');
   const tabContents = document.querySelectorAll('.tab-content');
   if (tabs.length > 0) {
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
+        console.log("Tab clicked:", tab.getAttribute('data-tab'));
+        
+        // Remove active class from all tabs and hide all content
         tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
         tabContents.forEach(c => c.style.display = 'none');
+        
+        // Add active class to clicked tab
+        tab.classList.add('active');
+        
+        // Show corresponding content
         const contentId = tab.getAttribute('data-tab');
-        document.getElementById(contentId).style.display = 'block';
-        if (contentId === 'map-tab' && window.updateJurisdictionMap) {
-          window.updateJurisdictionMap();
+        const contentElement = document.getElementById(contentId);
+        if (contentElement) {
+          contentElement.style.display = 'block';
+          
+          // Initialize or update the visualization based on the active tab
+          if (contentId === 'map-tab' && window.updateJurisdictionMap) {
+            console.log("Initializing map tab");
+            window.updateJurisdictionMap();
+          } else if (contentId === 'line-chart-tab' && window.updateJurisdictionLineChart) {
+            console.log("Initializing line chart tab");
+            window.updateJurisdictionLineChart();
+          } else if (contentId === 'stacked-area-tab' && window.updateJurisdictionAreaChart) {
+            console.log("Initializing area chart tab");
+            window.updateJurisdictionAreaChart();
+          }
         }
       });
     });
-    tabs[0].click();
+    
+    // Activate the first tab or the one that's marked active
+    const activeTab = document.querySelector('.viz-tab.active') || tabs[0];
+    if (activeTab) {
+      console.log("Activating initial tab:", activeTab.getAttribute('data-tab'));
+      activeTab.click();
+    }
   }
 
   document.addEventListener('click', (e) => {
     const dropdowns = [
       document.getElementById('year-checkbox-list'),
       document.getElementById('detection-checkbox-list'),
-      document.getElementById('checkbox-list')
+      document.getElementById('checkbox-list') // ✅ added jurisdiction
     ];
 
-    dropdowns.forEach(dropdown => {
+    dropdowns.forEach(item => {
+      const dropdown = document.getElementById(item.id);
       if (dropdown &&
-        !e.target.closest('.multi-select-wrapper') &&
-        dropdown.style.display === 'block') {
+          !e.target.closest('.multi-select-wrapper') &&
+          dropdown.style.display === 'block') {
         dropdown.style.display = 'none';
       }
     });
   });
 
-  // Style patch
+  // Style fixes
   const style = document.createElement('style');
   style.textContent = `
+    @media (max-width: 768px) {
+      .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .filter-group {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      
+      .multi-select-wrapper {
+        width: 100%;
+      }
+      
+      .checkbox-list {
+        width: 100%;
+      }
+      
+      #reset {
+        width: 100%;
+      }
+      
+      .viz-tabs {
+        flex-wrap: wrap;
+      }
+      
+      .viz-tab {
+        flex: 1 0 calc(50% - 10px);
+        margin-bottom: 10px;
+      }
+    }
+    
     .checkbox-list {
       display: none;
       position: absolute;
@@ -190,6 +333,24 @@ document.addEventListener("DOMContentLoaded", () => {
       z-index: 1000;
       max-width: 250px;
     }
+    
+    .jurisdiction-line-tooltip, .jurisdiction-area-tooltip {
+      position: absolute;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      border-radius: 4px;
+      font-size: 12px;
+      pointer-events: none;
+      z-index: 1000;
+      max-width: 250px;
+    }
   `;
   document.head.appendChild(style);
+  
+  // Initialize any charts that might be on the page
+  if (typeof updateCharts === 'function') {
+    console.log("Initial chart update");
+    updateCharts();
+  }
 });

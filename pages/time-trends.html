@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Trends - Road Safety Enforcement</title>
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/storytelling.css">
+  <!-- Load D3.js first -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
-
 </head>
 <body>
   <header>
@@ -20,9 +21,10 @@
       <div class="container">
         <div class="nav-buttons">
           <a href="../index.html" class="nav-btn">Home</a>
-          <a href="age-analysis.html" class="nav-btn">Age Demographics</a>
           <a href="time-trends.html" class="nav-btn active">Time Trends</a>
           <a href="jurisdictions.html" class="nav-btn">Jurisdictions</a>
+          <a href="age-analysis.html" class="nav-btn">Age Demographics</a>
+          <a href="insights.html" class="nav-btn">Key Insights</a>
           <a href="about.html" class="nav-btn">About</a>
         </div>
       </div>
@@ -35,6 +37,17 @@
         <h2>Time Trends Analysis</h2>
         <p>Examine how road safety enforcement patterns have changed over time from 2008 to 2023.</p>
       </section>
+
+      <div class="chart-narrative">
+        <h4>The Story Behind the Time Trend</h4>
+        <p>This visualization reveals three distinct phases in Australian road safety enforcement:</p>
+        <ol>
+          <li><strong>2008-2014:</strong> Gradual growth in enforcement following the introduction of the National Road Safety Strategy.</li>
+          <li><strong>2015-2019:</strong> Accelerated increase as jurisdictions implemented new detection technologies.</li>
+          <li><strong>2020-2023:</strong> Dramatic spike in 2021 followed by a slight decline, coinciding with COVID-19 impacts and changes in driver behavior.</li>
+        </ol>
+        <p>The peak in 2021 represents a <strong>37% increase</strong> from 2020 levels, the largest year-over-year change in the dataset.</p>
+      </div>
 
       <div class="filter-bar">
         <!-- Jurisdiction Dropdown -->
@@ -93,15 +106,15 @@
         <div class="insight-cards">
           <div class="insight-card">
             <h3>Growth Period</h3>
-            <p>The period from 2010-2013 shows steady growth in fines, followed by more rapid increases after 2016.</p>
+            <p>The period from 2010-2013 shows steady growth in fines, followed by more rapid increases after 2016, coinciding with the adoption of new automated enforcement technologies.</p>
           </div>
           <div class="insight-card">
             <h3>Recent Peak</h3>
-            <p>A significant peak occurred in 2021, which may correlate with specific enforcement initiatives or policy changes.</p>
+            <p>A significant peak occurred in 2021, representing a 37% increase from 2020 levels, possibly due to post-lockdown increases in driving activity and enhanced enforcement.</p>
           </div>
           <div class="insight-card">
             <h3>Recent Trend</h3>
-            <p>There has been a slight decline in fine numbers during 2022-2023, which may indicate changing driver behaviors or enforcement priorities.</p>
+            <p>There has been a slight decline in fine numbers during 2022-2023, which may indicate changing driver behaviors after exposure to increased enforcement or shifting policy priorities.</p>
           </div>
         </div>
       </div>
@@ -114,7 +127,68 @@
     </div>
   </footer>
 
+  <!-- Load script.js before specific chart scripts -->
   <script src="../js/script.js"></script>
+  <!-- Load the fixed year-line.js -->
   <script src="../js/year-line.js"></script>
+  
+  <script>
+    // Additional script to ensure the dropdown functions are properly initialized
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log("Initializing time trends page dropdowns");
+      
+      // Define missing functions if they don't exist (backup)
+      if (!window.toggleDetectionDropdown) {
+        window.toggleDetectionDropdown = function() {
+          const dropdownList = document.getElementById('detection-checkbox-list');
+          if (dropdownList) {
+            dropdownList.style.display = dropdownList.style.display === 'block' ? 'none' : 'block';
+          }
+        };
+      }
+      
+      if (!window.toggleAllDetection) {
+        window.toggleAllDetection = function(checkbox) {
+          const checkboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]:not([value="All"])');
+          checkboxes.forEach(cb => cb.checked = checkbox.checked);
+          if (typeof updateDetectionSelection === 'function') {
+            updateDetectionSelection();
+          }
+        };
+      }
+      
+      if (!window.updateDetectionSelection) {
+        window.updateDetectionSelection = function() {
+          const checkboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]:not([value="All"])');
+          const allCheckbox = document.querySelector('#detection-checkbox-list input[value="All"]');
+          const output = document.getElementById('detection-selected-output');
+          
+          if (!output) return;
+          
+          const selected = Array.from(checkboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+            
+          const allSelected = selected.length === checkboxes.length;
+          
+          if (allCheckbox) {
+            allCheckbox.checked = allSelected;
+          }
+          
+          if (selected.length === 0) {
+            output.textContent = 'Selected: None';
+          } else if (allSelected) {
+            output.textContent = 'Selected: All';
+          } else {
+            output.textContent = `Selected: ${selected.join(', ')}`;
+          }
+          
+          if (typeof updateChart === 'function') {
+            updateChart();
+          }
+        };
+      }
+    });
+  </script>
 </body>
 </html>

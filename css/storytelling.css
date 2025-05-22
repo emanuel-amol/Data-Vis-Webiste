@@ -1,0 +1,431 @@
+/* storytelling.css - Add to your css folder */
+/* Add this file to your CSS directory and link it in your HTML files */
+
+/* Story highlight box for key insights */
+.story-highlight {
+  background-color: #f0f7ff;
+  border-left: 4px solid #3b82f6;
+  padding: 15px 20px;
+  margin: 20px 0;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Key statistics display */
+.key-stat {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #0C1A3C;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.stat-description {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Stat card design */
+.stat-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+/* Narrative sections */
+.chart-narrative {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  border-left: 4px solid #3b82f6;
+}
+
+.chart-narrative h4 {
+  margin-top: 0;
+  color: #0C1A3C;
+}
+
+/* Data story intro section */
+.data-story-intro {
+  margin: 40px 0;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Call to action button container */
+.cta-container {
+  text-align: center;
+  margin: 30px 0;
+}
+
+/* Comparative analysis components */
+.comparison-highlight {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.comparison-item {
+  flex: 1;
+  min-width: 250px;
+  background-color: white;
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.comparison-item h4 {
+  color: #0C1A3C;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+/* Storytelling tip - for user guidance */
+.storytelling-tip {
+  font-style: italic;
+  color: #666;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Age analysis specific components */
+.age-story-intro {
+  margin-bottom: 30px;
+}
+
+.age-insight {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.age-group-highlight {
+  flex: 1;
+  min-width: 250px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.highlight-value {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #3b82f6;
+  margin: 10px 0;
+}
+
+/* Question prompts to engage viewers */
+.question-prompt {
+  font-style: italic;
+  background-color: #f0f7ff;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+
+/* Key insights page components */
+.insights-summary {
+  margin: 20px 0 40px 0;
+}
+
+.insight-card-large {
+  background-color: white;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+}
+
+.insight-card-large h4 {
+  color: #0C1A3C;
+  margin-top: 0;
+  font-size: 1.3rem;
+}
+
+.recommendation {
+  background-color: #f0f7ff;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 15px;
+}
+
+/* Story journey path visualization */
+.story-path {
+  display: flex;
+  justify-content: space-between;
+  margin: 40px 0;
+  position: relative;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.story-node {
+  width: 20%;
+  position: relative;
+  z-index: 2;
+}
+
+.node-icon {
+  width: 60px;
+  height: 60px;
+  background-color: #3b82f6;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.node-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.story-line {
+  position: absolute;
+  top: 30px;
+  left: 10%;
+  right: 10%;
+  height: 3px;
+  background-color: #e5e5e5;
+  z-index: 1;
+}
+
+/* Annotation styles for charts */
+.annotation-label {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.annotation-text {
+  font-size: 11px;
+  fill: #555;
+}
+
+.annotation-line {
+  stroke: #999;
+  stroke-width: 1;
+  stroke-dasharray: 3,3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .comparison-highlight, .age-insight {
+    flex-direction: column;
+  }
+  
+  .story-path {
+    flex-wrap: wrap;
+  }
+  
+  .story-node {
+    width: 45%;
+    margin-bottom: 20px;
+  }
+  
+  .key-stat {
+    font-size: 1.8rem;
+  }
+}
+
+/* Add these responsive improvements to storytelling.css */
+
+/* Improved responsive design */
+@media (max-width: 768px) {
+  /* Storytelling elements */
+  .story-highlight {
+    padding: 12px 15px;
+  }
+  
+  .key-stat {
+    font-size: 1.8rem;
+  }
+  
+  .stat-card {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .chart-narrative {
+    padding: 15px;
+  }
+  
+  .comparison-highlight {
+    flex-direction: column;
+  }
+  
+  .comparison-item {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .age-insight {
+    flex-direction: column;
+  }
+  
+  .age-group-highlight {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .highlight-value {
+    font-size: 1.5rem;
+  }
+  
+  .story-path {
+    flex-wrap: wrap;
+  }
+  
+  .story-node {
+    width: 45%;
+    margin-bottom: 20px;
+  }
+  
+  .node-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+  
+  .story-line {
+    display: none; /* Hide on mobile */
+  }
+  
+  .insight-card-large {
+    padding: 20px;
+  }
+  
+  /* Fixes for charts and visualizations */
+  svg {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 500px;
+  }
+  
+  .chart-placeholder {
+    min-height: 250px;
+  }
+}
+
+/* Ensure tooltips work properly on all devices */
+#tooltip, #map-tooltip {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none;
+  max-width: 90vw; /* Prevent overflowing viewport */
+}
+
+/* Make filter dropdowns more robust */
+.checkbox-list {
+  width: 100%;
+  max-width: 300px;
+  z-index: 100;
+}
+
+/* Fix for small screens filter bar */
+@media (max-width: 576px) {
+  .filter-bar {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .filter-group {
+    min-width: 100%;
+  }
+  
+  .filter-group:last-child {
+    align-items: center;
+  }
+  
+  #reset {
+    width: 100%;
+  }
+  
+  .multi-select-wrapper {
+    width: 100%;
+  }
+  
+  .select-box {
+    width: 100%;
+  }
+  
+  .viz-tabs {
+    flex-direction: column;
+  }
+  
+  .viz-tab {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+}
+
+/* Chart container adaptations */
+.chart-container {
+  overflow-x: auto; /* Allow horizontal scrolling if needed */
+}
+
+/* Adapt the page header */
+@media (max-width: 576px) {
+  .page-header {
+    padding: 20px 0;
+  }
+  
+  .page-header h2 {
+    font-size: 1.4rem;
+  }
+  
+  /* Simplify data insights cards */
+  .data-insights {
+    padding: 20px 0;
+  }
+  
+  .insight-cards {
+    display: block;
+  }
+  
+  .insight-card {
+    width: 100%;
+    max-width: none;
+    margin-bottom: 15px;
+  }
+}
+
+/* Fix dropdown menu opening */
+.multi-select-wrapper {
+  position: relative;
+}
+
+.checkbox-list {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin-top: 5px;
+}
+
+/* Ensure chart containers work properly on mobile */
+@media (max-width: 576px) {
+  .chart-placeholder svg {
+    max-width: 100%;
+    max-height: 350px;
+  }
+}
