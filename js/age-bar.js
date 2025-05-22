@@ -262,44 +262,40 @@ function updateChart() {
     .style("font-weight", d => d.AGE_GROUP === "40-64" ? "bold" : "normal")
     .text(d => d.FINES.toLocaleString());
 
-  // Add a contextual story box
-  svg.append("rect")
-    .attr("x", width - 200)
-    .attr("y", 10)
-    .attr("width", 190)
-    .attr("height", 100)
-    .attr("fill", "#f8f9fa")
-    .attr("stroke", "#ddd")
-    .attr("stroke-width", 1)
-    .attr("rx", 4);
-  
-  svg.append("text")
-    .attr("x", width - 190)
-    .attr("y", 30)
-    .attr("font-size", "12px")
-    .attr("font-weight", "bold")
-    .text("Key Finding:");
-  
-  svg.append("text")
-    .attr("x", width - 190)
-    .attr("y", 50)
-    .attr("font-size", "11px")
-    .attr("fill", "#333")
-    .text("Middle-aged adults (40-64)");
-  
-  svg.append("text")
-    .attr("x", width - 190)
-    .attr("y", 65)
-    .attr("font-size", "11px")
-    .attr("fill", "#333")
-    .text("receive the most fines despite");
-  
-  svg.append("text")
-    .attr("x", width - 190)
-    .attr("y", 80)
-    .attr("font-size", "11px")
-    .attr("fill", "#333")
-    .text("having more driving experience.");
+  // Remove contextual story box (Key Finding)
+  // svg.append("rect")
+  //   .attr("x", width - 200)
+  //   .attr("y", 10)
+  //   .attr("width", 190)
+  //   .attr("height", 100)
+  //   .attr("fill", "#f8f9fa")
+  //   .attr("stroke", "#ddd")
+  //   .attr("stroke-width", 1)
+  //   .attr("rx", 4);
+  // svg.append("text")
+  //   .attr("x", width - 190)
+  //   .attr("y", 30)
+  //   .attr("font-size", "12px")
+  //   .attr("font-weight", "bold")
+  //   .text("Key Finding:");
+  // svg.append("text")
+  //   .attr("x", width - 190)
+  //   .attr("y", 50)
+  //   .attr("font-size", "11px")
+  //   .attr("fill", "#333")
+  //   .text("Middle-aged adults (40-64)");
+  // svg.append("text")
+  //   .attr("x", width - 190)
+  //   .attr("y", 65)
+  //   .attr("font-size", "11px")
+  //   .attr("fill", "#333")
+  //   .text("receive the most fines despite");
+  // svg.append("text")
+  //   .attr("x", width - 190)
+  //   .attr("y", 80)
+  //   .attr("font-size", "11px")
+  //   .attr("fill", "#333")
+  //   .text("having more driving experience.");
 
   // Add annotation for the surprisingly low young driver rate
   const youngDriverData = orderedData.find(d => d.AGE_GROUP === "17-25");
@@ -357,15 +353,15 @@ function updateChart() {
         .text(d.label);
     });
 
-  // After you have orderedData:
-  const maxGroup = orderedData.reduce((max, d) => d.FINES > max.FINES ? d : max, orderedData[0]);
-  const keyFindingBox = document.getElementById('key-finding-box');
-  if (keyFindingBox) {
-    keyFindingBox.innerHTML = `
-      <strong>Key Finding:</strong><br>
-      ${maxGroup.AGE_GROUP} group receives the most fines (${maxGroup.FINES.toLocaleString()})
-    `;
-  }
+  // Remove key finding box update
+  // const maxGroup = orderedData.reduce((max, d) => d.FINES > max.FINES ? d : max, orderedData[0]);
+  // const keyFindingBox = document.getElementById('key-finding-box');
+  // if (keyFindingBox) {
+  //   keyFindingBox.innerHTML = `
+  //     <strong>Key Finding:</strong><br>
+  //     ${maxGroup.AGE_GROUP} group receives the most fines (${maxGroup.FINES.toLocaleString()})
+  //   `;
+  // }
 }
 
 // 🔁 Hook into global updateCharts so `script.js` reset works
