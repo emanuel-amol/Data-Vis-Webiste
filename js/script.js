@@ -1,21 +1,68 @@
 document.addEventListener("DOMContentLoaded", () => {
   // Toggle dropdown for Jurisdiction
-  window.toggleDropdown = function() {
+  window.toggleDropdown = function () {
     const dropdownList = document.getElementById('checkbox-list');
     if (dropdownList) {
       dropdownList.style.display = dropdownList.style.display === 'block' ? 'none' : 'block';
     }
   };
 
+  // ✅ Toggle dropdown for Detection Method
+  window.toggleDetectionDropdown = function () {
+    const dropdownList = document.getElementById('detection-checkbox-list');
+    if (dropdownList) {
+      dropdownList.style.display = dropdownList.style.display === 'block' ? 'none' : 'block';
+    }
+  };
+
   // Toggle all Jurisdictions
-  window.toggleAll = function(checkbox) {
+  window.toggleAll = function (checkbox) {
     const checkboxes = document.querySelectorAll('#checkbox-list input[type="checkbox"]:not([value="All"])');
     checkboxes.forEach(cb => cb.checked = checkbox.checked);
     updateSelection();
   };
 
-  // Update jurisdiction selection text and trigger chart update
-  window.updateSelection = function() {
+  // ✅ Toggle all Detection Methods
+  window.toggleAllDetection = function (checkbox) {
+    const checkboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]:not([value="All"])');
+    checkboxes.forEach(cb => cb.checked = checkbox.checked);
+    updateDetectionSelection();
+  };
+
+  // Update detection method output + trigger chart
+  window.updateDetectionSelection = function () {
+    const checkboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]:not([value="All"])');
+    const allCheckbox = document.querySelector('#detection-checkbox-list input[value="All"]');
+    const output = document.getElementById('detection-selected-output');
+
+    const selected = [];
+    let allSelected = true;
+
+    checkboxes.forEach(cb => {
+      if (cb.checked) {
+        selected.push(cb.value);
+      } else {
+        allSelected = false;
+      }
+    });
+
+    if (allCheckbox) {
+      allCheckbox.checked = allSelected;
+    }
+
+    if (selected.length === 0) {
+      output.textContent = 'Selected: None';
+    } else if (allSelected) {
+      output.textContent = 'Selected: All';
+    } else {
+      output.textContent = `Selected: ${selected.join(', ')}`;
+    }
+
+    updateCharts(); // 🔁 refresh chart
+  };
+
+  // Update jurisdiction selection
+  window.updateSelection = function () {
     const checkboxes = document.querySelectorAll('#checkbox-list input[type="checkbox"]:not([value="All"])');
     const allCheckbox = document.querySelector('#checkbox-list input[value="All"]');
     const output = document.getElementById('selected-output');
@@ -43,35 +90,31 @@ document.addEventListener("DOMContentLoaded", () => {
       output.textContent = `Selected: ${selected.join(', ')}`;
     }
 
-    updateCharts(); // 🔁 Triggers update in chart
+    updateCharts(); // refresh chart
   };
 
-  // RESET logic now supports jurisdiction
   function resetAllFilters() {
     console.log("Resetting all filters");
 
-    // Reset year checkboxes
+    // Year reset (if applicable)
     const yearCheckboxes = document.querySelectorAll('#year-checkbox-list input[type="checkbox"]');
     yearCheckboxes.forEach(cb => cb.checked = cb.value === 'All');
-    if (document.getElementById('year-selected-output')) {
-      document.getElementById('year-selected-output').textContent = 'Selected: All';
-    }
+    const yearOutput = document.getElementById('year-selected-output');
+    if (yearOutput) yearOutput.textContent = 'Selected: All';
 
-    // Reset detection checkboxes
+    // Detection reset
     const detectionCheckboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]');
     detectionCheckboxes.forEach(cb => cb.checked = cb.value === 'All');
-    if (document.getElementById('detection-selected-output')) {
-      document.getElementById('detection-selected-output').textContent = 'Selected: All';
-    }
+    const detectionOutput = document.getElementById('detection-selected-output');
+    if (detectionOutput) detectionOutput.textContent = 'Selected: All';
 
-    // ✅ Reset jurisdiction checkboxes
+    // Jurisdiction reset
     const jurisdictionCheckboxes = document.querySelectorAll('#checkbox-list input[type="checkbox"]');
     jurisdictionCheckboxes.forEach(cb => cb.checked = cb.value === 'All');
-    if (document.getElementById('selected-output')) {
-      document.getElementById('selected-output').textContent = 'Selected: All';
-    }
+    const jurisdictionOutput = document.getElementById('selected-output');
+    if (jurisdictionOutput) jurisdictionOutput.textContent = 'Selected: All';
 
-    updateCharts(); // refresh charts
+    updateCharts();
   }
 
   const resetButton = document.getElementById('reset');
@@ -79,20 +122,14 @@ document.addEventListener("DOMContentLoaded", () => {
     resetButton.addEventListener('click', resetAllFilters);
   }
 
-  // Global chart update hook
-  window.updateCharts = function() {
-    if (window.updateJurisdictionMap) {
-      window.updateJurisdictionMap();
-    }
-    if (window.updateChart) {
-      window.updateChart();
-    }
+  window.updateCharts = function () {
+    if (window.updateJurisdictionMap) window.updateJurisdictionMap();
+    if (window.updateChart) window.updateChart();
   };
 
-  // Tabbed interface (unchanged)
+  // Tabs
   const tabs = document.querySelectorAll('.viz-tab');
   const tabContents = document.querySelectorAll('.tab-content');
-
   if (tabs.length > 0) {
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
@@ -109,24 +146,23 @@ document.addEventListener("DOMContentLoaded", () => {
     tabs[0].click();
   }
 
-  // Close dropdowns if clicked outside
   document.addEventListener('click', (e) => {
     const dropdowns = [
       document.getElementById('year-checkbox-list'),
       document.getElementById('detection-checkbox-list'),
-      document.getElementById('checkbox-list') // ✅ added jurisdiction
+      document.getElementById('checkbox-list')
     ];
 
     dropdowns.forEach(dropdown => {
       if (dropdown &&
-          !e.target.closest('.multi-select-wrapper') &&
-          dropdown.style.display === 'block') {
+        !e.target.closest('.multi-select-wrapper') &&
+        dropdown.style.display === 'block') {
         dropdown.style.display = 'none';
       }
     });
   });
 
-  // Style fixes
+  // Style patch
   const style = document.createElement('style');
   style.textContent = `
     .checkbox-list {
