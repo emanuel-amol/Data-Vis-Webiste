@@ -43,66 +43,10 @@
           </div>
         </div>
         <p>Our comprehensive data visualization explores 15 years of road safety enforcement data (5,017 records) using interactive analytics to uncover patterns that can help improve safety strategies and save lives.</p>
-        
-        <!-- Interactive preview widgets -->
-        <div class="preview-widgets">
-          <div class="mini-chart" id="trend-preview">
-            <h4>Trend Preview</h4>
-            <div class="sparkline-container">
-              <div class="loading-state">Loading trend data...</div>
-            </div>
-          </div>
-          <div class="mini-chart" id="jurisdiction-preview">
-            <h4>Top Jurisdictions</h4>
-            <div class="mini-bar-container">
-              <div class="loading-state">Loading jurisdiction data...</div>
-            </div>
-          </div>
-          <div class="mini-chart" id="age-preview">
-            <h4>Age Distribution</h4>
-            <div class="mini-pie-container">
-              <div class="loading-state">Loading age data...</div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
     <div class="container">
-      <!-- Interactive Statistics Dashboard -->
-      <section class="stats-dashboard">
-        <h2>Key Statistics</h2>
-        <div class="stats-grid">
-          <div class="stat-card interactive-stat" data-detail="total-fines">
-            <div class="stat-icon">📊</div>
-            <span class="key-stat counter" data-target="2847297" id="total-fines-stat">Loading...</span>
-            <span class="stat-description">Total fines issued (2008-2023)</span>
-            <div class="stat-change positive">↑ Based on 5,017 enforcement records</div>
-          </div>
-          
-          <div class="stat-card interactive-stat" data-detail="peak-year">
-            <div class="stat-icon">📈</div>
-            <span class="key-stat" id="peak-year-stat">2021</span>
-            <span class="stat-description">Peak enforcement year</span>
-            <div class="stat-change positive">↑ 37% increase from 2020</div>
-          </div>
-          
-          <div class="stat-card interactive-stat" data-detail="jurisdictions">
-            <div class="stat-icon">🗺️</div>
-            <span class="key-stat">NSW & VIC</span>
-            <span class="stat-description">Leading enforcement jurisdictions</span>
-            <div class="stat-change neutral">~65% of total enforcement activity</div>
-          </div>
-          
-          <div class="stat-card interactive-stat" data-detail="age-groups">
-            <div class="stat-icon">👥</div>
-            <span class="key-stat">40-64</span>
-            <span class="stat-description">Age group with most fines</span>
-            <div class="stat-change positive">↑ Challenges youth stereotype</div>
-          </div>
-        </div>
-      </section>
-
       <!-- Enhanced Story Path with Interactive Elements -->
       <section class="overview">
         <h2>Follow the Data Journey</h2>
@@ -206,9 +150,6 @@
               <span class="feature-stat" id="age-stat-display">Loading...</span>
               <span class="feature-label">40-64 age group share</span>
             </div>
-            <div class="feature-preview" id="age-preview-chart">
-              <div class="loading-state">Analyzing age distribution...</div>
-            </div>
             <a href="pages/age-analysis.html" class="feature-link">Explore Demographics</a>
           </div>
           
@@ -223,9 +164,6 @@
             <div class="feature-stats">
               <span class="feature-stat">37%</span>
               <span class="feature-label">2020 to 2021 increase</span>
-            </div>
-            <div class="feature-preview" id="trends-preview-chart">
-              <div class="loading-state">Analyzing trends...</div>
             </div>
             <a href="pages/time-trends.html" class="feature-link">Explore Trends</a>
           </div>
@@ -242,29 +180,7 @@
               <span class="feature-stat">8</span>
               <span class="feature-label">jurisdictions analyzed</span>
             </div>
-            <div class="feature-preview" id="jurisdiction-preview-chart">
-              <div class="loading-state">Mapping enforcement data...</div>
-            </div>
             <a href="pages/jurisdictions.html" class="feature-link">Explore Geography</a>
-          </div>
-          
-          <div class="feature-card enhanced new" data-feature="comparative">
-            <div class="feature-icon">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-              </svg>
-            </div>
-            <div class="new-badge">NEW</div>
-            <h3>Statistical Analysis</h3>
-            <p>Advanced statistical methods including confidence intervals, correlation analysis, and significance testing provide robust insights.</p>
-            <div class="feature-stats">
-              <span class="feature-stat">95%</span>
-              <span class="feature-label">confidence intervals</span>
-            </div>
-            <div class="feature-preview" id="comparative-preview-chart">
-              <div class="loading-state">Running statistical analysis...</div>
-            </div>
-            <a href="pages/comparative-analysis.html" class="feature-link">Advanced Analytics</a>
           </div>
         </div>
       </section>

@@ -38,13 +38,11 @@ function initJurisdictionLineChart() {
   const container = d3.select("#jurisdiction-line-chart");
   container.selectAll("*").remove(); // Clear any existing content
   
-  // Create SVG that fills the parent container and fits the box, with white background
+  // Create SVG
   const svg = d3.select("#jurisdiction-line-chart")
     .append("svg")
     .attr("width", jurisdictionLineWidth + jurisdictionLineMargin.left + jurisdictionLineMargin.right)
-    .attr("height", jurisdictionLineHeight + jurisdictionLineMargin.top + jurisdictionLineMargin.bottom)
-    .attr("viewBox", `0 0 ${jurisdictionLineWidth + jurisdictionLineMargin.left + jurisdictionLineMargin.right} ${jurisdictionLineHeight + jurisdictionLineMargin.top + jurisdictionLineMargin.bottom}`)
-    .style("background-color", "#fff");
+    .attr("height", jurisdictionLineHeight + jurisdictionLineMargin.top + jurisdictionLineMargin.bottom);
 
   jurisdictionLineSvg = svg.append("g")
     .attr("transform", `translate(${jurisdictionLineMargin.left},${jurisdictionLineMargin.top})`);
