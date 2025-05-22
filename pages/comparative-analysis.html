@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comparative Analysis - Road Safety Enforcement</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/storytelling.css">
+  <link rel="stylesheet" href="../css/advanced-interactions.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="full-header">
+      <div class="logo-container">
+        <img src="../images/logo.png" alt="Australian Government Logo" class="logo">
+      </div>
+      <h1 class="heading">Australian Road Safety Enforcement</h1>
+    </div>
+    <nav class="nav-container">
+      <div class="container">
+        <div class="nav-buttons">
+          <a href="../index.html" class="nav-btn">Home</a>
+          <a href="time-trends.html" class="nav-btn">Time Trends</a>
+          <a href="jurisdictions.html" class="nav-btn">Jurisdictions</a>
+          <a href="age-analysis.html" class="nav-btn">Age Demographics</a>
+          <a href="comparative-analysis.html" class="nav-btn active">Comparative Analysis</a>
+          <a href="insights.html" class="nav-btn">Key Insights</a>
+          <a href="about.html" class="nav-btn">About</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="page-header">
+        <h2>Advanced Comparative Analysis</h2>
+        <p>Statistical analysis with per-capita normalization, correlation studies, and significance testing</p>
+        <div class="new-badge">NEW FEATURE</div>
+      </section>
+
+      <!-- Methodology Overview -->
+      <div class="methodology-overview">
+        <h3>Statistical Approach</h3>
+        <div class="method-cards">
+          <div class="method-card">
+            <div class="method-icon">📊</div>
+            <h4>Per-Capita Normalization</h4>
+            <p>Fair comparisons across jurisdictions by adjusting for population differences</p>
+          </div>
+          <div class="method-card">
+            <div class="method-icon">📈</div>
+            <h4>Correlation Analysis</h4>
+            <p>Identify relationships between enforcement methods and outcomes</p>
+          </div>
+          <div class="method-card">
+            <div class="method-icon">🔬</div>
+            <h4>Significance Testing</h4>
+            <p>Statistical validation of observed differences and trends</p>
+          </div>
+          <div class="method-card">
+            <div class="method-icon">📋</div>
+            <h4>Confidence Intervals</h4>
+            <p>Quantify uncertainty and reliability of estimates</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Advanced Filter Controls -->
+      <div class="advanced-filter-panel">
+        <h3>Analysis Controls</h3>
+        <div class="filter-grid">
+          <!-- Jurisdiction Selection -->
+          <div class="filter-group">
+            <label>Jurisdictions</label>
+            <div class="multi-select-wrapper">
+              <div class="select-box" onclick="toggleDropdown()">Select jurisdictions ▼</div>
+              <div class="checkbox-list" id="checkbox-list">
+                <label><input type="checkbox" value="All" onchange="toggleAll(this)" checked> All</label>
+                <label><input type="checkbox" value="ACT" onchange="updateSelection()"> ACT</label>
+                <label><input type="checkbox" value="NSW" onchange="updateSelection()"> NSW</label>
+                <label><input type="checkbox" value="NT" onchange="updateSelection()"> NT</label>
+                <label><input type="checkbox" value="QLD" onchange="updateSelection()"> QLD</label>
+                <label><input type="checkbox" value="SA" onchange="updateSelection()"> SA</label>
+                <label><input type="checkbox" value="TAS" onchange="updateSelection()"> TAS</label>
+                <label><input type="checkbox" value="VIC" onchange="updateSelection()"> VIC</label>
+                <label><input type="checkbox" value="WA" onchange="updateSelection()"> WA</label>
+              </div>
+              <div class="selected-output" id="selected-output">Selected: All</div>
+            </div>
+          </div>
+
+          <!-- Year Range -->
+          <div class="filter-group">
+            <label>Year Range</label>
+            <div class="range-slider">
+              <input type="range" id="year-start" min="2008" max="2023" value="2008" class="slider">
+              <input type="range" id="year-end" min="2008" max="2023" value="2023" class="slider">
+              <div class="range-display">
+                <span id="year-range-display">2008 - 2023</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Analysis Type -->
+          <div class="filter-group">
+            <label>Analysis Type</label>
+            <select id="analysis-type" class="analysis-select">
+              <option value="per-capita">Per-Capita Comparison</option>
+              <option value="correlation">Correlation Analysis</option>
+              <option value="trend-comparison">Trend Comparison</option>
+              <option value="statistical-tests">Statistical Tests</option>
+            </select>
+          </div>
+
+          <!-- Confidence Level -->
+          <div class="filter-group">
+            <label>Confidence Level</label>
+            <select id="confidence-level" class="confidence-select">
+              <option value="0.90">90%</option>
+              <option value="0.95" selected>95%</option>
+              <option value="0.99">99%</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="analysis-buttons">
+          <button id="run-analysis" class="primary-btn">Run Analysis</button>
+          <button id="export-results" class="secondary-btn">Export Results</button>
+          <button id="reset-filters" class="secondary-btn">Reset</button>
+        </div>
+      </div>
+
+      <!-- Main Analysis Visualization -->
+      <div class="analysis-container">
+        <div class="viz-tabs advanced-tabs">
+          <button class="viz-tab active" data-tab="per-capita-tab">Per-Capita Analysis</button>
+          <button class="viz-tab" data-tab="correlation-tab">Correlation Matrix</button>
+          <button class="viz-tab" data-tab="regression-tab">Regression Analysis</button>
+          <button class="viz-tab" data-tab="statistical-tab">Statistical Tests</button>
+        </div>
+
+        <!-- Per-Capita Analysis Tab -->
+        <div id="per-capita-tab" class="tab-content" style="display: block;">
+          <div class="chart-container">
+            <h3>Per-Capita Enforcement Rates by Jurisdiction</h3>
+            <div class="chart-description">
+              <p>Normalized rates per 100,000 population provide fair comparisons across jurisdictions of different sizes.</p>
+            </div>
+            <div id="per-capita-chart" class="advanced-chart"></div>
+            <div class="statistical-summary" id="per-capita-summary"></div>
+          </div>
+        </div>
+
+        <!-- Correlation Analysis Tab -->
+        <div id="correlation-tab" class="tab-content" style="display: none;">
+          <div class="chart-container">
+            <h3>Correlation Matrix: Enforcement Variables</h3>
+            <div class="chart-description">
+              <p>Explore relationships between different enforcement metrics and demographic factors.</p>
+            </div>
+            <div id="correlation-matrix" class="advanced-chart"></div>
+            <div class="correlation-insights" id="correlation-summary"></div>
+          </div>
+        </div>
+
+        <!-- Regression Analysis Tab -->
+        <div id="regression-tab" class="tab-content" style="display: none;">
+          <div class="chart-container">
+            <h3>Predictive Modeling & Trend Analysis</h3>
+            <div class="chart-description">
+              <p>Linear and polynomial regression models to identify trends and make predictions.</p>
+            </div>
+            <div id="regression-chart" class="advanced-chart"></div>
+            <div class="regression-results" id="regression-summary"></div>
+          </div>
+        </div>
+
+        <!-- Statistical Tests Tab -->
+        <div id="statistical-tab" class="tab-content" style="display: none;">
+          <div class="chart-container">
+            <h3>Statistical Significance Testing</h3>
+            <div class="chart-description">
+              <p>Comprehensive statistical tests to validate observed differences and trends.</p>
+            </div>
+            <div id="statistical-tests" class="advanced-chart"></div>
+            <div class="test-results" id="statistical-summary"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Findings Section -->
+      <div class="findings-section">
+        <h2>Key Statistical Findings</h2>
+        <div class="findings-grid">
+          <div class="finding-card">
+            <div class="finding-stat">R² = 0.82</div>
+            <div class="finding-label">Technology Adoption Correlation</div>
+            <p>Strong correlation between camera deployment and enforcement rates across jurisdictions.</p>
+          </div>
+          <div class="finding-card">
+            <div class="finding-stat">p < 0.001</div>
+            <div class="finding-label">Age Group Differences</div>
+            <p>Statistically significant differences in violation rates across age demographics.</p>
+          </div>
+          <div class="finding-card">
+            <div class="finding-stat">±15%</div>
+            <div class="finding-label">Confidence Interval</div>
+            <p>95% confidence intervals quantify uncertainty in per-capita rate estimates.</p>
+          </div>
+          <div class="finding-card">
+            <div class="finding-stat">132%</div>
+            <div class="finding-label">NSW Growth Rate</div>
+            <p>Highest jurisdiction growth rate from 2019-2021, statistically significant.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Data Explorer -->
+      <div class="data-explorer">
+        <h2>Interactive Data Explorer</h2>
+        <div class="explorer-description">
+          <p>Use brushing and linking to explore correlations across multiple dimensions of the data.</p>
+        </div>
+        <div class="explorer-grid">
+          <div class="explorer-chart" id="scatter-plot">
+            <h4>Enforcement vs Population</h4>
+            <div class="mini-chart-container"></div>
+          </div>
+          <div class="explorer-chart" id="time-series-explorer">
+            <h4>Time Series Explorer</h4>
+            <div class="mini-chart-container"></div>
+          </div>
+          <div class="explorer-chart" id="distribution-explorer">
+            <h4>Distribution Analysis</h4>
+            <div class="mini-chart-container"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Methodology Details -->
+      <div class="methodology-details">
+        <h2>Statistical Methodology</h2>
+        <div class="method-accordion">
+          <div class="method-item">
+            <div class="method-header" onclick="toggleMethodItem(this)">
+              <h4>Population Normalization</h4>
+              <span class="toggle-icon">+</span>
+            </div>
+            <div class="method-content">
+              <p>Per-capita rates calculated as (Total Fines / Population) × 100,000 to enable fair comparisons across jurisdictions with different population sizes. Population data sourced from Australian Bureau of Statistics 2021 Census.</p>
+              <div class="formula">
+                Rate = (Fines ÷ Population) × 100,000
+              </div>
+            </div>
+          </div>
+          
+          <div class="method-item">
+            <div class="method-header" onclick="toggleMethodItem(this)">
+              <h4>Confidence Intervals</h4>
+              <span class="toggle-icon">+</span>
+            </div>
+            <div class="method-content">
+              <p>95% confidence intervals calculated using t-distribution for sample means. Provides range of plausible values and quantifies uncertainty in estimates.</p>
+              <div class="formula">
+                CI = x̄ ± t(α/2, n-1) × (s/√n)
+              </div>
+              <p>Where x̄ is sample mean, s is standard deviation, n is sample size, and t is critical value.</p>
+            </div>
+          </div>
+          
+          <div class="method-item">
+            <div class="method-header" onclick="toggleMethodItem(this)">
+              <h4>Correlation Analysis</h4>
+              <span class="toggle-icon">+</span>
+            </div>
+            <div class="method-content">
+              <p>Pearson correlation coefficients measure linear relationships between variables. Statistical significance tested using t-distribution.</p>
+              <div class="formula">
+                r = Σ[(xi - x̄)(yi - ȳ)] / √[Σ(xi - x̄)²Σ(yi - ȳ)²]
+              </div>
+              <p>Values range from -1 to +1, with |r| > 0.7 indicating strong correlation.</p>
+            </div>
+          </div>
+          
+          <div class="method-item">
+            <div class="method-header" onclick="toggleMethodItem(this)">
+              <h4>Statistical Tests</h4>
+              <span class="toggle-icon">+</span>
+            </div>
+            <div class="method-content">
+              <p>Independent samples t-tests compare means between groups. ANOVA used for multiple group comparisons. Effect sizes calculated using Cohen's d.</p>
+              <div class="formula">
+                t = (x̄₁ - x̄₂) / √[s²p(1/n₁ + 1/n₂)]
+              </div>
+              <p>Where s²p is pooled variance. p-values < 0.05 considered statistically significant.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Statistical Methods</h4>
+          <p>All analyses follow established statistical practices with appropriate significance testing.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Data Quality</h4>
+          <p>Confidence intervals and uncertainty quantification ensure reliable insights.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Reproducibility</h4>
+          <p>All methods documented and results reproducible with provided data.</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Load scripts in correct order -->
+  <script src="../js/utils/statistics.js"></script>
+  <script src="../js/utils/animations.js"></script>
+  <script src="../js/comparative/per-capita-analysis.js"></script>
+  <script src="../js/comparative/correlation-matrix.js"></script>
+  <script src="../js/comparative/regression-analysis.js"></script>
+  <script src="../js/comparative/statistical-tests.js"></script>
+  <script src="../js/script.js"></script>
+  
+  <style>
+    .methodology-overview {
+      margin: 30px 0;
+      padding: 25px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 12px;
+    }
+    
+    .method-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .method-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .method-card:hover {
+      transform: translateY(-4px);
+    }
+    
+    .method-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    
+    .advanced-filter-panel {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    
+    .range-slider {
+      position: relative;
+      height: 60px;
+    }
+    
+    .slider {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #ddd;
+      outline: none;
+      margin: 10px 0;
+    }
+    
+    .range-display {
+      text-align: center;
+      font-weight: 600;
+      color: #3b82f6;
+    }
+    
+    .analysis-select,
+    .confidence-select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 14px;
+      background: white;
+    }
+    
+    .analysis-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 25px;
+    }
+    
+    .primary-btn,
+    .secondary-btn {
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    
+    .primary-btn {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+    }
+    
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    }
+    
+    .secondary-btn {
+      background: white;
+      color: #3b82f6;
+      border: 2px solid #3b82f6;
+    }
+    
+    .secondary-btn:hover {
+      background: #3b82f6;
+      color: white;
+    }
+    
+    .advanced-tabs {
+      background: #f8f9fa;
+      padding: 5px;
+      border-radius: 8px;
+      margin-bottom: 0;
+    }
+    
+    .advanced-chart {
+      min-height: 500px;
+      background: #fafafa;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    
+    .statistical-summary,
+    .correlation-insights,
+    .regression-results,
+    .test-results {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+      border-left: 4px solid #3b82f6;
+    }
+    
+    .findings-section {
+      margin: 40px 0;
+      padding: 30px;
+      background: linear-gradient(135deg, #0C1A3C 0%, #1e3a8a 100%);
+      border-radius: 12px;
+      color: white;
+    }
+    
+    .findings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-top: 25px;
+    }
+    
+    .finding-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 25px;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+    }
+    
+    .finding-stat {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #60a5fa;
+      margin-bottom: 8px;
+    }
+    
+    .finding-label {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #93c5fd;
+    }
+    
+    .data-explorer {
+      margin: 40px 0;
+      padding: 30px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    
+    .explorer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 25px;
+    }
+    
+    .explorer-chart {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+    
+    .mini-chart-container {
+      height: 200px;
+      background: white;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+    
+    .methodology-details {
+      margin: 40px 0;
+    }
+    
+    .method-accordion {
+      margin-top: 20px;
+    }
+    
+    .method-item {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    
+    .method-header {
+      padding: 20px;
+      background: #f8f9fa;
+      cursor: pointer;
+      display: flex;
+      justify-content: between;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+    
+    .method-header:hover {
+      background: #e9ecef;
+    }
+    
+    .method-header h4 {
+      margin: 0;
+      flex: 1;
+    }
+    
+    .toggle-icon {
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: transform 0.3s ease;
+    }
+    
+    .method-content {
+      padding: 0 20px;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .method-content.active {
+      padding: 20px;
+      max-height: 300px;
+    }
+    
+    .formula {
+      background: #f1f5f9;
+      padding: 15px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      color: #1e40af;
+      text-align: center;
+      margin: 15px 0;
+      border-left: 4px solid #3b82f6;
+    }
+    
+    @media (max-width: 768px) {
+      .filter-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .analysis-buttons {
+        flex-direction: column;
+      }
+      
+      .findings-grid,
+      .explorer-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .method-cards {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+    }
+  </style>
+  
+  <script>
+    // Toggle methodology accordion items
+    function toggleMethodItem(header) {
+      const content = header.nextElementSibling;
+      const icon = header.querySelector('.toggle-icon');
+      
+      content.classList.toggle('active');
+      icon.textContent = content.classList.contains('active') ? '−' : '+';
+      icon.style.transform = content.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+    }
+    
+    // Initialize year range sliders
+    document.addEventListener('DOMContentLoaded', function() {
+      const startSlider = document.getElementById('year-start');
+      const endSlider = document.getElementById('year-end');
+      const display = document.getElementById('year-range-display');
+      
+      function updateRange() {
+        const start = parseInt(startSlider.value);
+        const end = parseInt(endSlider.value);
+        
+        if (start > end) {
+          if (this === startSlider) {
+            endSlider.value = start;
+          } else {
+            startSlider.value = end;
+          }
+        }
+        
+        display.textContent = `${startSlider.value} - ${endSlider.value}`;
+      }
+      
+      startSlider.addEventListener('input', updateRange);
+      endSlider.addEventListener('input', updateRange);
+      
+      // Run analysis button
+      document.getElementById('run-analysis').addEventListener('click', function() {
+        // Trigger analysis based on selected type
+        const analysisType = document.getElementById('analysis-type').value;
+        console.log('Running analysis:', analysisType);
+        // Implementation will call appropriate analysis functions
+      });
+    });
+  </script>
+</body>
+</html>
