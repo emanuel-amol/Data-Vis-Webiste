@@ -25,9 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
   function renderPerCapitaChart() {
     const chartDiv = document.getElementById('per-capita-chart');
     chartDiv.innerHTML = '';
-    const margin = { top: 40, right: 40, bottom: 60, left: 80 };
+    const margin = { top: 60, right: 200, bottom: 60, left: 80 };
     const width = 800 - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
+    const height = 600 - margin.top - margin.bottom;
 
     // Get data from dataLoader
     const data = (window.roadSafetyData && window.roadSafetyData.raw) ? window.roadSafetyData.raw : [];
@@ -66,8 +66,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // D3 chart
     const svg = d3.select(chartDiv)
       .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom);
+      .attr('viewBox', '0 0 800 600')
+      .attr('width', '100%')
+      .attr('height', 'auto');
 
     const g = svg.append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
@@ -133,10 +134,10 @@ document.addEventListener('DOMContentLoaded', function() {
       .style('fill', '#374151')
       .text(d => d.perCapita.toFixed(0));
 
-    // Axis labels
+    // Axis labels (update y for new height)
     svg.append('text')
       .attr('x', margin.left + width / 2)
-      .attr('y', margin.top + height + 40)
+      .attr('y', margin.top + height + 48)
       .attr('text-anchor', 'middle')
       .style('font-size', '14px')
       .text('Jurisdiction');
@@ -144,10 +145,41 @@ document.addEventListener('DOMContentLoaded', function() {
     svg.append('text')
       .attr('transform', `rotate(-90)`)
       .attr('x', -(margin.top + height / 2))
-      .attr('y', 24)
+      .attr('y', 28)
       .attr('text-anchor', 'middle')
       .style('font-size', '14px')
       .text('Fines per 100,000 population');
+
+    // Legend styled and positioned like map legend
+    const legend = svg.append("g")
+      .attr("class", "legend")
+      .attr("transform", "translate(600, 40)");
+
+    legend.append("rect")
+      .attr("x", -10)
+      .attr("y", -10)
+      .attr("width", 180)
+      .attr("height", 40)
+      .attr("fill", "white")
+      .attr("opacity", 0.9)
+      .attr("rx", 5)
+      .attr("stroke", "#ccc")
+      .attr("stroke-width", 1);
+
+    legend.append("rect")
+      .attr("x", 0)
+      .attr("y", 4)
+      .attr("width", 18)
+      .attr("height", 18)
+      .attr("fill", "#3b82f6")
+      .attr("stroke", "#999")
+      .attr("stroke-width", 0.5);
+
+    legend.append("text")
+      .attr("x", 28)
+      .attr("y", 18)
+      .attr("font-size", "14px")
+      .text("Per-capita fines");
 
     // Tooltip
     let tooltip = d3.select('body').select('#per-capita-tooltip');

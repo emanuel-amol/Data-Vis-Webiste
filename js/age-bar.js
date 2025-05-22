@@ -1,13 +1,25 @@
 // Enhanced age-bar.js with storytelling elements
 // Replace your existing file in the js folder
 
-const margin = { top: 60, right: 120, bottom: 50, left: 60 },
-      width = 800 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
+// Use the same dimensions as jurisdiction map
+const width = 800;
+const height = 600;
+const margin = { top: 60, right: 150, bottom: 50, left: 80 };
 
-// Create chart group
-const svg = d3.select("svg")
-  .append("g")
+// Remove any existing SVG
+d3.select("#age-distribution-chart svg").remove();
+
+// Create SVG with same size and viewBox as jurisdiction map
+const svg = d3.select("#age-distribution-chart")
+  .append("svg")
+  .attr("width", width)
+  .attr("height", height)
+  .attr("viewBox", `0 0 ${width} ${height}`)
+  .style("background-color", "#fff")
+  .style("border", "1px solid #ddd");
+
+// Chart group
+const g = svg.append("g")
   .attr("transform", `translate(${margin.left},${margin.top})`);
 
 // Add meaningful title with insight
@@ -305,35 +317,50 @@ function updateChart() {
       .text("Expected to be highest?");
   }
 
-  // Legend with improved design
-  const legend = d3.select("svg").selectAll(".legend").remove(); // cleanup
-  
-  svg.append("circle")
-    .attr("cx", width - 150)
-    .attr("cy", height - 20)
-    .attr("r", 6)
-    .style("fill", "#e31a1c");
-  
-  svg.append("text")
-    .attr("x", width - 135)
-    .attr("y", height - 17)
-    .text("Key demographic (40-64)")
-    .style("font-size", "12px")
-    .attr("alignment-baseline", "middle");
-  
-  svg.append("circle")
-    .attr("cx", width - 150)
-    .attr("cy", height - 40)
-    .attr("r", 6)
-    .style("fill", "#6baed6");
-  
-  svg.append("text")
-    .attr("x", width - 135)
-    .attr("y", height - 37)
-    .text("Other age groups")
-    .style("font-size", "12px")
-    .attr("alignment-baseline", "middle");
-  
+  // Legend styled and positioned like jurisdiction map
+  const legend = svg.append("g")
+    .attr("class", "legend")
+    .attr("transform", "translate(20, 20)");
+
+  legend.append("rect")
+    .attr("x", -10)
+    .attr("y", -10)
+    .attr("width", 170)
+    .attr("height", 60)
+    .attr("fill", "white")
+    .attr("opacity", 0.9)
+    .attr("rx", 5)
+    .attr("stroke", "#ccc")
+    .attr("stroke-width", 1);
+
+  const legendData = [
+    { color: "#ef4444", label: "40-64" },
+    { color: "#6baed6", label: "Other Age Groups" }
+  ];
+
+  legend.selectAll(".legend-item")
+    .data(legendData)
+    .enter()
+    .append("g")
+    .attr("class", "legend-item")
+    .attr("transform", (d, i) => `translate(0, ${i * 24})`)
+    .each(function(d) {
+      d3.select(this)
+        .append("rect")
+        .attr("width", 18)
+        .attr("height", 18)
+        .attr("fill", d.color)
+        .attr("stroke", "#999")
+        .attr("stroke-width", 0.5);
+
+      d3.select(this)
+        .append("text")
+        .attr("x", 28)
+        .attr("y", 13)
+        .attr("font-size", "14px")
+        .text(d.label);
+    });
+
   // After you have orderedData:
   const maxGroup = orderedData.reduce((max, d) => d.FINES > max.FINES ? d : max, orderedData[0]);
   const keyFindingBox = document.getElementById('key-finding-box');

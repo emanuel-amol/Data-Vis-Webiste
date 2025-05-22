@@ -8,7 +8,7 @@ let svg, xScale, yScale, tooltip;
 
 // Initialize dimensions
 const margin = { top: 60, right: 120, bottom: 60, left: 80 },
-      width = 800 - margin.left - margin.right,
+      width = 1000 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
 
 // Key events for storytelling annotations
