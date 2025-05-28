@@ -279,7 +279,24 @@ function updateJurisdictionLineChart() {
         .attr("stroke", color)
         .attr("stroke-width", d.jurisdiction === "New South Wales" || d.jurisdiction === "Victoria" ? 3 : 2)
         .attr("d", line)
-        .style("opacity", 0.8);
+        .style("opacity", 0.8)
+        // Tooltip for the line itself
+        .on("mousemove", function(event) {
+          const [mx] = d3.pointer(event);
+          // Find the closest year (x value)
+          const x0 = jurisdictionLineX.invert(mx);
+          const bisect = d3.bisector(p => p.year).left;
+          const i = bisect(d.values, x0);
+          const point = d.values[Math.min(i, d.values.length - 1)];
+          jurisdictionLineTooltip
+            .style("visibility", "visible")
+            .html(`<strong>${d.jurisdiction}</strong><br>Year: ${point.year}<br>Fines: ${point.fines.toLocaleString()}`)
+            .style("top", `${event.pageY - 10}px`)
+            .style("left", `${event.pageX + 10}px`);
+        })
+        .on("mouseout", function() {
+          jurisdictionLineTooltip.style("visibility", "hidden");
+        });
       
       // Add dots
       jurisdictionLineSvg.selectAll(`.dots-${d.jurisdiction.replace(/\s+/g, '-')}`)
@@ -378,3 +395,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Register update function globally
 window.updateJurisdictionLineChart = updateJurisdictionLineChart;
+
+
