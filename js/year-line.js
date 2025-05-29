@@ -379,13 +379,27 @@ function renderChart() {
     .y(d => yScale(d.totalFines))
     .curve(d3.curveMonotoneX);
 
+  // Draw the main line
   svg.append("path")
     .datum(completeData)
     .attr("fill", "none")
     .attr("stroke", "#3b82f6")
     .attr("stroke-width", 3)
     .attr("stroke-linecap", "round")
-    .attr("d", line);
+    .attr("d", line)
+    .style("cursor", "pointer")
+    .on("mousemove", function(event) {
+      const [mx] = d3.pointer(event);
+      // Find the closest year (x value)
+      const x0 = xScale.invert(mx);
+      const bisect = d3.bisector(d => d.year).left;
+      const i = bisect(completeData, x0);
+      const point = completeData[Math.min(i, completeData.length - 1)];
+      showTooltip(event, point);
+    })
+    .on("mouseout", function() {
+      hideTooltip();
+    });
 
   // Add data points with enhanced interactivity
   svg.selectAll(".data-point")
