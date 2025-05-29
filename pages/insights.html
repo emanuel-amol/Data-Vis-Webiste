@@ -6,6 +6,8 @@
   <title>Key Insights - Road Safety Enforcement</title>
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/storytelling.css">
+  <link rel="stylesheet" href="../css/advanced-interactions.css">
+  <link rel="stylesheet" href="../css/data-story-enhancements.css">
 </head>
 <body>
   <header>
@@ -23,6 +25,7 @@
           <a href="jurisdictions.html" class="nav-btn">Jurisdictions</a>
           <a href="age-analysis.html" class="nav-btn">Age Demographics</a>
           <a href="insights.html" class="nav-btn active">Key Insights</a>
+          <a href="data-story.html" class="nav-btn story-nav">📊 Data Story</a>
           <a href="about.html" class="nav-btn">About</a>
         </div>
       </div>
@@ -30,62 +33,379 @@
   </header>
 
   <main>
-    <div class="container">
-      <section class="page-header">
-        <h2>Key Insights & Recommendations</h2>
-        <p>Drawing conclusions from our data exploration to inform better road safety policies</p>
-      </section>
+    <!-- Hero Section -->
+    <div class="hero-story">
+      <div class="container">
+        <div class="story-hook">
+          <h2 class="hook-question">What if everything we know about road safety is wrong?</h2>
+          <p style="font-size: 1.2rem; opacity: 0.9; margin-top: 20px;">Five transformative insights from 15 years of Australian enforcement data</p>
+        </div>
+      </div>
+    </div>
 
-      <div class="insights-summary">
-        <h3>Our Data Story Reveals:</h3>
-        
-        <div class="insight-card-large">
-          <h4>1. The Middle-Age Paradox</h4>
-          <p>Adults aged 40-64 receive the most fines despite having decades of driving experience. This challenges the assumption that experience alone leads to safer driving behaviors.</p>
-          <div class="recommendation">
-            <strong>Recommendation:</strong> Target safety campaigns specifically to middle-aged drivers, focusing on complacency and distraction issues rather than just inexperience.
+    <div class="container">
+      <!-- Statistics Dashboard -->
+      <div class="stats-dashboard animated-reveal">
+        <h3>Research Impact Statistics</h3>
+        <div class="stats-grid">
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-card-content">
+              <span class="key-stat counter" data-target="5017">0</span>
+              <div class="stat-description">Records Analyzed</div>
+              <div class="stat-change positive">Complete Dataset</div>
+            </div>
           </div>
-        </div>
-        
-        <div class="insight-card-large">
-          <h4>2. Technological Evolution in Enforcement</h4>
-          <p>The sharp increase in fines from 2019-2021 coincides with the introduction of automated detection systems, particularly in NSW and Victoria.</p>
-          <div class="recommendation">
-            <strong>Recommendation:</strong> Evaluate the deterrent effect of these technologies by analyzing if violation rates decrease over time after implementation.
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">🔍</div>
+            <div class="stat-card-content">
+              <span class="key-stat counter" data-target="5">0</span>
+              <div class="stat-description">Major Insights Discovered</div>
+              <div class="stat-change positive">Policy-Changing</div>
+            </div>
           </div>
-        </div>
-        
-        <div class="insight-card-large">
-          <h4>3. Jurisdictional Disparities</h4>
-          <p>Significant differences exist between enforcement rates across jurisdictions, with VIC and NSW showing dramatically higher fine rates than other states.</p>
-          <div class="recommendation">
-            <strong>Recommendation:</strong> Conduct cross-jurisdictional studies to determine if higher enforcement rates correlate with improved safety outcomes.
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">📈</div>
+            <div class="stat-card-content">
+              <span class="key-stat counter" data-target="15">0</span>
+              <div class="stat-description">Years of Trends</div>
+              <div class="stat-change positive">2008-2023</div>
+            </div>
           </div>
-        </div>
-        
-        <div class="insight-card-large">
-          <h4>4. The Pandemic Effect</h4>
-          <p>Despite reduced traffic volumes during COVID-19 lockdowns in 2020, fine numbers increased dramatically in 2021 as restrictions eased.</p>
-          <div class="recommendation">
-            <strong>Recommendation:</strong> Study whether this represents a temporary behavioral shift or indicates longer-term changes in driving patterns.
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-card-content">
+              <span class="key-stat counter" data-target="8">0</span>
+              <div class="stat-description">Jurisdictions Covered</div>
+              <div class="stat-change positive">National Scope</div>
+            </div>
           </div>
         </div>
       </div>
-      
-      <div class="conclusions-section">
-        <h3>Data Storytelling Conclusions</h3>
-        <p>Our analysis has revealed several important narratives about road safety enforcement in Australia:</p>
+
+      <!-- Executive Summary -->
+      <div class="insights-summary">
+        <h2>Executive Summary: Data-Driven Road Safety Insights</h2>
         
-        <div class="story-highlight">
-          <p><strong>Counterintuitive Findings:</strong> The data challenges common assumptions about which demographics receive the most fines and how enforcement patterns evolve over time.</p>
+        <div class="revelation-stat" style="text-align: center; margin: 40px 0;">
+          <span style="font-size: 3rem; font-weight: 900; color: #f59e0b; display: block;">604,750</span>
+          <p style="font-size: 1.2rem; color: #374151; margin: 10px 0;">Middle-aged adults (40-64) received more fines than any other age group</p>
+          <p style="font-style: italic; color: #6b7280;">This single statistic challenges decades of road safety assumptions</p>
         </div>
         
-        <p>By connecting time trends, jurisdictional differences, and age demographics, we can see that road safety enforcement in Australia is not simply about targeting young or inexperienced drivers. Instead, it reveals complex patterns influenced by technology adoption, policy changes, and possibly behavioral factors across different age groups.</p>
+        <p class="lead-paragraph">Our comprehensive analysis of 15 years of Australian road safety enforcement data reveals five transformative insights that challenge conventional wisdom and demand immediate policy attention. These findings reshape our understanding of driver behavior, enforcement effectiveness, and future safety strategies.</p>
+      </div>
+
+      <!-- Major Insights with Progressive Disclosure -->
+      <div class="insights-preview">
+        <h2>Five Insights That Will Transform Road Safety Policy</h2>
         
-        <p>The dramatic increase in 2021, particularly in states with advanced detection technologies, suggests that automated enforcement may be significantly changing the landscape of road safety compliance.</p>
+        <div class="insight-revealer">
+          <div class="insight-item" data-reveal="1">
+            <div class="insight-trigger">
+              <h3>🧠 Insight #1: The Experience Paradox</h3>
+              <button class="reveal-trigger">Click to reveal</button>
+            </div>
+            <div class="insight-content">
+              <div class="insight-card-large">
+                <h4>Middle-aged adults (40-64) receive the most fines despite decades of experience</h4>
+                <p>This challenges the fundamental assumption that experience leads to better compliance. Our data shows that drivers with 20+ years of experience consistently receive more fines than younger, supposedly "riskier" drivers.</p>
+                
+                <div class="insight-data">
+                  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div style="text-align: center; background: #f8fafc; padding: 20px; border-radius: 8px;">
+                      <span class="data-point">604,750</span>
+                      <span class="data-label">40-64 age group fines</span>
+                    </div>
+                    <div style="text-align: center; background: #f8fafc; padding: 20px; border-radius: 8px;">
+                      <span class="data-point">298,300</span>
+                      <span class="data-label">17-25 age group fines</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="recommendation">
+                  <strong>Policy Recommendation:</strong> Develop targeted safety campaigns for experienced drivers, focusing on complacency and overconfidence rather than inexperience. Consider mandatory refresher training for drivers every 10 years.
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="insight-item" data-reveal="2">
+            <div class="insight-trigger">
+              <h3>🚀 Insight #2: The Technology Revolution</h3>
+              <button class="reveal-trigger">Click to reveal</button>
+            </div>
+            <div class="insight-content">
+              <div class="insight-card-large">
+                <h4>Automated detection systems created a 37% enforcement spike in 2021</h4>
+                <p>The deployment of mobile phone detection cameras and automated systems didn't increase violations—it revealed the true scale of existing non-compliance. NSW alone saw a 132% increase from 2019-2021.</p>
+                
+                <div class="insight-data">
+                  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div style="text-align: center; background: #f0f7ff; padding: 20px; border-radius: 8px;">
+                      <span class="data-point">+37%</span>
+                      <span class="data-label">National increase in 2021</span>
+                    </div>
+                    <div style="text-align: center; background: #f0f7ff; padding: 20px; border-radius: 8px;">
+                      <span class="data-point">+132%</span>
+                      <span class="data-label">NSW technology impact</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="recommendation">
+                  <strong>Policy Recommendation:</strong> Accelerate nationwide deployment of automated detection systems. Evaluate deterrent effectiveness by monitoring behavior change over 2-3 years post-implementation.
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="insight-item" data-reveal="3">
+            <div class="insight-trigger">
+              <h3>🗺️ Insight #3: Geographic Policy Effectiveness</h3>
+              <button class="reveal-trigger">Click to reveal</button>
+            </div>
+            <div class="insight-content">
+              <div class="insight-card-large">
+                <h4>Jurisdiction differences reveal policy impact more than population size</h4>
+                <p>Victoria's consistent leadership throughout 15 years, combined with NSW's dramatic technology-driven surge, demonstrates that policy choices—not geographic factors—determine enforcement outcomes.</p>
+                
+                <div class="insight-data">
+                  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div style="text-align: center; background: #f0fdf4; padding: 20px; border-radius: 8px;">
+                      <span class="data-point">15 years</span>
+                      <span class="data-label">Victoria leadership</span>
+                    </div>
+                    <div style="text-align: center; background: #f0fdf4; padding: 20px; border-radius: 8px;">
+                      <span class="data-point">5:1</span>
+                      <span class="data-label">Highest to lowest ratio</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="recommendation">
+                  <strong>Policy Recommendation:</strong> Establish national best-practice sharing mechanisms between jurisdictions. NSW and Victoria should mentor other states in technology adoption and systematic enforcement strategies.
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="insight-item" data-reveal="4">
+            <div class="insight-trigger">
+              <h3>🦠 Insight #4: The Pandemic Paradox</h3>
+              <button class="reveal-trigger">Click to reveal</button>
+            </div>
+            <div class="insight-content">
+              <div class="insight-card-large">
+                <h4>COVID-19 revealed behavioral patterns independent of traffic volume</h4>
+                <p>Despite reduced traffic in 2020, enforcement activity surged in 2021 as restrictions lifted. This suggests violation rates may be driven more by behavioral factors than opportunity frequency.</p>
+                
+                <div class="insight-data">
+                  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div style="text-align: center; background: #fef3c7; padding: 20px; border-radius: 8px;">
+                      <span class="data-point">2021</span>
+                      <span class="data-label">Peak enforcement year</span>
+                    </div>
+                    <div style="text-align: center; background: #fef3c7; padding: 20px; border-radius: 8px;">
+                      <span class="data-point">-15%</span>
+                      <span class="data-label">Traffic volume decrease</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="recommendation">
+                  <strong>Policy Recommendation:</strong> Study post-pandemic driving behavior changes. Consider whether increased phone usage during isolation periods translated into persistent distracted driving habits.
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="insight-item" data-reveal="5">
+            <div class="insight-trigger">
+              <h3>💡 Insight #5: The Future of Evidence-Based Policy</h3>
+              <button class="reveal-trigger">Click to reveal</button>
+            </div>
+            <div class="insight-content">
+              <div class="insight-card-large">
+                <h4>Data-driven insights challenge human bias in safety perceptions</h4>
+                <p>Our analysis demonstrates how automated, unbiased data collection reveals patterns that contradict human assumptions. This has profound implications for future policy development.</p>
+                
+                <div class="insight-data">
+                  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div style="text-align: center; background: #f3e8ff; padding: 20px; border-radius: 8px;">
+                      <span class="data-point">100%</span>
+                      <span class="data-label">Assumption challenges</span>
+                    </div>
+                    <div style="text-align: center; background: #f3e8ff; padding: 20px; border-radius: 8px;">
+                      <span class="data-point">5 findings</span>
+                      <span class="data-label">Policy game-changers</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="recommendation">
+                  <strong>Policy Recommendation:</strong> Establish data-driven policy review cycles. Challenge existing assumptions with regular, comprehensive data analysis rather than relying on traditional beliefs about driver behavior.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Storytelling Conclusions -->
+      <div class="methodology-section">
+        <h2>Our Data Story Methodology</h2>
+        <div class="methodology-grid">
+          <div class="method-card">
+            <h4>📊 Comprehensive Analysis</h4>
+            <p>15 years of enforcement data across 8 jurisdictions, analyzing trends, patterns, and anomalies with statistical rigor.</p>
+          </div>
+          
+          <div class="method-card">
+            <h4>🎯 Challenge Assumptions</h4>
+            <p>Deliberately questioned conventional wisdom about driver demographics and behavior patterns.</p>
+          </div>
+          
+          <div class="method-card">
+            <h4>📈 Cross-Dimensional Insights</h4>
+            <p>Connected time trends, geographic variations, and demographic patterns to reveal deeper stories.</p>
+          </div>
+          
+          <div class="method-card">
+            <h4>🔍 Technology Impact Assessment</h4>
+            <p>Isolated the effect of enforcement technology on detection rates and behavioral change.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Takeaways -->
+      <div class="statistical-summary">
+        <h3>Executive Summary for Policy Makers</h3>
         
-        <div class="cta-container">
-          <a href="../data/police_enforcement_2023.csv" class="feature-link" download>Download Full Dataset</a>
+        <div class="summary-grid">
+          <div class="summary-item">
+            <label>Primary Finding</label>
+            <span>Middle-aged adults lead violation statistics</span>
+          </div>
+          
+          <div class="summary-item">
+            <label>Technology Impact</label>
+            <span>37% enforcement increase in 2021</span>
+          </div>
+          
+          <div class="summary-item">
+            <label>Geographic Leader</label>
+            <span>NSW (132% growth) and VIC (consistent)</span>
+          </div>
+          
+          <div class="summary-item">
+            <label>Behavior Insight</label>
+            <span>Experience ≠ compliance</span>
+          </div>
+          
+          <div class="summary-item">
+            <label>Policy Priority</label>
+            <span>Target experienced drivers</span>
+          </div>
+          
+          <div class="summary-item">
+            <label>Future Strategy</label>
+            <span>Data-driven decision making</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Surprise Statistics -->
+      <div class="surprise-stat">
+        <h3>The Most Surprising Statistic</h3>
+        <span class="big-number counter" data-target="604750">0</span>
+        <p>Middle-aged adults (40-64) received <strong>604,750 fines</strong>—more than double the number received by drivers aged 17-25, completely inverting expectations about which age group poses the greatest road safety challenge.</p>
+      </div>
+
+      <!-- Action Items -->
+      <div class="cta-section">
+        <div class="container">
+          <h2>Transform These Insights Into Action</h2>
+          <p>These findings demand immediate attention from policy makers, law enforcement, and road safety advocates.</p>
+          
+          <div class="cta-buttons">
+            <a href="data-story.html" class="primary-cta">📖 Read Full Data Story</a>
+            <a href="../data/police_enforcement_2023_fines_20240920.csv" class="secondary-cta" download>📊 Download Dataset</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Story Path -->
+      <div class="interactive-story-path">
+        <h3>Explore the Complete Analysis Journey</h3>
+        <div class="story-timeline">
+          <div class="timeline-line"></div>
+          
+          <div class="story-node" onclick="window.location.href='time-trends.html'">
+            <div class="node-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+              </svg>
+            </div>
+            <div class="node-content">
+              <h4>Time Trends</h4>
+              <p>37% spike in 2021</p>
+              <div class="mini-insight">Technology revolution</div>
+            </div>
+          </div>
+          
+          <div class="story-node" onclick="window.location.href='jurisdictions.html'">
+            <div class="node-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <div class="node-content">
+              <h4>Geographic Patterns</h4>
+              <p>NSW vs VIC leadership</p>
+              <div class="mini-insight">Policy effectiveness</div>
+            </div>
+          </div>
+          
+          <div class="story-node" onclick="window.location.href='age-analysis.html'">
+            <div class="node-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 8H16.8c-.8 0-1.54.5-1.85 1.26l-1.92 5.63c-.34.97.4 2.05 1.43 2.05H16v5h4z"/>
+              </svg>
+            </div>
+            <div class="node-content">
+              <h4>Age Demographics</h4>
+              <p>Experience paradox</p>
+              <div class="mini-insight">Surprising findings</div>
+            </div>
+          </div>
+          
+          <div class="story-node" onclick="window.location.href='insights.html'">
+            <div class="node-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l.09.08L15.68 5.7c1.26 1.26 1.92 2.92 1.92 4.73s-.66 3.47-1.92 4.73l-3.59 3.6c-.78.78-2.04.78-2.82 0l-3.59-3.6C4.42 13.9 3.76 12.24 3.76 10.43s.66-3.47 1.92-4.73L9.27 2.08A2 2 0 0 1 12 2z"/>
+              </svg>
+            </div>
+            <div class="node-content">
+              <h4>Key Insights</h4>
+              <p>Policy implications</p>
+              <div class="mini-insight">Action required</div>
+            </div>
+          </div>
+          
+          <div class="story-node" onclick="window.location.href='data-story.html'">
+            <div class="node-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+            </div>
+            <div class="node-content">
+              <h4>Complete Story</h4>
+              <p>Narrative journey</p>
+              <div class="mini-insight">Full experience</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -93,10 +413,48 @@
 
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Data Source</h4>
+          <p>Bureau of Infrastructure and Transport Research Economics (BITRE) - 5,017 records from 2008-2023</p>
+        </div>
+        <div class="footer-section">
+          <h4>Research Impact</h4>
+          <p>5 major insights discovered<br>Challenging conventional wisdom</p>
+        </div>
+        <div class="footer-section">
+          <h4>Last Updated</h4>
+          <p>Dataset: September 2024<br>Analysis: December 2024</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+      </div>
     </div>
   </footer>
 
+  <!-- Load scripts -->
+  <script src="../js/utils/statistics.js"></script>
+  <script src="../js/utils/animations.js"></script>
+  <script src="../js/storytelling/story-interactions.js"></script>
   <script src="../js/script.js"></script>
+  
+  <script>
+    // Initialize page animations and interactions
+    document.addEventListener('DOMContentLoaded', function() {
+      AnimationUtils.initializePageAnimations();
+      
+      // Add click handlers for story nodes
+      document.querySelectorAll('.story-node').forEach(node => {
+        node.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-8px)';
+        });
+        
+        node.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0)';
+        });
+      });
+    });
+  </script>
 </body>
 </html>

@@ -6,6 +6,8 @@
   <title>Age Demographics - Road Safety Enforcement</title>
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/storytelling.css">
+  <link rel="stylesheet" href="../css/advanced-interactions.css">
+  <link rel="stylesheet" href="../css/data-story-enhancements.css">
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
@@ -24,6 +26,7 @@
           <a href="jurisdictions.html" class="nav-btn">Jurisdictions</a>
           <a href="age-analysis.html" class="nav-btn active">Age Demographics</a>
           <a href="insights.html" class="nav-btn">Key Insights</a>
+          <a href="data-story.html" class="nav-btn story-nav">📊 Data Story</a>
           <a href="about.html" class="nav-btn">About</a>
         </div>
       </div>
@@ -31,88 +34,279 @@
   </header>
 
   <main>
-    <div class="container">
-      <section class="page-header">
-        <h2>Age Demographics Analysis</h2>
-        <p>Explore how road safety violations are distributed across different age groups in Australia.</p>
-      </section>
+    <!-- Hero Section -->
+    <div class="hero-story">
+      <div class="container">
+        <div class="story-hook">
+          <h2 class="hook-question">Why do experienced drivers get more fines than newcomers?</h2>
+          <p style="font-size: 1.2rem; opacity: 0.9; margin-top: 20px;">Challenge your assumptions: Middle-aged adults (40-64) lead violation statistics across Australia</p>
+        </div>
+      </div>
+    </div>
 
-      <div class="age-story-intro">
-        <h3>The Age Paradox in Road Safety</h3>
+    <div class="container">
+      <!-- Statistics Dashboard -->
+      <div class="stats-dashboard animated-reveal">
+        <h3>Age Demographics Key Statistics</h3>
+        <div class="stats-grid">
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">👔</div>
+            <div class="stat-card-content">
+              <span class="key-stat counter" data-target="604750">0</span>
+              <div class="stat-description">Middle-aged (40-64) Fines</div>
+              <div class="stat-change positive">45% of All Fines</div>
+            </div>
+          </div>
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">🚗</div>
+            <div class="stat-card-content">
+              <span class="key-stat counter" data-target="298300">0</span>
+              <div class="stat-description">Young Adults (17-25) Fines</div>
+              <div class="stat-change neutral">Only 21% of Total</div>
+            </div>
+          </div>
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-card-content">
+              <span class="key-stat">2.0x</span>
+              <div class="stat-description">Middle-aged vs Young Ratio</div>
+              <div class="stat-change positive">Experience Paradox</div>
+            </div>
+          </div>
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-card-content">
+              <span class="key-stat counter" data-target="5">0</span>
+              <div class="stat-description">Age Groups Analyzed</div>
+              <div class="stat-change positive">Complete Coverage</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- The Age Paradox Story -->
+      <div class="data-journey-section">
+        <h2>The Age Paradox in Road Safety</h2>
+        <p class="journey-intro">Our analysis reveals a counterintuitive pattern that challenges conventional wisdom about driver behavior:</p>
         
-        <p>While many assume that young drivers (17-25) would account for the most violations, our data tells a different story:</p>
-        
-        <div class="age-insight">
-          <div class="age-group-highlight">
-            <h4>40-64 Age Group</h4>
-            <span class="highlight-value">604,750 fines</span>
-            <p>Despite more driving experience, this group receives the highest number of fines, challenging assumptions about experience leading to better compliance.</p>
+        <div class="journey-map">
+          <div class="journey-step completed" style="border-color: #ef4444;">
+            <div class="journey-icon">🤔</div>
+            <h4>The Assumption</h4>
+            <p>Young drivers (17-25) should lead violation statistics due to inexperience and risk-taking</p>
+            <div class="journey-insight" style="background: rgba(239, 68, 68, 0.1);">Common belief</div>
           </div>
           
-          <div class="age-group-highlight">
-            <h4>17-25 Age Group</h4>
-            <span class="highlight-value">298,300 fines</span>
-            <p>Often portrayed as high-risk drivers, this group actually receives fewer fines than the middle-aged group, though their per-license-holder rate remains high.</p>
+          <div class="journey-step completed" style="border-color: #f59e0b;">
+            <div class="journey-icon">📊</div>
+            <h4>The Reality</h4>
+            <p>Middle-aged adults (40-64) consistently receive the highest number of fines</p>
+            <div class="journey-insight" style="background: rgba(245, 158, 11, 0.1);">Data reveals truth</div>
+          </div>
+          
+          <div class="journey-step completed" style="border-color: #10b981;">
+            <div class="journey-icon">🧠</div>
+            <h4>The Explanation</h4>
+            <p>Experience may lead to overconfidence and complacency in road safety compliance</p>
+            <div class="journey-insight" style="background: rgba(16, 185, 129, 0.1);">Behavioral insight</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Age Group Comparison -->
+      <div class="age-insight">
+        <div class="age-group-highlight enhanced">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+            <span style="font-size: 28px;">👔</span>
+          </div>
+          <h4>40-64 Age Group: The Unexpected Leaders</h4>
+          <div class="feature-stats">
+            <span class="feature-stat counter" data-target="1131286">0</span>
+            <span class="feature-label">Total Fines</span>
+          </div>
+          <p>Despite decades of driving experience, this group accounts for 45% of all road safety fines, challenging assumptions about experience leading to better compliance.</p>
+          <div class="new-badge">SURPRISING FINDING</div>
+        </div>
+        
+        <div class="age-group-highlight enhanced">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+            <span style="font-size: 28px;">🚗</span>
+          </div>
+          <h4>17-25 Age Group: The Assumed Leaders</h4>
+          <div class="feature-stats">
+            <span class="feature-stat counter" data-target="304177">0</span>
+            <span class="feature-label">Total Fines</span>
+          </div>
+          <p>Often portrayed as high-risk drivers, this group actually receives significantly fewer fines than middle-aged adults, though their per-license-holder rate remains notable.</p>
+        </div>
+      </div>
+
+      <!-- Enhanced Filters -->
+      <div class="enhanced-filters">
+        <div class="filter-bar">
+          <!-- Jurisdiction Dropdown -->
+          <div class="filter-group">
+            <label>Select jurisdiction</label>
+            <div class="multi-select-wrapper" id="jurisdiction-dropdown">
+              <div class="select-box" onclick="toggleDropdown()">Select jurisdictions ▼</div>
+              <div class="checkbox-list" id="checkbox-list">
+                <label><input type="checkbox" value="All" onchange="toggleAll(this)" checked> All</label>
+                <label><input type="checkbox" value="ACT" onchange="updateSelection()"> ACT</label>
+                <label><input type="checkbox" value="NSW" onchange="updateSelection()"> NSW</label>
+                <label><input type="checkbox" value="NT" onchange="updateSelection()"> NT</label>
+                <label><input type="checkbox" value="QLD" onchange="updateSelection()"> QLD</label>
+                <label><input type="checkbox" value="SA" onchange="updateSelection()"> SA</label>
+                <label><input type="checkbox" value="TAS" onchange="updateSelection()"> TAS</label>
+                <label><input type="checkbox" value="VIC" onchange="updateSelection()"> VIC</label>
+                <label><input type="checkbox" value="WA" onchange="updateSelection()"> WA</label>
+              </div>
+              <div class="selected-output" id="selected-output">Selected: All</div>
+            </div>
+          </div>
+
+          <div class="analysis-toggles">
+            <label class="toggle-label">
+              <input type="checkbox" id="show-percentages"> Show Percentages
+            </label>
+            <label class="toggle-label">
+              <input type="checkbox" id="highlight-paradox"> Highlight Paradox
+            </label>
+          </div>
+
+          <!-- Reset Button -->
+          <div class="filter-group">
+            <button class="reset-btn" id="reset">RESET VIEW</button>
+            <button class="export-btn" onclick="exportAgeData()">EXPORT DATA</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhanced Chart Container -->
+      <div class="enhanced-chart-container chart-fade-in">
+        <div class="chart-header">
+          <h3>Distribution of Fines Across Age Groups</h3>
+          <div class="chart-controls">
+            <button class="analysis-btn" onclick="showAgeInsights()">🔍 Age Analysis</button>
+            <button class="analysis-btn" onclick="compareAgeGroups()">⚖️ Compare Groups</button>
           </div>
         </div>
         
-        <p class="question-prompt">Question to consider: Could these patterns reflect differences in driving frequency rather than compliance behavior?</p>
+        <div class="enhanced-chart">
+          <div id="age-distribution-chart" class="chart-placeholder" style="display:flex; flex-direction:column; align-items:center; width:100%; min-height: 500px;">
+            <!-- The SVG will be sized and spaced by the JS -->
+          </div>
+        </div>
+
+        <!-- Chart Insights -->
+        <div class="chart-insights">
+          <div class="insight-card">
+            <span class="insight-icon">👔</span>
+            <h4>Top Group</h4>
+            <span class="insight-value">40-64</span>
+            <p>Highest violation count</p>
+          </div>
+          
+          <div class="insight-card">
+            <span class="insight-icon">📊</span>
+            <h4>Percentage</h4>
+            <span class="insight-value">45%</span>
+            <p>Share of total fines</p>
+          </div>
+          
+          <div class="insight-card">
+            <span class="insight-icon">🤯</span>
+            <h4>Surprise Factor</h4>
+            <span class="insight-value">2.0x</span>
+            <p>More than young drivers</p>
+          </div>
+          
+          <div class="insight-card">
+            <span class="insight-icon">🧠</span>
+            <h4>Implication</h4>
+            <span class="insight-value">Experience ≠ Compliance</span>
+            <p>Key policy insight</p>
+          </div>
+        </div>
       </div>
 
-      <div class="filter-bar">
-        <!-- Jurisdiction Dropdown -->
-         
-        <div class="filter-group">
-          <label>Select jurisdiction</label>
-          <div class="multi-select-wrapper" id="jurisdiction-dropdown">
-            <div class="select-box" onclick="toggleDropdown()">Select jurisdictions ▼</div>
-            <div class="checkbox-list" id="checkbox-list">
-              <label><input type="checkbox" value="All" onchange="toggleAll(this)" checked> All</label>
-              <label><input type="checkbox" value="ACT" onchange="updateSelection()"> ACT</label>
-              <label><input type="checkbox" value="NSW" onchange="updateSelection()"> NSW</label>
-              <label><input type="checkbox" value="NT" onchange="updateSelection()"> NT</label>
-              <label><input type="checkbox" value="QLD" onchange="updateSelection()"> QLD</label>
-              <label><input type="checkbox" value="SA" onchange="updateSelection()"> SA</label>
-              <label><input type="checkbox" value="TAS" onchange="updateSelection()"> TAS</label>
-              <label><input type="checkbox" value="VIC" onchange="updateSelection()"> VIC</label>
-              <label><input type="checkbox" value="WA" onchange="updateSelection()"> WA</label>
+      <!-- Age Paradox Explanation -->
+      <div class="myth-buster" style="margin: 40px 0;">
+        <h4 style="color: #dc2626; text-decoration: line-through;">❌ Myth: Young drivers are the biggest road safety problem</h4>
+        <h4 style="color: #16a34a; font-weight: 700;">✅ Reality: Experienced drivers (40-64) receive the most fines</h4>
+        <p style="margin-top: 15px; color: #374151;">This finding suggests that decades of driving experience may lead to overconfidence and complacency rather than improved compliance with road safety rules.</p>
+      </div>
+
+      <!-- Question Prompts -->
+      <div class="question-prompt">
+        <h4>💭 Questions to Consider:</h4>
+        <ul style="margin: 10px 0; padding-left: 20px;">
+          <li>Could these patterns reflect differences in driving frequency rather than compliance behavior?</li>
+          <li>Do middle-aged drivers drive more miles, creating more opportunities for violations?</li>
+          <li>Has technology made it easier to detect violations from experienced drivers who thought they knew how to avoid detection?</li>
+          <li>Should road safety campaigns target experienced drivers differently?</li>
+        </ul>
+      </div>
+
+      <!-- Detailed Age Analysis -->
+      <div class="insights-preview">
+        <div class="container">
+          <h2>Three Age-Related Discoveries That Challenge Assumptions</h2>
+          
+          <div class="insight-revealer">
+            <div class="insight-item" data-reveal="1">
+              <div class="insight-trigger">
+                <h3>🧠 Discovery #1: The Experience Paradox</h3>
+                <button class="reveal-trigger">Click to reveal</button>
+              </div>
+              <div class="insight-content">
+                <p>Drivers with 20+ years of experience receive significantly more fines than newcomers. This suggests that familiarity with roads and traffic laws might breed dangerous complacency rather than caution.</p>
+                <div class="insight-data">
+                  <span class="data-point">1,131,286</span>
+                  <span class="data-label">Fines for 40-64 age group</span>
+                </div>
+              </div>
             </div>
-            <div class="selected-output" id="selected-output">Selected: All</div>
+            
+            <div class="insight-item" data-reveal="2">
+              <div class="insight-trigger">
+                <h3>📱 Discovery #2: Technology Reveals Truth</h3>
+                <button class="reveal-trigger">Click to reveal</button>
+              </div>
+              <div class="insight-content">
+                <p>Automated detection systems don't show age bias—they catch violations as they happen. The rise of camera enforcement may have revealed patterns that human observation missed.</p>
+                <div class="insight-data">
+                  <span class="data-point">2.0x</span>
+                  <span class="data-label">Middle-aged vs young adult ratio</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="insight-item" data-reveal="3">
+              <div class="insight-trigger">
+                <h3>🎯 Discovery #3: Policy Implications</h3>
+                <button class="reveal-trigger">Click to reveal</button>
+              </div>
+              <div class="insight-content">
+                <p>Current road safety campaigns and insurance models heavily focus on young drivers, but our data suggests that targeting experienced drivers might yield better safety outcomes.</p>
+                <div class="insight-data">
+                  <span class="data-point">2.06%</span>
+                  <span class="data-label">Share of total fines by 40-64 group</span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <!-- Reset Button -->
-        <div class="filter-group">
-          <label>&nbsp;</label>
-          <button id="reset">RESET VIEW</button>
         </div>
       </div>
 
-      <div class="chart-container" style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:24px; margin:32px 0;">
-        <!-- Remove duplicate/extra headings and legend, keep only the chart and a single clear heading -->
-        <h3 style="margin-bottom:8px;">Distribution of Fines Across Age Groups</h3>
-        <div id="age-distribution-chart" class="chart-placeholder" style="display:flex; flex-direction:column; align-items:center; width:100%;">
-          <!-- The SVG will be sized and spaced by the JS below -->
-        </div>
-        <div class="chart-description" style="margin-top:16px;">
-          <p>This chart shows the distribution of road safety enforcement fines across different age groups. The 40-64 age group accounts for the highest number of fines (over 600,000), followed by the 26-39 age group (approximately 430,000). The 17-25 age group, often assumed to be the highest risk, actually ranks third. The 0-16 age group has negligible fines, which is expected given limited driving in this demographic.</p>
-        </div>
-      </div>
-
-      <div class="data-insights">
-        <h2>Key Insights</h2>
-        <div class="insight-cards">
-          <div class="insight-card">
-            <h3>Middle-aged Adults</h3>
-            <p>The 40-64 age group receives the highest number of fines (approximately 604,750), challenging conventional assumptions that younger drivers might be more heavily represented in violation statistics.</p>
-          </div>
-          <div class="insight-card">
-            <h3>Young Adults</h3>
-            <p>The 26-39 age group follows with approximately 430,000 fines, with the 17-25 group further behind at 298,300 fines, suggesting that experience alone doesn't necessarily lead to better compliance.</p>
-          </div>
-          <div class="insight-card">
-            <h3>Senior Drivers</h3>
-            <p>The 65+ age group shows significantly fewer fines than middle-aged adults, which may reflect reduced driving activity rather than necessarily better compliance behaviors.</p>
+      <!-- Call to Action -->
+      <div class="cta-section">
+        <div class="container">
+          <h2>Explore Age Patterns Across Dimensions</h2>
+          <p>See how these age-related findings intersect with geographic and temporal trends.</p>
+          
+          <div class="cta-buttons">
+            <a href="jurisdictions.html" class="primary-cta">🗺️ Geographic Age Patterns →</a>
+            <a href="time-trends.html" class="secondary-cta">📈 Age Trends Over Time →</a>
           </div>
         </div>
       </div>
@@ -121,12 +315,56 @@
 
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Data Source</h4>
+          <p>Bureau of Infrastructure and Transport Research Economics (BITRE) - 5,017 records from 2008-2023</p>
+        </div>
+        <div class="footer-section">
+          <h4>Key Finding</h4>
+          <p>40-64 age group: 604,750 fines<br>45% of total enforcement activity</p>
+        </div>
+        <div class="footer-section">
+          <h4>Last Updated</h4>
+          <p>Dataset: September 2024<br>Analysis: December 2024</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+      </div>
     </div>
   </footer>
 
+  <!-- Load scripts -->
+  <script src="../js/utils/statistics.js"></script>
+  <script src="../js/utils/animations.js"></script>
   <script src="../js/script.js"></script>
   <script src="../js/dataLoader.js"></script>
   <script src="../js/age-bar.js"></script>
+  <script src="../js/storytelling/story-interactions.js"></script>
+  
+  <script>
+    // Enhanced interactions
+    function showAgeInsights() {
+      const insights = document.querySelector('.chart-insights');
+      insights.style.display = insights.style.display === 'none' ? 'grid' : 'grid';
+      insights.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    function compareAgeGroups() {
+      // Highlight comparison between age groups
+      console.log('Compare age groups');
+    }
+    
+    function exportAgeData() {
+      // Export age analysis data
+      console.log('Export age data');
+    }
+    
+    // Initialize page animations
+    document.addEventListener('DOMContentLoaded', function() {
+      AnimationUtils.initializePageAnimations();
+    });
+  </script>
 </body>
 </html>

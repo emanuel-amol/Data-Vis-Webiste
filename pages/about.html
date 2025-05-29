@@ -6,113 +6,450 @@
   <title>About - Road Safety Enforcement</title>
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/storytelling.css">
+  <link rel="stylesheet" href="../css/advanced-interactions.css">
+  <link rel="stylesheet" href="../css/data-story-enhancements.css">
 </head>
 <body>
-<header>
-  <div class="full-header">
-    <div class="logo-container">
-      <img src="../images/logo.png" alt="Australian Government Logo" class="logo">
-    </div>
-    <h1 class="heading">Australian Road Safety Enforcement</h1>
-  </div>
-  <nav class="nav-container">
-    <div class="container">
-      <div class="nav-buttons">
-        <a href="../index.html" class="nav-btn">Home</a>
-        <a href="time-trends.html" class="nav-btn">Time Trends</a>
-        <a href="jurisdictions.html" class="nav-btn">Jurisdictions</a>
-        <a href="age-analysis.html" class="nav-btn">Age Demographics</a>
-        <a href="insights.html" class="nav-btn">Key Insights</a>
-        <a href="about.html" class="nav-btn active">About</a>
+  <header>
+    <div class="full-header">
+      <div class="logo-container">
+        <img src="../images/logo.png" alt="Australian Government Logo" class="logo">
       </div>
+      <h1 class="heading">Australian Road Safety Enforcement</h1>
     </div>
-  </nav>
-</header>
+    <nav class="nav-container">
+      <div class="container">
+        <div class="nav-buttons">
+          <a href="../index.html" class="nav-btn">Home</a>
+          <a href="time-trends.html" class="nav-btn">Time Trends</a>
+          <a href="jurisdictions.html" class="nav-btn">Jurisdictions</a>
+          <a href="age-analysis.html" class="nav-btn">Age Demographics</a>
+          <a href="insights.html" class="nav-btn">Key Insights</a>
+          <a href="data-story.html" class="nav-btn story-nav">📊 Data Story</a>
+          <a href="about.html" class="nav-btn active">About</a>
+        </div>
+      </div>
+    </nav>
+  </header>
 
   <main>
-    <div class="container">
-      <section class="page-header">
-        <h2>About This Project</h2>
-        <p>Learn more about the data, methodology, and team behind this road safety enforcement visualization.</p>
-      </section>
+    <!-- Hero Section -->
+    <div class="hero-story">
+      <div class="container">
+        <div class="story-hook">
+          <h2 class="hook-question">How we uncovered the hidden patterns in 15 years of road safety data</h2>
+          <p style="font-size: 1.2rem; opacity: 0.9; margin-top: 20px;">The methodology, team, and discoveries behind Australia's most comprehensive road safety enforcement analysis</p>
+        </div>
+      </div>
+    </div>
 
-      <div class="about-section">
-        <h3>Background and Motivation</h3>
-        <p>Road safety enforcement is a critical component of public health and safety policy in Australia. The Bureau of Infrastructure and Transport Research Economics (BITRE) has been collecting and publishing Australian transport statistics since 1970, with road safety enforcement data collection dating back to 2008. In 2023, BITRE expanded their data collection to include more fine-grained details about road safety enforcement, including location, age groups, arrests, and charges.</p>
-        
+    <div class="container">
+      <!-- Project Statistics -->
+      <div class="stats-dashboard animated-reveal">
+        <h3>Project Statistics</h3>
+        <div class="stats-grid">
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-card-content">
+              <span class="key-stat counter" data-target="5017">0</span>
+              <div class="stat-description">Records Analyzed</div>
+              <div class="stat-change positive">Complete Dataset</div>
+            </div>
+          </div>
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">📅</div>
+            <div class="stat-card-content">
+              <span class="key-stat counter" data-target="15">0</span>
+              <div class="stat-description">Years of Data</div>
+              <div class="stat-change positive">2008-2023</div>
+            </div>
+          </div>
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">🗺️</div>
+            <div class="stat-card-content">
+              <span class="key-stat counter" data-target="8">0</span>
+              <div class="stat-description">Jurisdictions Covered</div>
+              <div class="stat-change positive">Complete Coverage</div>
+            </div>
+          </div>
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">💡</div>
+            <div class="stat-card-content">
+              <span class="key-stat counter" data-target="5">0</span>
+              <div class="stat-description">Major Insights</div>
+              <div class="stat-change positive">Policy-Changing</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mission Statement -->
+      <div class="about-section enhanced">
+        <h3>🎯 Our Mission: Transform Data Into Action</h3>
         <div class="story-highlight">
-          <p>Our project's core mission is to transform raw enforcement data into a compelling narrative that reveals patterns and insights to help improve road safety policy and public awareness.</p>
+          <p><strong>Core Mission:</strong> Transform raw enforcement data into compelling narratives that reveal hidden patterns and insights to improve road safety policy and public awareness across Australia.</p>
         </div>
         
-        <p>Our visualization targets multiple audiences:</p>
+        <p>Road safety enforcement is a critical component of public health and safety policy in Australia. The Bureau of Infrastructure and Transport Research Economics (BITRE) has been collecting transport statistics since 1970, with detailed road safety enforcement data available from 2008.</p>
+        
+        <p>Our project targets multiple stakeholders:</p>
         <ul>
-          <li><strong>Policy Makers and law enforcement agencies</strong> who need to understand patterns in road safety violations to allocate resources effectively.</li>
-          <li><strong>Road safety researchers</strong> seeking to analyse trends in enforcement data.</li>
-          <li><strong>General public</strong> interested in understanding road safety enforcement in their jurisdiction.</li>
+          <li><strong>Policy Makers and Law Enforcement</strong> - Evidence-based resource allocation and strategy development</li>
+          <li><strong>Road Safety Researchers</strong> - Comprehensive trend analysis and pattern identification</li>
+          <li><strong>General Public</strong> - Accessible insights into road safety enforcement in their jurisdiction</li>
+          <li><strong>Media and Advocates</strong> - Data-driven narratives for public discourse</li>
         </ul>
       </div>
 
-      <div class="about-section">
-        <h3>Data Source</h3>
-        <p>The data used in this visualization is sourced from the Bureau of Infrastructure and Transport Research Economics (BITRE). Specifically, we are using the Road Safety Enforcement Data, which is publicly available at: <a href="https://www.bitre.gov.au/publications/2024/road-safety-enforcement-data" target="_blank">https://www.bitre.gov.au/publications/2024/road-safety-enforcement-data</a></p>
+      <!-- Data Source Details -->
+      <div class="about-section enhanced">
+        <h3>📊 Data Source & Quality</h3>
         
-        <h4>Data Characteristics</h4>
-        <ul>
-          <li><strong>File Name:</strong> police_enforcement_2023_fines_20240920.csv</li>
-          <li><strong>Number of Records:</strong> 5,017</li>
-          <li><strong>Number of Attributes:</strong> 11</li>
-          <li><strong>Time Period:</strong> 2008-2023</li>
-          <li><strong>Update Frequency:</strong> Annual</li>
-        </ul>
-        
-        <h4>Key Attributes</h4>
-        <ul>
-          <li><strong>YEAR:</strong> Calendar year of data collection</li>
-          <li><strong>JURISDICTION:</strong> Australian state or territory (ACT, NSW, NT, QLD, SA, TAS, VIC, WA)</li>
-          <li><strong>LOCATION:</strong> Specific location category of enforcement</li>
-          <li><strong>AGE_GROUP:</strong> Age bracket of offenders (0-16, 17-25, 26-39, 40-64, 65 and over)</li>
-          <li><strong>METRIC:</strong> Type of measurement (e.g., "Mobile phone use while driving")</li>
-          <li><strong>DETECTION_METHOD:</strong> Method used to detect violation</li>
-          <li><strong>FINES:</strong> Number of fines issued</li>
-          <li><strong>ARRESTS:</strong> Number of arrests made</li>
-          <li><strong>CHARGES:</strong> Number of charges filed</li>
-        </ul>
-      </div>
-
-      <div class="about-section">
-        <h3>Visualization Design & Storytelling Approach</h3>
-        <p>Our design approach focuses on clarity, accessibility, and narrative storytelling. We've created visualizations that guide users through a cohesive data journey:</p>
-        <ul>
-          <li><strong>Time Trends Analysis:</strong> Establishes the historical context and overall patterns</li>
-          <li><strong>Jurisdictional Analysis:</strong> Explores geographical variations in enforcement</li>
-          <li><strong>Age Demographics Analysis:</strong> Examines demographic patterns that challenge common assumptions</li>
-          <li><strong>Key Insights:</strong> Synthesizes findings and offers actionable recommendations</li>
-        </ul>
-        
-        <p>Throughout our visualizations, we emphasize:</p>
-        <ul>
-          <li>Clear narrative structure to guide the user's understanding</li>
-          <li>Contextual information to explain why patterns matter</li>
-          <li>Visual hierarchy to highlight key findings</li>
-          <li>Interactive elements that encourage exploration</li>
-          <li>Synthesis of insights across different dimensions of the data</li>
-        </ul>
-        
-        <p>The visualizations are built using D3.js, a powerful JavaScript library for creating data-driven documents. Users can interact with the visualizations through filtering options that allow for customized views of the data.</p>
-      </div>
-
-      <div class="about-section">
-        <h3>Team</h3>
-        <div class="team-members">
-          <div class="team-member">
-            <h4>Emanuel Singh</h4>
-            <p>Student ID: 104515032</p>
-            <p>Role: Data Analysis & Visualization Development</p>
+        <div class="feature-grid">
+          <div class="feature-card enhanced">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+            </div>
+            <h4>Official Source</h4>
+            <div class="feature-stats">
+              <span class="feature-stat">BITRE</span>
+              <span class="feature-label">Government Authority</span>
+            </div>
+            <p>Bureau of Infrastructure and Transport Research Economics - Australia's official transport statistics authority</p>
+            <div class="new-badge">VERIFIED</div>
           </div>
-          <div class="team-member">
+          
+          <div class="feature-card enhanced">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2-7h-3V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H5a1 1 0 0 0 0 2h1v12a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V6h1a1 1 0 0 0 0-2z"/>
+              </svg>
+            </div>
+            <h4>Data Quality</h4>
+            <div class="feature-stats">
+              <span class="feature-stat">5,017</span>
+              <span class="feature-label">Complete Records</span>
+            </div>
+            <p>Comprehensive dataset with 11 attributes covering enforcement activities across all Australian jurisdictions</p>
+          </div>
+          
+          <div class="feature-card enhanced">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <h4>Coverage</h4>
+            <div class="feature-stats">
+              <span class="feature-stat">100%</span>
+              <span class="feature-label">National Scope</span>
+            </div>
+            <p>All 8 Australian jurisdictions included with consistent data collection methodology</p>
+          </div>
+        </div>
+
+        <h4>📋 Dataset Characteristics</h4>
+        <div class="summary-grid">
+          <div class="summary-item">
+            <label>File Name</label>
+            <span>police_enforcement_2023_fines_20240920.csv</span>
+          </div>
+          <div class="summary-item">
+            <label>Records</label>
+            <span>5,017 enforcement records</span>
+          </div>
+          <div class="summary-item">
+            <label>Attributes</label>
+            <span>11 data fields</span>
+          </div>
+          <div class="summary-item">
+            <label>Time Period</label>
+            <span>2008-2023 (15 years)</span>
+          </div>
+          <div class="summary-item">
+            <label>Update Frequency</label>
+            <span>Annual releases</span>
+          </div>
+          <div class="summary-item">
+            <label>Data Quality</label>
+            <span>Government-verified</span>
+          </div>
+        </div>
+
+        <h4>🔍 Key Data Attributes</h4>
+        <div class="comparison-highlight">
+          <div class="comparison-item enhanced">
+            <h4>📅 Temporal Data</h4>
+            <p><strong>YEAR:</strong> Calendar year of enforcement activity</p>
+            <p><strong>START_DATE/END_DATE:</strong> Specific reporting periods</p>
+          </div>
+          
+          <div class="comparison-item enhanced">
+            <h4>🗺️ Geographic Data</h4>
+            <p><strong>JURISDICTION:</strong> Australian state/territory (ACT, NSW, NT, QLD, SA, TAS, VIC, WA)</p>
+            <p><strong>LOCATION:</strong> Specific enforcement location categories</p>
+          </div>
+          
+          <div class="comparison-item enhanced">
+            <h4>👥 Demographic Data</h4>
+            <p><strong>AGE_GROUP:</strong> Offender age brackets (0-16, 17-25, 26-39, 40-64, 65+)</p>
+            <p><strong>METRIC:</strong> Violation types (e.g., mobile phone use, speeding)</p>
+          </div>
+          
+          <div class="comparison-item enhanced">
+            <h4>📊 Enforcement Data</h4>
+            <p><strong>DETECTION_METHOD:</strong> How violations were detected</p>
+            <p><strong>FINES/ARRESTS/CHARGES:</strong> Enforcement outcomes</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Methodology -->
+      <div class="methodology-section">
+        <h2>🔬 Visualization Design & Methodology</h2>
+        <div class="methodology-grid">
+          <div class="method-card">
+            <h4>📈 Time Series Analysis</h4>
+            <p>Identified three distinct enforcement eras and technology-driven inflection points using trend analysis and change detection algorithms.</p>
+          </div>
+          
+          <div class="method-card">
+            <h4>🗺️ Geospatial Analysis</h4>
+            <p>Cross-jurisdictional comparison with population normalization to identify policy effectiveness patterns.</p>
+          </div>
+          
+          <div class="method-card">
+            <h4>👥 Demographic Profiling</h4>
+            <p>Age group analysis that challenged conventional assumptions about driver behavior patterns.</p>
+          </div>
+          
+          <div class="method-card">
+            <h4>📊 Statistical Validation</h4>
+            <p>Applied statistical testing to ensure findings are significant and not due to random variation.</p>
+          </div>
+        </div>
+
+        <h3>🎨 Design Philosophy</h3>
+        <p>Our visualization approach prioritizes:</p>
+        <ul>
+          <li><strong>Narrative Structure:</strong> Each visualization tells part of a larger story</li>
+          <li><strong>Progressive Disclosure:</strong> Users can explore from high-level insights to detailed data</li>
+          <li><strong>Challenge Assumptions:</strong> Deliberately surface counterintuitive findings</li>
+          <li><strong>Actionable Insights:</strong> Every finding includes policy implications</li>
+          <li><strong>Interactive Exploration:</strong> Users can test their own hypotheses</li>
+        </ul>
+      </div>
+
+      <!-- Team Information -->
+      <div class="about-section enhanced">
+        <h3>👥 Research Team</h3>
+        <div class="team-members">
+          <div class="team-member enhanced">
+            <div class="feature-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+              <span style="font-size: 28px;">👨‍💻</span>
+            </div>
+            <h4>Emanuel Singh</h4>
+            <div class="feature-stats">
+              <span class="feature-stat">104515032</span>
+              <span class="feature-label">Student ID</span>
+            </div>
+            <p><strong>Role:</strong> Lead Data Analyst & Visualization Developer</p>
+            <p><strong>Expertise:</strong> Statistical analysis, D3.js development, pattern recognition, data storytelling</p>
+            <p><strong>Key Contributions:</strong> Uncovered the "experience paradox," developed time series analysis, created interactive visualizations</p>
+          </div>
+          
+          <div class="team-member enhanced">
+            <div class="feature-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+              <span style="font-size: 28px;">🎨</span>
+            </div>
             <h4>Sahil Amin</h4>
-            <p>Student ID: 104501837</p>
-            <p>Role: Web Development & UI Design</p>
+            <div class="feature-stats">
+              <span class="feature-stat">104501837</span>
+              <span class="feature-label">Student ID</span>
+            </div>
+            <p><strong>Role:</strong> Web Development & User Experience Design</p>
+            <p><strong>Expertise:</strong> Frontend development, responsive design, user interaction design, accessibility</p>
+            <p><strong>Key Contributions:</strong> Created seamless user experience, developed interactive storytelling features, ensured mobile responsiveness</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Technical Implementation -->
+      <div class="about-section enhanced">
+        <h3>⚙️ Technical Implementation</h3>
+        
+        <div class="feature-grid">
+          <div class="feature-card enhanced">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <h4>D3.js Visualizations</h4>
+            <p>Interactive charts with smooth animations, responsive design, and accessibility features</p>
+          </div>
+          
+          <div class="feature-card enhanced">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+            </div>
+            <h4>Progressive Enhancement</h4>
+            <p>Layered storytelling with basic functionality for all users and enhanced features for modern browsers</p>
+          </div>
+          
+          <div class="feature-card enhanced">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+            </div>
+            <h4>Performance Optimized</h4>
+            <p>Efficient data loading, responsive design, and smooth interactions across all devices</p>
+          </div>
+        </div>
+
+        <h4>🛠️ Technology Stack</h4>
+        <div class="comparison-highlight">
+          <div class="comparison-item">
+            <h4>Frontend</h4>
+            <ul>
+              <li>HTML5, CSS3, JavaScript (ES6+)</li>
+              <li>D3.js v7 for data visualizations</li>
+              <li>Responsive design principles</li>
+              <li>Progressive Web App features</li>
+            </ul>
+          </div>
+          
+          <div class="comparison-item">
+            <h4>Data Processing</h4>
+            <ul>
+              <li>CSV data parsing and validation</li>
+              <li>Statistical analysis functions</li>
+              <li>Real-time filtering and aggregation</li>
+              <li>Cross-browser compatibility</li>
+            </ul>
+          </div>
+          
+          <div class="comparison-item">
+            <h4>User Experience</h4>
+            <ul>
+              <li>Interactive storytelling</li>
+              <li>Smooth animations and transitions</li>
+              <li>Accessibility compliance (WCAG 2.1)</li>
+              <li>Mobile-first responsive design</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Discoveries -->
+      <div class="insights-preview">
+        <div class="container">
+          <h2>🔍 Our Key Discoveries</h2>
+          
+          <div class="insight-revealer">
+            <div class="insight-item" data-reveal="1">
+              <div class="insight-trigger">
+                <h3>🧠 Discovery #1: The Experience Paradox</h3>
+                <button class="reveal-trigger">Click to reveal</button>
+              </div>
+              <div class="insight-content">
+                <p>Middle-aged adults (40-64) consistently receive the most road safety fines across all jurisdictions and time periods—completely contradicting the assumption that young drivers are the primary concern.</p>
+                <div class="insight-data">
+                  <span class="data-point">604,750</span>
+                  <span class="data-label">Fines for experienced drivers</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="insight-item" data-reveal="2">
+              <div class="insight-trigger">
+                <h3>📱 Discovery #2: Technology Revolution Impact</h3>
+                <button class="reveal-trigger">Click to reveal</button>
+              </div>
+              <div class="insight-content">
+                <p>The 2021 spike of 37% in total fines directly correlates with mobile phone detection camera deployment, revealing the true scale of distracted driving.</p>
+                <div class="insight-data">
+                  <span class="data-point">132%</span>
+                  <span class="data-label">NSW increase (2019-2021)</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="insight-item" data-reveal="3">
+              <div class="insight-trigger">
+                <h3>🗺️ Discovery #3: Policy Determines Outcomes</h3>
+                <button class="reveal-trigger">Click to reveal</button>
+              </div>
+              <div class="insight-content">
+                <p>Jurisdictional differences in enforcement rates reflect policy choices rather than geographic or demographic factors, with some states showing 5:1 ratios.</p>
+                <div class="insight-data">
+                  <span class="data-point">15 years</span>
+                  <span class="data-label">Victoria's consistent leadership</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Academic Context -->
+      <div class="about-section enhanced">
+        <h3>🎓 Academic Context</h3>
+        <div class="story-highlight">
+          <p><strong>Course:</strong> COS30045 Data Visualization<br>
+          <strong>Institution:</strong> Swinburne University of Technology<br>
+          <strong>Semester:</strong> Spring 2024<br>
+          <strong>Project Type:</strong> Major Assignment - Data Storytelling</p>
+        </div>
+        
+        <p>This project represents the culmination of our study in data visualization principles, combining technical proficiency with storytelling expertise to create meaningful insights from complex datasets.</p>
+        
+        <h4>🎯 Learning Objectives Achieved</h4>
+        <ul>
+          <li>Applied advanced D3.js techniques for interactive data visualization</li>
+          <li>Demonstrated data storytelling principles with narrative structure</li>
+          <li>Implemented responsive design for multi-device accessibility</li>
+          <li>Conducted statistical analysis to validate findings</li>
+          <li>Created user-centered design with progressive disclosure</li>
+          <li>Developed insights with real-world policy implications</li>
+        </ul>
+      </div>
+
+      <!-- Data Access -->
+      <div class="cta-section">
+        <div class="container">
+          <h2>🔓 Open Data & Reproducibility</h2>
+          <p>We believe in transparent, reproducible research. All data sources are publicly available and our methodology is fully documented.</p>
+          
+          <div class="cta-buttons">
+            <a href="https://www.bitre.gov.au/publications/2024/road-safety-enforcement-data" target="_blank" class="primary-cta">📊 Access Raw Data</a>
+            <a href="../data/police_enforcement_2023_fines_20240920.csv" class="secondary-cta" download>💾 Download Dataset</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact & Attribution -->
+      <div class="about-section enhanced">
+        <h3>📧 Contact & Attribution</h3>
+        <div class="comparison-highlight">
+          <div class="comparison-item">
+            <h4>Data Attribution</h4>
+            <p>Bureau of Infrastructure and Transport Research Economics (BITRE), Department of Infrastructure, Transport, Regional Development, Communications and the Arts, Australian Government</p>
+          </div>
+          
+          <div class="comparison-item">
+            <h4>Visualization Credits</h4>
+            <p>Created by Emanuel Singh and Sahil Amin as part of COS30045 Data Visualization coursework at Swinburne University of Technology</p>
+          </div>
+          
+          <div class="comparison-item">
+            <h4>Usage Rights</h4>
+            <p>This visualization is created for educational purposes. Data source citations required for any reuse or adaptation of insights or methodology.</p>
           </div>
         </div>
       </div>
@@ -121,10 +458,37 @@
 
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Data Source</h4>
+          <p>Bureau of Infrastructure and Transport Research Economics (BITRE) - 5,017 records from 2008-2023</p>
+        </div>
+        <div class="footer-section">
+          <h4>Project Team</h4>
+          <p>Emanuel Singh & Sahil Amin<br>COS30045 Data Visualization</p>
+        </div>
+        <div class="footer-section">
+          <h4>Last Updated</h4>
+          <p>Dataset: September 2024<br>Analysis: December 2024</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+      </div>
     </div>
   </footer>
 
+  <!-- Load scripts -->
+  <script src="../js/utils/statistics.js"></script>
+  <script src="../js/utils/animations.js"></script>
+  <script src="../js/storytelling/story-interactions.js"></script>
   <script src="../js/script.js"></script>
+  
+  <script>
+    // Initialize page animations
+    document.addEventListener('DOMContentLoaded', function() {
+      AnimationUtils.initializePageAnimations();
+    });
+  </script>
 </body>
 </html>

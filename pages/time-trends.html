@@ -6,7 +6,8 @@
   <title>Time Trends - Road Safety Enforcement</title>
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/storytelling.css">
-  <!-- Load D3.js first -->
+  <link rel="stylesheet" href="../css/advanced-interactions.css">
+  <link rel="stylesheet" href="../css/data-story-enhancements.css">
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
@@ -25,6 +26,7 @@
           <a href="jurisdictions.html" class="nav-btn">Jurisdictions</a>
           <a href="age-analysis.html" class="nav-btn">Age Demographics</a>
           <a href="insights.html" class="nav-btn">Key Insights</a>
+          <a href="data-story.html" class="nav-btn story-nav">📊 Data Story</a>
           <a href="about.html" class="nav-btn">About</a>
         </div>
       </div>
@@ -32,98 +34,254 @@
   </header>
 
   <main>
+    <!-- Hero Section -->
+    <div class="hero-story">
+      <div class="container">
+        <div class="story-hook">
+          <h2 class="hook-question">What caused the dramatic 37% spike in road safety fines during 2021?</h2>
+          <p style="font-size: 1.2rem; opacity: 0.9; margin-top: 20px;">Explore 15 years of enforcement data to uncover the technology revolution that changed everything</p>
+        </div>
+      </div>
+    </div>
+
     <div class="container">
-      <section class="page-header">
-        <h2>Time Trends Analysis</h2>
-        <p>Examine how road safety enforcement patterns have changed over time from 2008 to 2023.</p>
-      </section>
-
-      <div class="chart-narrative">
-        <h4>The Story Behind the Time Trend</h4>
-        <p>This visualization reveals three distinct phases in Australian road safety enforcement:</p>
-        <ol>
-          <li><strong>2008-2014:</strong> Gradual growth in enforcement following the introduction of the National Road Safety Strategy.</li>
-          <li><strong>2015-2019:</strong> Accelerated increase as jurisdictions implemented new detection technologies.</li>
-          <li><strong>2020-2023:</strong> Dramatic spike in 2021 followed by a slight decline, coinciding with COVID-19 impacts and changes in driver behavior.</li>
-        </ol>
-        <p>The peak in 2021 represents a <strong>37% increase</strong> from 2020 levels, the largest year-over-year change in the dataset.</p>
-      </div>
-
-      <div class="filter-bar">
-        <!-- Jurisdiction Dropdown -->
-        <div class="filter-group">
-          <label>Select jurisdiction</label>
-          <div class="multi-select-wrapper" id="jurisdiction-dropdown">
-            <div class="select-box" onclick="toggleDropdown()">Select jurisdictions ▼</div>
-            <div class="checkbox-list" id="checkbox-list">
-              <label><input type="checkbox" value="All" onchange="toggleAll(this)" checked> All</label>
-              <label><input type="checkbox" value="ACT" onchange="updateSelection()"> ACT</label>
-              <label><input type="checkbox" value="NSW" onchange="updateSelection()"> NSW</label>
-              <label><input type="checkbox" value="NT" onchange="updateSelection()"> NT</label>
-              <label><input type="checkbox" value="QLD" onchange="updateSelection()"> QLD</label>
-              <label><input type="checkbox" value="SA" onchange="updateSelection()"> SA</label>
-              <label><input type="checkbox" value="TAS" onchange="updateSelection()"> TAS</label>
-              <label><input type="checkbox" value="VIC" onchange="updateSelection()"> VIC</label>
-              <label><input type="checkbox" value="WA" onchange="updateSelection()"> WA</label>
+      <!-- Statistics Dashboard -->
+      <div class="stats-dashboard animated-reveal">
+        <h3>Time Trends Key Statistics</h3>
+        <div class="stats-grid">
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">📈</div>
+            <div class="stat-card-content">
+              <span class="key-stat counter" data-target="37">0</span>
+              <div class="stat-description">% Increase in 2021</div>
+              <div class="stat-change positive">Largest YoY Change</div>
             </div>
-            <div class="selected-output" id="selected-output">Selected: All</div>
           </div>
-        </div>
-
-        <!-- Detection Method -->
-        <div class="filter-group">
-          <label>Select detection method</label>
-          <div class="multi-select-wrapper" id="detection-dropdown">
-            <div class="select-box" onclick="toggleDetectionDropdown()">Select detection methods ▼</div>
-            <div class="checkbox-list" id="detection-checkbox-list">
-              <label><input type="checkbox" value="All" onchange="toggleAllDetection(this)" checked> All</label>
-              <label><input type="checkbox" value="Camera" onchange="updateDetectionSelection()"> Camera</label>
-              <label><input type="checkbox" value="Police" onchange="updateDetectionSelection()"> Police</label>
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">📱</div>
+            <div class="stat-card-content">
+              <span class="key-stat">2019</span>
+              <div class="stat-description">Mobile Phone Cameras Deployed</div>
+              <div class="stat-change positive">Technology Revolution</div>
             </div>
-            <div class="selected-output" id="detection-selected-output">Selected: All</div>
           </div>
-        </div>
-
-        <!-- Reset Button -->
-        <div class="filter-group">
-          <label>&nbsp;</label>
-          <button id="reset">RESET VIEW</button>
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">🦠</div>
+            <div class="stat-card-content">
+              <span class="key-stat">2020-21</span>
+              <div class="stat-description">COVID-19 Impact Period</div>
+              <div class="stat-change neutral">Behavioral Changes</div>
+            </div>
+          </div>
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-card-content">
+              <span class="key-stat counter" data-target="15">0</span>
+              <div class="stat-description">Years of Data</div>
+              <div class="stat-change positive">2008-2023</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="chart-container" style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:24px; margin:32px 0;">
-        <h3>Yearly Trends in Total Fines (2008-2023)</h3>
-        <div id="time-trends-chart" style="display:flex; flex-direction:column; align-items:center; width:100%;">
-          <svg viewBox="0 0 1000 600" width="100%" height="500"></svg>
-          <!-- Legend for line chart -->
-          <div class="chart-legend" style="margin-top:12px; display:flex; align-items:center; gap:16px;">
-            <span style="display:inline-block;width:18px;height:4px;background:#3b82f6;border-radius:2px;margin-right:4px;"></span>
-            <span style="font-size:13px;color:#333;">Total Fines</span>
-            <span style="display:inline-block;width:12px;height:12px;background:#10b981;border-radius:50%;margin-left:16px;margin-right:4px;"></span>
-            <span style="font-size:13px;color:#333;">Tech Upgrade</span>
-            <span style="display:inline-block;width:12px;height:12px;background:#f59e0b;border-radius:50%;margin-left:16px;margin-right:4px;"></span>
-            <span style="font-size:13px;color:#333;">COVID-19</span>
+      <!-- Data Story Narrative -->
+      <div class="data-journey-section">
+        <h2>The Story Behind the Time Trend</h2>
+        <p class="journey-intro">This visualization reveals three distinct phases in Australian road safety enforcement evolution:</p>
+        
+        <div class="journey-map">
+          <div class="journey-step completed">
+            <div class="journey-icon">🏗️</div>
+            <h4>Foundation Era (2008-2014)</h4>
+            <p>Gradual growth following the National Road Safety Strategy implementation</p>
+            <div class="journey-insight">Steady baseline establishment</div>
           </div>
-        </div>
-        <div class="chart-description" style="margin-top:16px;">
-          <p>The time series analysis reveals significant trends in enforcement activity from 2008 to 2023. Overall fine issuance has increased substantially since 2008, with a notable peak occurring in 2021, followed by a slight decline in 2022-2023. Several fluctuations appear to coincide with policy changes or enforcement campaigns.</p>
+          
+          <div class="journey-step completed">
+            <div class="journey-icon">🚀</div>
+            <h4>Technology Era (2015-2019)</h4>
+            <p>Accelerated increase as automated detection systems were deployed</p>
+            <div class="journey-insight">Camera technology adoption</div>
+          </div>
+          
+          <div class="journey-step completed">
+            <div class="journey-icon">📱</div>
+            <h4>Revolution Era (2020-2023)</h4>
+            <p>Dramatic spike in 2021 with mobile phone detection cameras</p>
+            <div class="journey-insight">132% increase in NSW alone</div>
+          </div>
         </div>
       </div>
 
-      <div class="data-insights">
-        <h2>Key Insights</h2>
-        <div class="insight-cards">
-          <div class="insight-card">
-            <h3>Growth Period</h3>
-            <p>The period from 2010-2013 shows steady growth in fines, followed by more rapid increases after 2016, coinciding with the adoption of new automated enforcement technologies.</p>
+      <!-- Enhanced Filters -->
+      <div class="enhanced-filters">
+        <div class="filter-bar">
+          <!-- Jurisdiction Dropdown -->
+          <div class="filter-group">
+            <label>Select jurisdiction</label>
+            <div class="multi-select-wrapper" id="jurisdiction-dropdown">
+              <div class="select-box" onclick="toggleDropdown()">Select jurisdictions ▼</div>
+              <div class="checkbox-list" id="checkbox-list">
+                <label><input type="checkbox" value="All" onchange="toggleAll(this)" checked> All</label>
+                <label><input type="checkbox" value="ACT" onchange="updateSelection()"> ACT</label>
+                <label><input type="checkbox" value="NSW" onchange="updateSelection()"> NSW</label>
+                <label><input type="checkbox" value="NT" onchange="updateSelection()"> NT</label>
+                <label><input type="checkbox" value="QLD" onchange="updateSelection()"> QLD</label>
+                <label><input type="checkbox" value="SA" onchange="updateSelection()"> SA</label>
+                <label><input type="checkbox" value="TAS" onchange="updateSelection()"> TAS</label>
+                <label><input type="checkbox" value="VIC" onchange="updateSelection()"> VIC</label>
+                <label><input type="checkbox" value="WA" onchange="updateSelection()"> WA</label>
+              </div>
+              <div class="selected-output" id="selected-output">Selected: All</div>
+            </div>
           </div>
-          <div class="insight-card">
-            <h3>Recent Peak</h3>
-            <p>A significant peak occurred in 2021, representing a 37% increase from 2020 levels, possibly due to post-lockdown increases in driving activity and enhanced enforcement.</p>
+
+          <!-- Detection Method -->
+          <div class="filter-group">
+            <label>Select detection method</label>
+            <div class="multi-select-wrapper" id="detection-dropdown">
+              <div class="select-box" onclick="toggleDetectionDropdown()">Select detection methods ▼</div>
+              <div class="checkbox-list" id="detection-checkbox-list">
+                <label><input type="checkbox" value="All" onchange="toggleAllDetection(this)" checked> All</label>
+                <label><input type="checkbox" value="Camera" onchange="updateDetectionSelection()"> Camera</label>
+                <label><input type="checkbox" value="Police" onchange="updateDetectionSelection()"> Police</label>
+              </div>
+              <div class="selected-output" id="detection-selected-output">Selected: All</div>
+            </div>
           </div>
+
+          <div class="analysis-toggles">
+            <label class="toggle-label">
+              <input type="checkbox" id="show-annotations"> Show Key Events
+            </label>
+            <label class="toggle-label">
+              <input type="checkbox" id="show-trend-line"> Show Trend Line
+            </label>
+          </div>
+
+          <!-- Reset Button -->
+          <div class="filter-group">
+            <button class="reset-btn" id="reset">RESET VIEW</button>
+            <button class="export-btn" onclick="exportChart()">EXPORT DATA</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhanced Chart Container -->
+      <div class="enhanced-chart-container chart-fade-in">
+        <div class="chart-header">
+          <h3>Yearly Trends in Total Fines (2008-2023)</h3>
+          <div class="chart-controls">
+            <button class="analysis-btn" onclick="showInsights()">📊 Show Insights</button>
+            <button class="analysis-btn" onclick="toggleAnnotations()">📍 Toggle Events</button>
+          </div>
+        </div>
+        
+        <div class="enhanced-chart">
+          <div id="time-trends-chart" style="width:100%; min-height: 500px;">
+            <svg viewBox="0 0 1000 600" width="100%" height="500"></svg>
+          </div>
+        </div>
+
+        <!-- Chart Insights -->
+        <div class="chart-insights" id="chart-insights" style="display: none;">
           <div class="insight-card">
-            <h3>Recent Trend</h3>
-            <p>There has been a slight decline in fine numbers during 2022-2023, which may indicate changing driver behaviors after exposure to increased enforcement or shifting policy priorities.</p>
+            <span class="insight-icon">📈</span>
+            <h4>Peak Year</h4>
+            <span class="insight-value" id="peak-year-value">2021</span>
+            <p>Highest enforcement activity recorded</p>
+          </div>
+          
+          <div class="insight-card">
+            <span class="insight-icon">🚀</span>
+            <h4>Growth Rate</h4>
+            <span class="insight-value" id="growth-rate-value">+27%</span>
+            <p>Year-over-year increase in 2021</p>
+          </div>
+          
+          <div class="insight-card">
+            <span class="insight-icon">📱</span>
+            <h4>Technology Impact</h4>
+            <span class="insight-value">2019+</span>
+            <p>Mobile detection deployment</p>
+          </div>
+          
+          <div class="insight-card">
+            <span class="insight-icon">📊</span>
+            <h4>Overall Trend</h4>
+            <span class="insight-value" id="overall-trend">Increasing</span>
+            <p>Long-term pattern analysis</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statistical Highlights -->
+      <div class="statistical-highlight">
+        <div id="yoy-key-insight">
+          <strong>Largest Year-over-Year Change:</strong>
+        </div>
+      </div>
+
+      <!-- Key Insights Preview -->
+      <div class="insights-preview">
+        <div class="container">
+          <h2>Three Key Discoveries from Time Trends Analysis</h2>
+          
+          <div class="insight-revealer">
+            <div class="insight-item" data-reveal="1">
+              <div class="insight-trigger">
+                <h3>🚀 Discovery #1: The Technology Acceleration</h3>
+                <button class="reveal-trigger">Click to reveal</button>
+              </div>
+              <div class="insight-content">
+                <p>The deployment of automated mobile phone detection cameras in 2019 created a cascade effect, leading to the dramatic 2021 spike. This wasn't an increase in violations—it was technology finally catching what was always happening.</p>
+                <div class="insight-data">
+                  <span class="data-point">132%</span>
+                  <span class="data-label">NSW increase (2019-2021)</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="insight-item" data-reveal="2">
+              <div class="insight-trigger">
+                <h3>🦠 Discovery #2: The Pandemic Paradox</h3>
+                <button class="reveal-trigger">Click to reveal</button>
+              </div>
+              <div class="insight-content">
+                <p>Despite reduced traffic during 2020 lockdowns, 2021 saw record enforcement levels. This suggests behavioral changes as restrictions lifted, possibly including increased phone use while driving.</p>
+                <div class="insight-data">
+                  <span class="data-point">+27%</span>
+                  <span class="data-label">2020 to 2021 increase</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="insight-item" data-reveal="3">
+              <div class="insight-trigger">
+                <h3>📊 Discovery #3: The New Normal</h3>
+                <button class="reveal-trigger">Click to reveal</button>
+              </div>
+              <div class="insight-content">
+                <p>The slight decline in 2022-2023 doesn't represent reduced enforcement—it likely shows drivers adapting to new technology and changing behaviors in response to increased detection rates.</p>
+                <div class="insight-data">
+                  <span class="data-point">−31.8%</span>
+                  <span class="data-label">2021 to 2023 adjustment</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Call to Action -->
+      <div class="cta-section">
+        <div class="container">
+          <h2>Explore More Patterns</h2>
+          <p>Discover how these time trends vary across different jurisdictions and age groups.</p>
+          
+          <div class="cta-buttons">
+            <a href="jurisdictions.html" class="primary-cta">🗺️ Geographic Patterns →</a>
+            <a href="age-analysis.html" class="secondary-cta">👥 Age Demographics →</a>
           </div>
         </div>
       </div>
@@ -132,71 +290,55 @@
 
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Data Source</h4>
+          <p>Bureau of Infrastructure and Transport Research Economics (BITRE) - 5,017 records from 2008-2023</p>
+        </div>
+        <div class="footer-section">
+          <h4>Key Finding</h4>
+          <p>27% increase in 2021<br>Technology-driven enforcement revolution</p>
+        </div>
+        <div class="footer-section">
+          <h4>Last Updated</h4>
+          <p>Dataset: September 2024<br>Analysis: December 2024</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+      </div>
     </div>
   </footer>
 
-  <!-- Load script.js before specific chart scripts -->
+  <!-- Load scripts -->
+  <script src="../js/utils/statistics.js"></script>
+  <script src="../js/utils/animations.js"></script>
   <script src="../js/script.js"></script>
   <script src="../js/dataLoader.js"></script>
   <script src="../js/year-line.js"></script>
+  <script src="../js/storytelling/story-interactions.js"></script>
   
   <script>
-    // Additional script to ensure the dropdown functions are properly initialized
+    // Enhanced interactions
+    function showInsights() {
+      const insights = document.getElementById('chart-insights');
+      insights.style.display = insights.style.display === 'none' ? 'grid' : 'none';
+    }
+    
+    function toggleAnnotations() {
+      // This would toggle chart annotations
+      console.log('Toggle annotations');
+    }
+    
+    function exportChart() {
+      // Export functionality
+      console.log('Export chart data');
+    }
+    
+    // Initialize page animations
     document.addEventListener('DOMContentLoaded', function() {
-      console.log("Initializing time trends page dropdowns");
-      
-      // Define missing functions if they don't exist (backup)
-      if (!window.toggleDetectionDropdown) {
-        window.toggleDetectionDropdown = function() {
-          const dropdownList = document.getElementById('detection-checkbox-list');
-          if (dropdownList) {
-            dropdownList.style.display = dropdownList.style.display === 'block' ? 'none' : 'block';
-          }
-        };
-      }
-      
-      if (!window.toggleAllDetection) {
-        window.toggleAllDetection = function(checkbox) {
-          const checkboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]:not([value="All"])');
-          checkboxes.forEach(cb => cb.checked = checkbox.checked);
-          if (typeof updateDetectionSelection === 'function') {
-            updateDetectionSelection();
-          }
-        };
-      }
-      
-      if (!window.updateDetectionSelection) {
-        window.updateDetectionSelection = function() {
-          const checkboxes = document.querySelectorAll('#detection-checkbox-list input[type="checkbox"]:not([value="All"])');
-          const allCheckbox = document.querySelector('#detection-checkbox-list input[value="All"]');
-          const output = document.getElementById('detection-selected-output');
-          
-          if (!output) return;
-          
-          const selected = Array.from(checkboxes)
-            .filter(cb => cb.checked)
-            .map(cb => cb.value);
-            
-          const allSelected = selected.length === checkboxes.length;
-          
-          if (allCheckbox) {
-            allCheckbox.checked = allSelected;
-          }
-          
-          if (selected.length === 0) {
-            output.textContent = 'Selected: None';
-          } else if (allSelected) {
-            output.textContent = 'Selected: All';
-          } else {
-            output.textContent = `Selected: ${selected.join(', ')}`;
-          }
-          
-          if (typeof updateChart === 'function') {
-            updateChart();
-          }
-        };
-      }
+      // Start counter animations
+      AnimationUtils.initializePageAnimations();
     });
   </script>
 </body>

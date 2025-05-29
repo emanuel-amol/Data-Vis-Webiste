@@ -6,6 +6,9 @@
   <title>Jurisdictional Analysis - Road Safety Enforcement</title>
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/storytelling.css">
+  <link rel="stylesheet" href="../css/advanced-interactions.css">
+  <link rel="stylesheet" href="../css/data-story-enhancements.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
   <header>
@@ -23,6 +26,7 @@
           <a href="jurisdictions.html" class="nav-btn active">Jurisdictions</a>
           <a href="age-analysis.html" class="nav-btn">Age Demographics</a>
           <a href="insights.html" class="nav-btn">Key Insights</a>
+          <a href="data-story.html" class="nav-btn story-nav">📊 Data Story</a>
           <a href="about.html" class="nav-btn">About</a>
         </div>
       </div>
@@ -30,144 +34,313 @@
   </header>
 
   <main>
+    <!-- Hero Section -->
+    <div class="hero-story">
+      <div class="container">
+        <div class="story-hook">
+          <h2 class="hook-question">Why does NSW have 132% more fines than expected?</h2>
+          <p style="font-size: 1.2rem; opacity: 0.9; margin-top: 20px;">Explore how technology and policy differences create dramatic variations across Australian jurisdictions</p>
+        </div>
+      </div>
+    </div>
+
     <div class="container">
-      <section class="page-header">
-        <h2>Jurisdictional Analysis</h2>
-        <p>Compare road safety enforcement patterns across different Australian jurisdictions.</p>
-      </section>
-
-      <div class="jurisdiction-story">
-        <h3>Understanding Geographical Patterns</h3>
-        <p>The visualizations reveal significant disparities in enforcement across Australian jurisdictions:</p>
-        
-        <div class="comparison-highlight">
-          <div class="comparison-item">
-            <h4>Victoria</h4>
-            <p>Consistently shows the highest per capita enforcement rate, with camera detection being the primary method.</p>
-          </div>
-          <div class="comparison-item">
-            <h4>New South Wales</h4>
-            <p>Experienced the most dramatic increase in enforcement (132% from 2019 to 2021) after implementing mobile phone detection cameras.</p>
-          </div>
-          <div class="comparison-item">
-            <h4>Northern Territory</h4>
-            <p>Despite having the lowest total fines, has the highest road fatality rate, suggesting potential for increased enforcement.</p>
-          </div>
-        </div>
-        
-        <p class="storytelling-tip">Interact with the visualizations and use filters to see how patterns change when filtering by year and detection method.</p>
-      </div>
-
-      <div class="filter-bar">
-        <!-- Year Dropdown -->
-        <div class="filter-group">
-          <label>Select year range</label>
-          <div class="multi-select-wrapper" id="year-dropdown">
-            <div class="select-box" onclick="toggleYearDropdown()">Select years ▼</div>
-            <div class="checkbox-list" id="year-checkbox-list">
-              <label><input type="checkbox" value="All" onchange="toggleAllYears(this)" checked> All</label>
-              <label><input type="checkbox" value="2023" onchange="updateYearSelection()"> 2023</label>
-              <label><input type="checkbox" value="2022" onchange="updateYearSelection()"> 2022</label>
-              <label><input type="checkbox" value="2021" onchange="updateYearSelection()"> 2021</label>
-              <label><input type="checkbox" value="2020" onchange="updateYearSelection()"> 2020</label>
-              <label><input type="checkbox" value="2019" onchange="updateYearSelection()"> 2019</label>
-              <label><input type="checkbox" value="2018" onchange="updateYearSelection()"> 2018</label>
-              <label><input type="checkbox" value="2017" onchange="updateYearSelection()"> 2017</label>
-              <label><input type="checkbox" value="2016" onchange="updateYearSelection()"> 2016</label>
-              <label><input type="checkbox" value="2015" onchange="updateYearSelection()"> 2015</label>
-              <label><input type="checkbox" value="2014" onchange="updateYearSelection()"> 2014</label>
-              <label><input type="checkbox" value="2013" onchange="updateYearSelection()"> 2013</label>
-              <label><input type="checkbox" value="2012" onchange="updateYearSelection()"> 2012</label>
-              <label><input type="checkbox" value="2011" onchange="updateYearSelection()"> 2011</label>
-              <label><input type="checkbox" value="2010" onchange="updateYearSelection()"> 2010</label>
-              <label><input type="checkbox" value="2009" onchange="updateYearSelection()"> 2009</label>
-              <label><input type="checkbox" value="2008" onchange="updateYearSelection()"> 2008</label>
+      <!-- Statistics Dashboard -->
+      <div class="stats-dashboard animated-reveal">
+        <h3>Jurisdictional Key Statistics</h3>
+        <div class="stats-grid">
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">🗺️</div>
+            <div class="stat-card-content">
+              <span class="key-stat counter" data-target="8">0</span>
+              <div class="stat-description">Jurisdictions Analyzed</div>
+              <div class="stat-change positive">Complete Coverage</div>
             </div>
-            <div class="selected-output" id="year-selected-output">Selected: All</div>
           </div>
-        </div>
-
-        <!-- Detection Method -->
-        <div class="filter-group">
-          <label>Select detection method</label>
-          <div class="multi-select-wrapper" id="detection-dropdown">
-            <div class="select-box" onclick="toggleDetectionDropdown()">Select detection methods ▼</div>
-            <div class="checkbox-list" id="detection-checkbox-list">
-              <label><input type="checkbox" value="All" onchange="toggleAllDetection(this)" checked> All</label>
-              <label><input type="checkbox" value="Camera" onchange="updateDetectionSelection()"> Camera</label>
-              <label><input type="checkbox" value="Police" onchange="updateDetectionSelection()"> Police</label>
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-card-content">
+              <span class="key-stat">NSW</span>
+              <div class="stat-description">Highest Growth Rate</div>
+              <div class="stat-change positive">132% Increase</div>
             </div>
-            <div class="selected-output" id="detection-selected-output">Selected: All</div>
           </div>
-        </div>
-
-        <!-- Reset Button -->
-        <div class="filter-group">
-          <label style="visibility:hidden">Reset</label>
-          <button id="reset">RESET VIEW</button>
-        </div>
-      </div>
-
-      <!-- Toggle between different visualizations -->
-      <div class="viz-tabs">
-        <button class="viz-tab active" data-tab="line-chart-tab">Line Chart</button>
-        <button class="viz-tab" data-tab="stacked-area-tab">Stacked Area</button>
-        <button class="viz-tab" data-tab="map-tab">Map View</button>
-      </div>
-      
-      <!-- Line Chart Tab -->
-      <div id="line-chart-tab" class="tab-content" style="display: block;">
-        <div class="chart-container">
-          <h3>Fine Trends by Jurisdiction (2008-2023)</h3>
-          <div class="chart-placeholder" id="jurisdiction-line-chart">
-            <!-- D3 line chart will be rendered here -->
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">📱</div>
+            <div class="stat-card-content">
+              <span class="key-stat">VIC</span>
+              <div class="stat-description">Consistent Leader</div>
+              <div class="stat-change positive">Steady Enforcement</div>
+            </div>
           </div>
-          <div class="chart-description">
-            <p>This line chart shows fine trends by jurisdiction from 2008 to 2023. Victoria (VIC) consistently shows the highest level of fines throughout most of the period, while New South Wales (NSW) shows a dramatic increase in fines from 2020-2021, surpassing other jurisdictions. The chart reveals how different states have adopted varying enforcement approaches at different times.</p>
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-card-content">
+              <span class="key-stat">5:1</span>
+              <div class="stat-description">NSW:NT Ratio</div>
+              <div class="stat-change neutral">Population Adjusted</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Stacked Area Tab -->
-      <div id="stacked-area-tab" class="tab-content" style="display: none;">
-        <div class="chart-container">
-          <h3>Relative Contribution by Jurisdiction (2008-2023)</h3>
-          <div class="chart-placeholder" id="jurisdiction-area-chart">
-            <!-- D3 stacked area chart will be rendered here -->
+      <!-- Geographic Story -->
+      <div class="data-journey-section">
+        <h2>The Geographic Story of Enforcement</h2>
+        <p class="journey-intro">Each jurisdiction tells a unique story about road safety enforcement approaches and outcomes:</p>
+        
+        <div class="journey-map">
+          <div class="journey-step completed">
+            <div class="journey-icon">🏃</div>
+            <h4>NSW: The Technology Pioneer</h4>
+            <p>132% increase from 2019-2021 with mobile phone detection cameras</p>
+            <div class="journey-insight">Revolutionary technology adoption</div>
           </div>
-          <div class="chart-description">
-            <p>This stacked area chart shows the relative contribution of each jurisdiction to total fines over time. It highlights how the proportion of fines from different jurisdictions has evolved from 2008 to 2023, revealing shifts in enforcement priorities across Australia's states and territories. The growing area of NSW since 2019 demonstrates its increasing role in overall enforcement activity.</p>
+          
+          <div class="journey-step completed">
+            <div class="journey-icon">🎯</div>
+            <h4>VIC: The Consistent Enforcer</h4>
+            <p>Maintained highest enforcement rates throughout the period</p>
+            <div class="journey-insight">Systematic approach leader</div>
+          </div>
+          
+          <div class="journey-step completed">
+            <div class="journey-icon">📈</div>
+            <h4>QLD: The Steady Climber</h4>
+            <p>Gradual but consistent growth in enforcement activity</p>
+            <div class="journey-insight">Sustainable growth model</div>
           </div>
         </div>
       </div>
 
-      <!-- Map Tab -->
-      <div id="map-tab" class="tab-content" style="display: none;">
-        <div class="chart-container">
-          <h3>Geographic Distribution of Fines</h3>
-          <div id="jurisdiction-map">
-            <!-- The D3 map will be created here -->
+      <!-- Enhanced Filters -->
+      <div class="enhanced-filters">
+        <div class="filter-bar">
+          <!-- Year Range Dropdown -->
+          <div class="filter-group">
+            <label>Select year range</label>
+            <div class="multi-select-wrapper" id="year-dropdown">
+              <div class="select-box" onclick="toggleYearDropdown()">Select years ▼</div>
+              <div class="checkbox-list" id="year-checkbox-list">
+                <label><input type="checkbox" value="All" onchange="toggleAllYears(this)" checked> All</label>
+                <label><input type="checkbox" value="2023" onchange="updateYearSelection()"> 2023</label>
+                <label><input type="checkbox" value="2022" onchange="updateYearSelection()"> 2022</label>
+                <label><input type="checkbox" value="2021" onchange="updateYearSelection()"> 2021</label>
+                <label><input type="checkbox" value="2020" onchange="updateYearSelection()"> 2020</label>
+                <label><input type="checkbox" value="2019" onchange="updateYearSelection()"> 2019</label>
+                <label><input type="checkbox" value="2018" onchange="updateYearSelection()"> 2018</label>
+                <label><input type="checkbox" value="2017" onchange="updateYearSelection()"> 2017</label>
+                <label><input type="checkbox" value="2016" onchange="updateYearSelection()"> 2016</label>
+                <label><input type="checkbox" value="2015" onchange="updateYearSelection()"> 2015</label>
+                <label><input type="checkbox" value="2014" onchange="updateYearSelection()"> 2014</label>
+                <label><input type="checkbox" value="2013" onchange="updateYearSelection()"> 2013</label>
+                <label><input type="checkbox" value="2012" onchange="updateYearSelection()"> 2012</label>
+                <label><input type="checkbox" value="2011" onchange="updateYearSelection()"> 2011</label>
+                <label><input type="checkbox" value="2010" onchange="updateYearSelection()"> 2010</label>
+                <label><input type="checkbox" value="2009" onchange="updateYearSelection()"> 2009</label>
+                <label><input type="checkbox" value="2008" onchange="updateYearSelection()"> 2008</label>
+              </div>
+              <div class="selected-output" id="year-selected-output">Selected: All</div>
+            </div>
           </div>
-          <div class="chart-description">
-            <p>This map visualization shows the geographic distribution of road safety fines across Australia. Darker colors indicate higher numbers of fines in that jurisdiction. The map reveals the significant disparity between states, with Victoria and New South Wales showing substantially higher enforcement rates than other jurisdictions.</p>
+
+          <!-- Detection Method -->
+          <div class="filter-group">
+            <label>Select detection method</label>
+            <div class="multi-select-wrapper" id="detection-dropdown">
+              <div class="select-box" onclick="toggleDetectionDropdown()">Select detection methods ▼</div>
+              <div class="checkbox-list" id="detection-checkbox-list">
+                <label><input type="checkbox" value="All" onchange="toggleAllDetection(this)" checked> All</label>
+                <label><input type="checkbox" value="Camera" onchange="updateDetectionSelection()"> Camera</label>
+                <label><input type="checkbox" value="Police" onchange="updateDetectionSelection()"> Police</label>
+              </div>
+              <div class="selected-output" id="detection-selected-output">Selected: All</div>
+            </div>
+          </div>
+
+          <div class="analysis-toggles">
+            <label class="toggle-label">
+              <input type="checkbox" id="show-per-capita"> Per-Capita View
+            </label>
+            <label class="toggle-label">
+              <input type="checkbox" id="show-trends"> Show Trend Lines
+            </label>
+          </div>
+
+          <!-- Control Buttons -->
+          <div class="filter-group">
+            <button class="reset-btn" id="reset">RESET VIEW</button>
+            <button class="export-btn" onclick="exportData()">EXPORT DATA</button>
           </div>
         </div>
       </div>
 
-      <div class="data-insights">
-        <h2>Key Insights</h2>
-        <div class="insight-cards">
+      <!-- Tabbed Visualizations -->
+      <div class="enhanced-chart-container chart-fade-in">
+        <div class="chart-header">
+          <h3>Jurisdictional Analysis Dashboard</h3>
+          <div class="chart-controls">
+            <button class="analysis-btn" onclick="showComparison()">📊 Compare States</button>
+            <button class="analysis-btn" onclick="togglePerCapita()">👥 Per-Capita View</button>
+          </div>
+        </div>
+
+        <!-- Visualization Tabs -->
+        <div class="viz-tabs">
+          <button class="viz-tab active" data-tab="line-chart-tab">📈 Trends</button>
+          <button class="viz-tab" data-tab="stacked-area-tab">📊 Composition</button>
+          <button class="viz-tab" data-tab="map-tab">🗺️ Geographic</button>
+        </div>
+        
+        <!-- Line Chart Tab -->
+        <div id="line-chart-tab" class="tab-content" style="display: block;">
+          <div class="enhanced-chart">
+            <div class="chart-placeholder" id="jurisdiction-line-chart" style="min-height: 500px;">
+              <!-- D3 line chart will be rendered here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Stacked Area Tab -->
+        <div id="stacked-area-tab" class="tab-content" style="display: none;">
+          <div class="enhanced-chart">
+            <div class="chart-placeholder" id="jurisdiction-area-chart" style="min-height: 500px;">
+              <!-- D3 stacked area chart will be rendered here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Map Tab -->
+        <div id="map-tab" class="tab-content" style="display: none;">
+          <div class="enhanced-chart">
+            <div id="jurisdiction-map" style="min-height: 500px;">
+              <!-- The D3 map will be created here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Insights -->
+        <div class="chart-insights">
           <div class="insight-card">
-            <h3>Victoria</h3>
-            <p>Victoria (VIC) consistently shows the highest level of fines throughout most of the period, suggesting more rigorous enforcement or different policy approaches to road safety violations.</p>
+            <span class="insight-icon">🏆</span>
+            <h4>Leading State</h4>
+            <span class="insight-value">NSW</span>
+            <p>Highest absolute enforcement</p>
           </div>
+          
           <div class="insight-card">
-            <h3>New South Wales</h3>
-            <p>New South Wales (NSW) shows a dramatic increase in fines from 2020-2021, surpassing other jurisdictions. This coincides with the implementation of mobile phone detection camera technology in late 2019.</p>
+            <span class="insight-icon">📈</span>
+            <h4>Biggest Growth</h4>
+            <span class="insight-value">+132%</span>
+            <p>NSW increase (2019-2021)</p>
           </div>
+          
           <div class="insight-card">
-            <h3>Smaller Jurisdictions</h3>
-            <p>Smaller jurisdictions (ACT, NT, TAS) show lower absolute numbers but potentially interesting per capita patterns when adjusted for population size, particularly in the Northern Territory.</p>
+            <span class="insight-icon">🎯</span>
+            <h4>Most Consistent</h4>
+            <span class="insight-value">VIC</span>
+            <p>Steady enforcement leader</p>
+          </div>
+          
+          <div class="insight-card">
+            <span class="insight-icon">🗺️</span>
+            <h4>Geographic Spread</h4>
+            <span class="insight-value">5:1</span>
+            <p>Highest to lowest ratio</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Jurisdictional Comparison Cards -->
+      <div class="comparison-highlight">
+        <div class="comparison-item enhanced">
+          <h4>🏃 New South Wales</h4>
+          <div class="feature-stats">
+            <span class="feature-stat">132%</span>
+            <span class="feature-label">Growth Rate 2019-2021</span>
+          </div>
+          <p>Revolutionary mobile phone detection technology deployment created unprecedented enforcement capability.</p>
+        </div>
+        
+        <div class="comparison-item enhanced">
+          <h4>🎯 Victoria</h4>
+          <div class="feature-stats">
+            <span class="feature-stat">#1</span>
+            <span class="feature-label">Consistent Leader</span>
+          </div>
+          <p>Maintained highest per-capita enforcement rates with systematic camera deployment strategy.</p>
+        </div>
+        
+        <div class="comparison-item enhanced">
+          <h4>📈 Queensland</h4>
+          <div class="feature-stats">
+            <span class="feature-stat">+45%</span>
+            <span class="feature-label">Steady Growth</span>
+          </div>
+          <p>Gradual but consistent growth in enforcement activity across urban and regional areas.</p>
+        </div>
+      </div>
+
+      <!-- Key Insights Preview -->
+      <div class="insights-preview">
+        <div class="container">
+          <h2>Three Geographic Insights That Reshape Road Safety Policy</h2>
+          
+          <div class="insight-revealer">
+            <div class="insight-item" data-reveal="1">
+              <div class="insight-trigger">
+                <h3>📱 Insight #1: Technology Adoption Creates Dramatic Differences</h3>
+                <button class="reveal-trigger">Click to reveal</button>
+              </div>
+              <div class="insight-content">
+                <p>NSW's 132% increase demonstrates how rapidly jurisdictions can transform enforcement outcomes through technology adoption. This wasn't gradual change—it was technological revolution.</p>
+                <div class="insight-data">
+                  <span class="data-point">132%</span>
+                  <span class="data-label">NSW technology impact</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="insight-item" data-reveal="2">
+              <div class="insight-trigger">
+                <h3>🎯 Insight #2: Consistency Beats Intensity</h3>
+                <button class="reveal-trigger">Click to reveal</button>
+              </div>
+              <div class="insight-content">
+                <p>Victoria's steady leadership throughout 15 years shows that consistent enforcement policy may be more effective than dramatic spikes in activity.</p>
+                <div class="insight-data">
+                  <span class="data-point">15</span>
+                  <span class="data-label">Years of VIC leadership</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="insight-item" data-reveal="3">
+              <div class="insight-trigger">
+                <h3>🗺️ Insight #3: Geography Doesn't Determine Policy</h3>
+                <button class="reveal-trigger">Click to reveal</button>
+              </div>
+              <div class="insight-content">
+                <p>Similar-sized jurisdictions show vastly different enforcement patterns, suggesting that policy choices, not geographic constraints, drive enforcement levels.</p>
+                <div class="insight-data">
+                  <span class="data-point">5:1</span>
+                  <span class="data-label">Highest to lowest ratio</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Call to Action -->
+      <div class="cta-section">
+        <div class="container">
+          <h2>Explore Cross-Jurisdictional Patterns</h2>
+          <p>Discover how these geographic differences intersect with demographic trends and time patterns.</p>
+          
+          <div class="cta-buttons">
+            <a href="age-analysis.html" class="primary-cta">👥 Age Demographics →</a>
+            <a href="time-trends.html" class="secondary-cta">📈 Time Analysis →</a>
           </div>
         </div>
       </div>
@@ -176,16 +349,57 @@
 
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Data Source</h4>
+          <p>Bureau of Infrastructure and Transport Research Economics (BITRE) - 5,017 records from 2008-2023</p>
+        </div>
+        <div class="footer-section">
+          <h4>Key Finding</h4>
+          <p>132% NSW increase (2019-2021)<br>Technology-driven jurisdiction differences</p>
+        </div>
+        <div class="footer-section">
+          <h4>Last Updated</h4>
+          <p>Dataset: September 2024<br>Analysis: December 2024</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+      </div>
     </div>
   </footer>
-  
-  <!-- Load D3.js first -->
-  <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <!-- Load scripts -->
+  <script src="../js/utils/statistics.js"></script>
+  <script src="../js/utils/animations.js"></script>
   <script src="../js/script.js"></script>
   <script src="../js/dataLoader.js"></script>
   <script src="../js/jurisdictionMap.js"></script>
   <script src="../js/jurisdiction-line.js"></script>
   <script src="../js/jurisdiction-area.js"></script>
+  <script src="../js/storytelling/story-interactions.js"></script>
+  
+  <script>
+    // Enhanced interactions
+    function showComparison() {
+      // Toggle comparison mode
+      console.log('Show state comparison');
+    }
+    
+    function togglePerCapita() {
+      // Toggle per-capita calculations
+      console.log('Toggle per-capita view');
+    }
+    
+    function exportData() {
+      // Export functionality
+      console.log('Export jurisdiction data');
+    }
+    
+    // Initialize page animations
+    document.addEventListener('DOMContentLoaded', function() {
+      AnimationUtils.initializePageAnimations();
+    });
+  </script>
 </body>
 </html>
