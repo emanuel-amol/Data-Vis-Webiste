@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/storytelling.css">
   <link rel="stylesheet" href="css/advanced-interactions.css">
+  <link rel="stylesheet" href="css/data-story-enhancements.css">
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
@@ -26,6 +27,7 @@
           <a href="pages/jurisdictions.html" class="nav-btn">Jurisdictions</a>
           <a href="pages/age-analysis.html" class="nav-btn">Age Demographics</a>
           <a href="pages/insights.html" class="nav-btn">Key Insights</a>
+          <a href="pages/data-story.html" class="nav-btn story-nav">📊 Data Story</a>
           <a href="pages/about.html" class="nav-btn">About</a>
         </div>
       </div>
@@ -33,176 +35,206 @@
   </header>
 
   <main>
-    <div class="hero">
+    <!-- Hero Section with Data Hook -->
+    <div class="hero-story">
       <div class="container">
-        <h2>The Story of Road Safety Enforcement in Australia</h2>
-        <div class="story-highlight animated-reveal">
-          <div class="surprise-stat">
-            <span class="big-number" id="middle-age-stat">2.8M+</span>
-            <p>Total fines issued across Australia from 2008-2023, with <strong>middle-aged adults (40-64)</strong> receiving more road safety fines than any other age group, challenging the common perception that younger drivers are the primary offenders.</p>
+        <div class="story-hook">
+          <h2 class="hook-question">Who do you think gets the most road safety fines in Australia?</h2>
+          
+          <div class="hypothesis-cards">
+            <div class="hypothesis-card" data-correct="false">
+              <div class="hypothesis-icon">🚗</div>
+              <h3>Young Drivers (17-25)</h3>
+              <p>Inexperienced, risk-taking behavior</p>
+              <div class="reveal-overlay">
+                <span class="result-text">Actually #3</span>
+                <span class="result-stat">298,300 fines</span>
+              </div>
+            </div>
+            
+            <div class="hypothesis-card" data-correct="false">
+              <div class="hypothesis-icon">🏃</div>
+              <h3>Young Adults (26-39)</h3>
+              <p>Busy lifestyle, rushing behavior</p>
+              <div class="reveal-overlay">
+                <span class="result-text">Close! #2</span>
+                <span class="result-stat">430,000 fines</span>
+              </div>
+            </div>
+            
+            <div class="hypothesis-card" data-correct="true">
+              <div class="hypothesis-icon">👔</div>
+              <h3>Middle-aged (40-64)</h3>
+              <p>Experienced drivers, should know better</p>
+              <div class="reveal-overlay">
+                <span class="result-text">CORRECT! #1</span>
+                <span class="result-stat">604,750 fines</span>
+              </div>
+            </div>
+          </div>
+          
+          <button class="reveal-btn" onclick="revealAnswer()">Reveal the Surprising Truth</button>
+          
+          <div class="data-revelation" id="data-revelation" style="display: none;">
+            <div class="revelation-content">
+              <div class="revelation-stat" id="counter-display">0</div>
+              <h3>Middle-aged adults (40-64) receive the MOST road safety fines</h3>
+              <p>This challenges everything we think we know about road safety and driver behavior. Let's explore why...</p>
+            </div>
           </div>
         </div>
-        <p>Our comprehensive data visualization explores 15 years of road safety enforcement data (5,017 records) using interactive analytics to uncover patterns that can help improve safety strategies and save lives.</p>
       </div>
     </div>
 
-    <div class="container">
-      <!-- Enhanced Story Path with Interactive Elements -->
-      <section class="overview">
-        <h2>Follow the Data Journey</h2>
-        
-        <div class="interactive-story-path">
-          <div class="story-timeline">
-            <div class="timeline-line"></div>
-            
-            <div class="story-node active" data-step="1">
-              <div class="node-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M3 3v18h18V3H3zm16 16H5V5h14v14zm-7-2l-4-4 1.41-1.41L12 14.17l6.59-6.58L20 9l-8 8z"/>
-                </svg>
-              </div>
-              <div class="node-content">
-                <h4>Time Trends</h4>
-                <p>Discover how enforcement patterns evolved over 15 years</p>
-                <div class="mini-insight">2021 Peak: 37% increase</div>
+    <!-- Scrollytelling Section -->
+    <div class="scrollytelling-container">
+      <div class="container">
+        <div class="scrolly-content">
+          <div class="story-steps">
+            <div class="story-step active" data-step="0">
+              <div class="step-number">1</div>
+              <h3>The Common Assumption</h3>
+              <p>Most people assume young drivers (17-25) would top the list. After all, they're new to driving, more likely to take risks, and often portrayed as the primary concern in road safety campaigns.</p>
+              <div class="step-insight">
+                <strong>But our data tells a different story...</strong>
               </div>
             </div>
             
-            <div class="story-node" data-step="2">
-              <div class="node-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                </svg>
-              </div>
-              <div class="node-content">
-                <h4>Jurisdictional Patterns</h4>
-                <p>Compare enforcement strategies across states</p>
-                <div class="mini-insight">NSW: Dramatic mobile phone enforcement</div>
+            <div class="story-step" data-step="1">
+              <div class="step-number">2</div>
+              <h3>The Reality Check</h3>
+              <p>When we analyzed 5,017 enforcement records spanning 15 years, middle-aged adults (40-64) consistently received the highest number of fines across all jurisdictions and time periods.</p>
+              <div class="step-insight">
+                <strong>This isn't just a statistical blip – it's a persistent pattern.</strong>
               </div>
             </div>
             
-            <div class="story-node" data-step="3">
-              <div class="node-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2 2 0 0 0 18.09 7H16c-.8 0-1.54.5-1.84 1.24L12.5 12 15 22h5z"/>
-                </svg>
-              </div>
-              <div class="node-content">
-                <h4>Age Demographics</h4>
-                <p>Uncover surprising patterns in age-related violations</p>
-                <div class="mini-insight">40-64 group: Unexpected leaders</div>
+            <div class="story-step" data-step="2">
+              <div class="step-number">3</div>
+              <h3>The Technology Factor</h3>
+              <p>The dramatic spike in 2021 (+37% increase) coincides with the widespread deployment of automated detection systems. These systems don't discriminate based on assumptions – they catch violations as they happen.</p>
+              <div class="step-insight">
+                <strong>Technology revealed patterns human observation might miss.</strong>
               </div>
             </div>
             
-            <div class="story-node" data-step="4">
-              <div class="node-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                </svg>
-              </div>
-              <div class="node-content">
-                <h4>Comparative Analysis</h4>
-                <p>Advanced statistical comparisons and correlations</p>
-                <div class="mini-insight">Statistical significance testing</div>
+            <div class="story-step" data-step="3">
+              <div class="step-number">4</div>
+              <h3>What This Means</h3>
+              <p>This finding suggests that experience doesn't automatically equal compliance. It challenges our approach to road safety education and enforcement strategies.</p>
+              <div class="step-insight">
+                <strong>Perhaps it's time to rethink our assumptions about driver behavior.</strong>
               </div>
             </div>
-            
-            <div class="story-node" data-step="5">
-              <div class="node-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2.5-9H19V1h-2v1H7V1H5v1H3.5C2.67 2 2 2.67 2 3.5v15c0 .83.67 1.5 1.5 1.5h17c.83 0 1.5-.67 1.5-1.5v-15c0-.83-.67-1.5-1.5-1.5zm0 16.5h-17v-11h17v11z"/>
-                </svg>
-              </div>
-              <div class="node-content">
-                <h4>Key Insights</h4>
-                <p>Actionable recommendations for policy makers</p>
-                <div class="mini-insight">Evidence-based solutions</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <p class="story-description">
-          Our data-driven narrative reveals surprising insights: middle-aged drivers account for the most violations, 
-          enforcement technology dramatically impacts detection rates, and the 2021 peak represents a pivotal moment 
-          in Australian road safety enforcement history.
-        </p>
-        
-        <div class="cta-container">
-          <a href="pages/time-trends.html" class="primary-cta">Begin the Data Journey</a>
-        </div>
-      </section>
-
-      <!-- Enhanced Key Features with Data-Driven Previews -->
-      <section class="features-section">
-        <h2>Explore Our Data-Driven Analytics</h2>
-        
-        <div class="feature-grid">
-          <div class="feature-card enhanced" data-feature="demographics">
-            <div class="feature-icon">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2 2 0 0 0 18.09 7H16c-.8 0-1.54.5-1.84 1.24L12.5 12 15 22h5z"/>
-              </svg>
-            </div>
-            <h3>Age Demographics Analysis</h3>
-            <p>Comprehensive analysis reveals that middle-aged adults (40-64) receive the most fines, contradicting common assumptions about young driver behavior.</p>
-            <div class="feature-stats">
-              <span class="feature-stat" id="age-stat-display">Loading...</span>
-              <span class="feature-label">40-64 age group share</span>
-            </div>
-            <a href="pages/age-analysis.html" class="feature-link">Explore Demographics</a>
           </div>
           
-          <div class="feature-card enhanced" data-feature="trends">
-            <div class="feature-icon">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/>
-              </svg>
-            </div>
-            <h3>Time Trends Analysis</h3>
-            <p>Interactive time series analysis reveals dramatic enforcement growth, with a 37% spike in 2021 following COVID-19 restrictions.</p>
-            <div class="feature-stats">
-              <span class="feature-stat">37%</span>
-              <span class="feature-label">2020 to 2021 increase</span>
-            </div>
-            <a href="pages/time-trends.html" class="feature-link">Explore Trends</a>
+          <div class="sticky-viz">
+            <div id="scrolly-chart"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Data Journey -->
+    <div class="data-journey-section">
+      <div class="container">
+        <h2>Explore the Data Journey</h2>
+        <p class="journey-intro">Follow our investigation through the data. Each step reveals new insights that build toward our surprising conclusion.</p>
+        
+        <div class="journey-map">
+          <div class="journey-step completed" data-journey="trends">
+            <div class="journey-icon">📈</div>
+            <h4>Time Trends</h4>
+            <p>Discover the 37% spike in 2021</p>
+            <div class="journey-insight">2.8M+ total fines over 15 years</div>
           </div>
           
-          <div class="feature-card enhanced" data-feature="jurisdictions">
-            <div class="feature-icon">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-              </svg>
-            </div>
-            <h3>Jurisdictional Analysis</h3>
-            <p>Multi-dimensional geographic analysis reveals significant enforcement variations, with NSW and Victoria leading in total violations.</p>
-            <div class="feature-stats">
-              <span class="feature-stat">8</span>
-              <span class="feature-label">jurisdictions analyzed</span>
-            </div>
-            <a href="pages/jurisdictions.html" class="feature-link">Explore Geography</a>
+          <div class="journey-step" data-journey="geography">
+            <div class="journey-icon">🗺️</div>
+            <h4>Geography</h4>
+            <p>NSW and VIC lead enforcement</p>
+            <div class="journey-insight">8 jurisdictions compared</div>
+          </div>
+          
+          <div class="journey-step" data-journey="demographics">
+            <div class="journey-icon">👥</div>
+            <h4>Demographics</h4>
+            <p>The age group surprise</p>
+            <div class="journey-insight">40-64 group: unexpected leaders</div>
+          </div>
+          
+          <div class="journey-step" data-journey="insights">
+            <div class="journey-icon">💡</div>
+            <h4>Insights</h4>
+            <p>What it all means</p>
+            <div class="journey-insight">Policy implications revealed</div>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
 
-      <!-- Data Quality and Methodology Section -->
-      <section class="methodology-section">
-        <h2>Data Quality & Methodology</h2>
-        <div class="methodology-grid">
-          <div class="method-card">
-            <h4>Comprehensive Dataset</h4>
-            <p>5,017 enforcement records spanning 15 years (2008-2023) across all Australian jurisdictions with detailed breakdowns by age, location, and detection method.</p>
+    <!-- Key Insights Preview with Progressive Disclosure -->
+    <div class="insights-preview">
+      <div class="container">
+        <h2>Three Insights That Will Change How You Think About Road Safety</h2>
+        
+        <div class="insight-revealer">
+          <div class="insight-item" data-reveal="1">
+            <div class="insight-trigger">
+              <h3>💡 Insight #1: The Experience Paradox</h3>
+              <button class="reveal-trigger">Click to reveal</button>
+            </div>
+            <div class="insight-content">
+              <p>Drivers with 20+ years of experience (40-64 age group) receive more fines than any other group. This suggests that familiarity might breed complacency rather than caution.</p>
+              <div class="insight-data">
+                <span class="data-point">604,750 fines</span>
+                <span class="data-label">40-64 age group total</span>
+              </div>
+            </div>
           </div>
-          <div class="method-card">
-            <h4>Statistical Rigor</h4>
-            <p>Confidence intervals, significance testing, and correlation analysis ensure reliable insights with quantified uncertainty.</p>
+          
+          <div class="insight-item" data-reveal="2">
+            <div class="insight-trigger">
+              <h3>📱 Insight #2: The Technology Revolution</h3>
+              <button class="reveal-trigger">Click to reveal</button>
+            </div>
+            <div class="insight-content">
+              <p>Mobile phone detection cameras in NSW caused a 132% increase in fines from 2019-2021, revealing the true scale of distracted driving.</p>
+              <div class="insight-data">
+                <span class="data-point">132%</span>
+                <span class="data-label">NSW increase (2019-2021)</span>
+              </div>
+            </div>
           </div>
-          <div class="method-card">
-            <h4>Interactive Exploration</h4>
-            <p>Brushing, linking, and filtering enable deep exploration of patterns across multiple dimensions of the data.</p>
+          
+          <div class="insight-item" data-reveal="3">
+            <div class="insight-trigger">
+              <h3>🦠 Insight #3: The Pandemic Paradox</h3>
+              <button class="reveal-trigger">Click to reveal</button>
+            </div>
+            <div class="insight-content">
+              <p>Despite reduced traffic during COVID-19, 2021 saw the highest enforcement rates ever recorded, suggesting behavioral changes as restrictions lifted.</p>
+              <div class="insight-data">
+                <span class="data-point">+37%</span>
+                <span class="data-label">2020 to 2021 increase</span>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="cta-section">
+      <div class="container">
+        <h2>Ready to Dive Deeper?</h2>
+        <p>Explore the interactive visualizations and discover more surprising insights in our data.</p>
+        
+        <div class="cta-buttons">
+          <a href="pages/data-story.html" class="primary-cta">📊 Experience the Full Data Story</a>
+          <a href="pages/time-trends.html" class="secondary-cta">Start with Time Trends →</a>
+        </div>
+      </div>
     </div>
   </main>
 
@@ -224,44 +256,13 @@
     </div>
   </footer>
 
-  <!-- Load scripts in correct order -->
+  <!-- Load scripts -->
   <script src="js/utils/statistics.js"></script>
   <script src="js/utils/animations.js"></script>
   <script src="js/dataLoader.js"></script>
+  <script src="js/storytelling/story-interactions.js"></script>
+  <script src="js/storytelling/scrollytelling.js"></script>
   <script src="js/previews/home-previews.js"></script>
   <script src="js/script.js"></script>
-  
-  <script>
-    // Initialize statistics display when data loads
-    document.addEventListener('roadSafetyDataReady', function(event) {
-      const data = event.detail.data;
-      
-      // Update total fines statistic
-      const totalFines = data.stats.totalFines;
-      const totalFinesElement = document.getElementById('total-fines-stat');
-      if (totalFinesElement) {
-        AnimationUtils.animateCounter(totalFinesElement, totalFines, 2000);
-      }
-      
-      // Update middle age statistic
-      const middleAgeStat = document.getElementById('middle-age-stat');
-      const ageGroupStat = document.getElementById('age-stat-display');
-      
-      if (data.processed && data.processed.byAgeGroup) {
-        const middleAgeData = data.processed.byAgeGroup.find(d => d.ageGroup === '40-64');
-        if (middleAgeData) {
-          const percentage = ((middleAgeData.totalFines / totalFines) * 100).toFixed(1);
-          
-          if (middleAgeStat) {
-            middleAgeStat.textContent = `${percentage}%`;
-          }
-          
-          if (ageGroupStat) {
-            ageGroupStat.textContent = `${percentage}%`;
-          }
-        }
-      }
-    });
-  </script>
 </body>
 </html>
