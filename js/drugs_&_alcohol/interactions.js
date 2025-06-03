@@ -40,21 +40,23 @@ class DrugsAlcoholInteractions {
 
   setupButtonHandlers() {
     // Show Insights button
-    const showInsightsBtn = document.querySelector('button[onclick="showInsights()"]');
+    const showInsightsBtn = document.getElementById('show-insights-btn') || 
+                           document.querySelector('button[onclick="showInsights()"]');
     if (showInsightsBtn) {
       showInsightsBtn.removeAttribute('onclick');
       showInsightsBtn.addEventListener('click', () => this.toggleInsights());
     }
 
-    // Compare Metrics button
-    const compareBtn = document.querySelector('button[onclick="compareMetrics()"]');
+    // Compare Metrics button  
+    const compareBtn = document.getElementById('compare-metrics-btn') ||
+                      document.querySelector('button[onclick="compareMetrics()"]');
     if (compareBtn) {
       compareBtn.removeAttribute('onclick');
       compareBtn.addEventListener('click', () => this.toggleComparisonMode());
     }
 
     // Export button
-    const exportBtn = document.querySelector('button[onclick="exportDrugsAlcoholData()"]');
+    const exportBtn = document.querySelector('.export-btn');
     if (exportBtn) {
       exportBtn.removeAttribute('onclick');
       exportBtn.addEventListener('click', () => this.exportData());
