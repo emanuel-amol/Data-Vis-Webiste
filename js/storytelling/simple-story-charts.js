@@ -1,13 +1,70 @@
 // Simple charts for data story page
+
 document.addEventListener('DOMContentLoaded', function() {
   // Only run on data story page
   if (!document.querySelector('.story-chapter')) return;
 
-  // Chart 1: Age Distribution
-  createAgeDistributionChart();
-  
-  // Chart 2: Timeline
-  createTimelineChart();
+  const ageContainer = document.getElementById('age-distribution-story');
+  const timelineContainer = document.getElementById('timeline-story');
+  if (ageContainer) ageContainer.style.display = 'none';
+  if (timelineContainer) timelineContainer.style.display = 'none';
+
+  // Track if charts have been created
+  let ageChartCreated = false;
+  let timelineChartCreated = false;
+
+  // Setup IntersectionObserver for story steps
+  const steps = document.querySelectorAll('.story-step');
+  if (!steps.length) return;
+
+  const showChartForStep = (stepIndex) => {
+    // Hide both by default
+    if (ageContainer) {
+      ageContainer.style.display = 'none';
+      ageContainer.innerHTML = ''; // Clear previous chart
+      ageChartCreated = false;
+    }
+    if (timelineContainer) {
+      timelineContainer.style.display = 'none';
+      timelineContainer.innerHTML = ''; // Clear previous chart
+      timelineChartCreated = false;
+    }
+
+    // Show and create only the relevant chart
+    if (stepIndex === 1 && ageContainer) {
+      ageContainer.style.display = 'block';
+      if (!ageChartCreated) {
+        createAgeDistributionChart();
+        ageChartCreated = true;
+      }
+    }
+    if (stepIndex === 2 && timelineContainer) {
+      timelineContainer.style.display = 'block';
+      if (!timelineChartCreated) {
+        createTimelineChart();
+        timelineChartCreated = true;
+      }
+    }
+  };
+
+  // Initial state: show nothing
+  showChartForStep(-1);
+
+  // Observe steps
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const stepIndex = Array.from(steps).indexOf(entry.target);
+        showChartForStep(stepIndex);
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '-40% 0px -40% 0px',
+    threshold: 0
+  });
+
+  steps.forEach(step => observer.observe(step));
 });
 
 function createAgeDistributionChart() {
