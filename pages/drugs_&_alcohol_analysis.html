@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drugs & Alcohol Enforcement - Road Safety Enforcement</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/storytelling.css">
+  <link rel="stylesheet" href="../css/advanced-interactions.css">
+  <link rel="stylesheet" href="../css/data-story-enhancements.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="full-header">
+      <div class="logo-container">
+        
+      </div>
+      <h1 class="heading">Australian Road Safety Enforcement</h1>
+    </div>
+    <nav class="nav-container">
+      <div class="container">
+        <div class="nav-buttons">
+          <a href="../index.html" class="nav-btn">Home</a>
+          <a href="time-trends.html" class="nav-btn">Time Trends</a>
+          <a href="jurisdictions.html" class="nav-btn">Jurisdictions</a>
+          <a href="age-analysis.html" class="nav-btn">Age Demographics</a>
+          <a href="insights.html" class="nav-btn">Key Insights</a>
+          <a href="data-story.html" class="nav-btn story-nav">📊 Data Story</a>
+          <a href="drugs-alcohol-analysis.html" class="nav-btn active">🍺 Drugs & Alcohol</a>
+          <a href="about.html" class="nav-btn">About</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <div class="hero-story">
+      <div class="container">
+        <div class="story-hook">
+          <h2 class="hook-question">How do drugs and alcohol violations compare to other road safety offenses?</h2>
+          <p style="font-size: 1.2rem; opacity: 0.9; margin-top: 20px;">Analyze enforcement patterns for drug and alcohol-related driving offenses across Australia</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Statistics Dashboard -->
+      <div class="stats-dashboard animated-reveal">
+        <h3>Drugs & Alcohol Enforcement Statistics</h3>
+        <div class="stats-grid">
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-card-content">
+              <span class="key-stat counter" data-target="4258">0</span>
+              <div class="stat-description">Total Records</div>
+              <div class="stat-change positive">Complete Dataset</div>
+            </div>
+          </div>
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">🍺</div>
+            <div class="stat-card-content">
+              <span class="key-stat" id="total-fines-stat">0</span>
+              <div class="stat-description">Total Fines</div>
+              <div class="stat-change positive">All Violations</div>
+            </div>
+          </div>
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">🚔</div>
+            <div class="stat-card-content">
+              <span class="key-stat" id="total-arrests-stat">0</span>
+              <div class="stat-description">Total Arrests</div>
+              <div class="stat-change neutral">Serious Offenses</div>
+            </div>
+          </div>
+          <div class="interactive-stat stat-card">
+            <div class="stat-icon">⚖️</div>
+            <div class="stat-card-content">
+              <span class="key-stat" id="total-charges-stat">0</span>
+              <div class="stat-description">Total Charges</div>
+              <div class="stat-change neutral">Legal Actions</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Story Narrative -->
+      <div class="data-journey-section">
+        <h2>Understanding Drugs & Alcohol Enforcement</h2>
+        <p class="journey-intro">This analysis reveals patterns in how Australian jurisdictions handle drug and alcohol-related driving offenses:</p>
+        
+        <div class="journey-map">
+          <div class="journey-step completed">
+            <div class="journey-icon">🍺</div>
+            <h4>Alcohol Violations</h4>
+            <p>Traditional DUI enforcement with breathalyzer testing</p>
+            <div class="journey-insight">Established detection methods</div>
+          </div>
+          
+          <div class="journey-step completed">
+            <div class="journey-icon">💊</div>
+            <h4>Drug Detection</h4>
+            <p>Emerging focus on drug-impaired driving enforcement</p>
+            <div class="journey-insight">Evolving technology</div>
+          </div>
+          
+          <div class="journey-step completed">
+            <div class="journey-icon">👥</div>
+            <h4>Age Patterns</h4>
+            <p>Understanding which demographics are most affected</p>
+            <div class="journey-insight">Targeted prevention needed</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhanced Filters -->
+      <div class="enhanced-filters">
+        <div class="filter-bar">
+          <!-- Year Range Dropdown -->
+          <div class="filter-group">
+            <label>Select year range</label>
+            <div class="multi-select-wrapper" id="year-dropdown">
+              <div class="select-box" onclick="toggleYearDropdown()">Select years ▼</div>
+              <div class="checkbox-list" id="year-checkbox-list">
+                <label><input type="checkbox" value="All" onchange="toggleAllYears(this)" checked> All</label>
+                <label><input type="checkbox" value="2023" onchange="updateYearSelection()"> 2023</label>
+                <label><input type="checkbox" value="2022" onchange="updateYearSelection()"> 2022</label>
+                <label><input type="checkbox" value="2021" onchange="updateYearSelection()"> 2021</label>
+                <label><input type="checkbox" value="2020" onchange="updateYearSelection()"> 2020</label>
+                <label><input type="checkbox" value="2019" onchange="updateYearSelection()"> 2019</label>
+                <label><input type="checkbox" value="2018" onchange="updateYearSelection()"> 2018</label>
+                <label><input type="checkbox" value="2017" onchange="updateYearSelection()"> 2017</label>
+                <label><input type="checkbox" value="2016" onchange="updateYearSelection()"> 2016</label>
+                <label><input type="checkbox" value="2015" onchange="updateYearSelection()"> 2015</label>
+                <label><input type="checkbox" value="2014" onchange="updateYearSelection()"> 2014</label>
+                <label><input type="checkbox" value="2013" onchange="updateYearSelection()"> 2013</label>
+                <label><input type="checkbox" value="2012" onchange="updateYearSelection()"> 2012</label>
+                <label><input type="checkbox" value="2011" onchange="updateYearSelection()"> 2011</label>
+                <label><input type="checkbox" value="2010" onchange="updateYearSelection()"> 2010</label>
+                <label><input type="checkbox" value="2009" onchange="updateYearSelection()"> 2009</label>
+                <label><input type="checkbox" value="2008" onchange="updateYearSelection()"> 2008</label>
+              </div>
+              <div class="selected-output" id="year-selected-output">Selected: All</div>
+            </div>
+          </div>
+
+          <!-- Jurisdiction Dropdown -->
+          <div class="filter-group">
+            <label>Select jurisdiction</label>
+            <div class="multi-select-wrapper" id="jurisdiction-dropdown">
+              <div class="select-box" onclick="toggleJurisdictionDropdown()">Select jurisdictions ▼</div>
+              <div class="checkbox-list" id="jurisdiction-checkbox-list">
+                <label><input type="checkbox" value="All" onchange="toggleAllJurisdictions(this)" checked> All</label>
+                <label><input type="checkbox" value="ACT" onchange="updateJurisdictionSelection()"> ACT</label>
+                <label><input type="checkbox" value="NSW" onchange="updateJurisdictionSelection()"> NSW</label>
+                <label><input type="checkbox" value="NT" onchange="updateJurisdictionSelection()"> NT</label>
+                <label><input type="checkbox" value="QLD" onchange="updateJurisdictionSelection()"> QLD</label>
+                <label><input type="checkbox" value="SA" onchange="updateJurisdictionSelection()"> SA</label>
+                <label><input type="checkbox" value="TAS" onchange="updateJurisdictionSelection()"> TAS</label>
+                <label><input type="checkbox" value="VIC" onchange="updateJurisdictionSelection()"> VIC</label>
+                <label><input type="checkbox" value="WA" onchange="updateJurisdictionSelection()"> WA</label>
+              </div>
+              <div class="selected-output" id="jurisdiction-selected-output">Selected: All</div>
+            </div>
+          </div>
+
+          <!-- Age Group Dropdown -->
+          <div class="filter-group">
+            <label>Select age group</label>
+            <div class="multi-select-wrapper" id="age-dropdown">
+              <div class="select-box" onclick="toggleAgeDropdown()">Select age groups ▼</div>
+              <div class="checkbox-list" id="age-checkbox-list">
+                <label><input type="checkbox" value="All" onchange="toggleAllAges(this)" checked> All</label>
+                <label><input type="checkbox" value="0-16" onchange="updateAgeSelection()"> 0-16</label>
+                <label><input type="checkbox" value="17-25" onchange="updateAgeSelection()"> 17-25</label>
+                <label><input type="checkbox" value="26-39" onchange="updateAgeSelection()"> 26-39</label>
+                <label><input type="checkbox" value="40-64" onchange="updateAgeSelection()"> 40-64</label>
+                <label><input type="checkbox" value="65 and over" onchange="updateAgeSelection()"> 65+</label>
+              </div>
+              <div class="selected-output" id="age-selected-output">Selected: All</div>
+            </div>
+          </div>
+
+          <!-- Analysis toggles -->
+          <div class="analysis-toggles">
+            <label class="toggle-label">
+              <input type="checkbox" id="show-arrests"> Include Arrests
+            </label>
+            <label class="toggle-label">
+              <input type="checkbox" id="show-charges"> Include Charges
+            </label>
+          </div>
+
+          <!-- Control Buttons -->
+          <div class="filter-group">
+            <button class="reset-btn" id="reset-filters">RESET FILTERS</button>
+            <button class="export-btn" onclick="exportDrugsAlcoholData()">EXPORT DATA</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabbed Visualizations -->
+      <div class="enhanced-chart-container chart-fade-in">
+        <div class="chart-header">
+          <h3>Drugs & Alcohol Enforcement Analysis</h3>
+          <div class="chart-controls">
+            <button class="analysis-btn" onclick="showInsights()">📊 Show Insights</button>
+            <button class="analysis-btn" onclick="compareMetrics()">⚖️ Compare Outcomes</button>
+          </div>
+        </div>
+
+        <!-- Visualization Tabs -->
+        <div class="viz-tabs">
+          <button class="viz-tab active" data-tab="overview-tab">📊 Overview</button>
+          <button class="viz-tab" data-tab="trends-tab">📈 Time Trends</button>
+          <button class="viz-tab" data-tab="jurisdictions-tab">🗺️ By Jurisdiction</button>
+          <button class="viz-tab" data-tab="demographics-tab">👥 Demographics</button>
+          <button class="viz-tab" data-tab="detection-tab">🔍 Detection Methods</button>
+        </div>
+        
+        <!-- Overview Tab -->
+        <div id="overview-tab" class="tab-content" style="display: block;">
+          <div class="enhanced-chart">
+            <div class="chart-placeholder" id="overview-chart" style="min-height: 500px;">
+              <!-- Overview visualization will be rendered here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Time Trends Tab -->
+        <div id="trends-tab" class="tab-content" style="display: none;">
+          <div class="enhanced-chart">
+            <div class="chart-placeholder" id="trends-chart" style="min-height: 500px;">
+              <!-- Time trends visualization will be rendered here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Jurisdictions Tab -->
+        <div id="jurisdictions-tab" class="tab-content" style="display: none;">
+          <div class="enhanced-chart">
+            <div class="chart-placeholder" id="jurisdictions-chart" style="min-height: 500px;">
+              <!-- Jurisdictions visualization will be rendered here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Demographics Tab -->
+        <div id="demographics-tab" class="tab-content" style="display: none;">
+          <div class="enhanced-chart">
+            <div class="chart-placeholder" id="demographics-chart" style="min-height: 500px;">
+              <!-- Demographics visualization will be rendered here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Detection Methods Tab -->
+        <div id="detection-tab" class="tab-content" style="display: none;">
+          <div class="enhanced-chart">
+            <div class="chart-placeholder" id="detection-chart" style="min-height: 500px;">
+              <!-- Detection methods visualization will be rendered here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Insights -->
+        <div class="chart-insights" id="chart-insights" style="display: none;">
+          <div class="insight-card">
+            <span class="insight-icon">🍺</span>
+            <h4>Primary Type</h4>
+            <span class="insight-value" id="primary-metric">-</span>
+            <p>Most common violation</p>
+          </div>
+          
+          <div class="insight-card">
+            <span class="insight-icon">📈</span>
+            <h4>Peak Year</h4>
+            <span class="insight-value" id="peak-year">-</span>
+            <p>Highest enforcement</p>
+          </div>
+          
+          <div class="insight-card">
+            <span class="insight-icon">🗺️</span>
+            <h4>Leading State</h4>
+            <span class="insight-value" id="leading-jurisdiction">-</span>
+            <p>Most active enforcement</p>
+          </div>
+          
+          <div class="insight-card">
+            <span class="insight-icon">👥</span>
+            <h4>Top Age Group</h4>
+            <span class="insight-value" id="top-age-group">-</span>
+            <p>Most violations</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Findings Section -->
+      <div class="insights-preview">
+        <div class="container">
+          <h2>Key Findings: Drugs & Alcohol Enforcement Patterns</h2>
+          
+          <div class="insight-revealer">
+            <div class="insight-item" data-reveal="1">
+              <div class="insight-trigger">
+                <h3>🍺 Finding #1: Alcohol vs Drug Enforcement</h3>
+                <button class="reveal-trigger">Click to reveal</button>
+              </div>
+              <div class="insight-content">
+                <p>Analysis reveals the relative patterns between alcohol and drug-related driving offenses, showing how enforcement priorities and detection capabilities vary across different substance types.</p>
+                <div class="insight-data">
+                  <span class="data-point" id="alcohol-drug-ratio">-</span>
+                  <span class="data-label">Alcohol to drug violation ratio</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="insight-item" data-reveal="2">
+              <div class="insight-trigger">
+                <h3>🗺️ Finding #2: Jurisdictional Enforcement Differences</h3>
+                <button class="reveal-trigger">Click to reveal</button>
+              </div>
+              <div class="insight-content">
+                <p>Significant variations exist between jurisdictions in their approach to drugs and alcohol enforcement, reflecting different policies, resources, and detection capabilities.</p>
+                <div class="insight-data">
+                  <span class="data-point" id="jurisdiction-variation">-</span>
+                  <span class="data-label">Highest to lowest ratio</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="insight-item" data-reveal="3">
+              <div class="insight-trigger">
+                <h3>👥 Finding #3: Age and Demographic Patterns</h3>
+                <button class="reveal-trigger">Click to reveal</button>
+              </div>
+              <div class="insight-content">
+                <p>Distinct age patterns emerge for drug versus alcohol violations, providing insights for targeted prevention and enforcement strategies.</p>
+                <div class="insight-data">
+                  <span class="data-point" id="age-pattern-insight">-</span>
+                  <span class="data-label">Most affected age group</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comparative Analysis -->
+      <div class="comparison-highlight">
+        <div class="comparison-item enhanced">
+          <h4>🍺 Alcohol Violations</h4>
+          <div class="feature-stats">
+            <span class="feature-stat" id="alcohol-total">-</span>
+            <span class="feature-label">Total incidents</span>
+          </div>
+          <p>Traditional drink-driving enforcement using established breathalyzer technology and roadside testing.</p>
+        </div>
+        
+        <div class="comparison-item enhanced">
+          <h4>💊 Drug Violations</h4>
+          <div class="feature-stats">
+            <span class="feature-stat" id="drug-total">-</span>
+            <span class="feature-label">Total incidents</span>
+          </div>
+          <p>Emerging focus on drug-impaired driving with evolving detection methods and increasing awareness.</p>
+        </div>
+        
+        <div class="comparison-item enhanced">
+          <h4>📊 Combined Impact</h4>
+          <div class="feature-stats">
+            <span class="feature-stat" id="combined-total">-</span>
+            <span class="feature-label">Total enforcement actions</span>
+          </div>
+          <p>Overall drugs and alcohol enforcement represents a significant portion of road safety activities.</p>
+        </div>
+      </div>
+
+      <!-- Call to Action -->
+      <div class="cta-section">
+        <div class="container">
+          <h2>Explore Related Analysis</h2>
+          <p>See how drugs and alcohol patterns compare with other road safety enforcement trends.</p>
+          
+          <div class="cta-buttons">
+            <a href="age-analysis.html" class="primary-cta">👥 Age Demographics →</a>
+            <a href="jurisdictions.html" class="secondary-cta">🗺️ Geographic Analysis →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Data Source</h4>
+          <p>Bureau of Infrastructure and Transport Research Economics (BITRE) - 4,258 drugs & alcohol records</p>
+        </div>
+        <div class="footer-section">
+          <h4>Analysis Focus</h4>
+          <p>Drug and alcohol-related driving violations<br>Enforcement patterns and outcomes</p>
+        </div>
+        <div class="footer-section">
+          <h4>Last Updated</h4>
+          <p>Dataset: September 2024<br>Analysis: December 2024</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Road Safety Enforcement Data Visualization - COS30045 Data Visualization</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Load scripts -->
+  <script src="../js/utils/statistics.js"></script>
+  <script src="../js/utils/animations.js"></script>
+  <script src="../js/drugs_&_alcohol/data-loader.js"></script>
+  <script src="../js/drugs_&_alcohol/overview-chart.js"></script>
+  <script src="../js/drugs_&_alcohol/trends-chart.js"></script>
+  <script src="../js/drugs_&_alcohol/jurisdictions-chart.js"></script>
+  <script src="../js/drugs_&_alcohol/demographics-chart.js"></script>
+  <script src="../js/drugs_&_alcohol/detection-chart.js"></script>
+  <script src="../js/drugs_&_alcohol/interactions.js"></script>
+  <script src="../js/storytelling/story-interactions.js"></script>
+  
+  <script>
+    // Enhanced interactions
+    function showInsights() {
+      const insights = document.getElementById('chart-insights');
+      insights.style.display = insights.style.display === 'none' ? 'grid' : 'none';
+    }
+    
+    function compareMetrics() {
+      // Toggle comparison mode
+      console.log('Compare drugs vs alcohol metrics');
+    }
+    
+    function exportDrugsAlcoholData() {
+      // Export functionality
+      console.log('Export drugs & alcohol data');
+    }
+    
+    // Initialize page animations
+    document.addEventListener('DOMContentLoaded', function() {
+      AnimationUtils.initializePageAnimations();
+    });
+  </script>
+</body>
+</html>

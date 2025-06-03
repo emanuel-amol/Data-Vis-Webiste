@@ -25,18 +25,32 @@
           <a href="jurisdictions.html" class="nav-btn">Jurisdictions</a>
           <a href="age-analysis.html" class="nav-btn">Age Demographics</a>
           <a href="insights.html" class="nav-btn">Key Insights</a>
+          <a href="comparative-analysis.html" class="nav-btn active">Comparative Analysis</a>
+          <a href="data-story.html" class="nav-btn">Data Story</a>
           <a href="about.html" class="nav-btn">About</a>
         </div>
       </div>
     </nav>
   </header>
 
+  <!-- Hero Section (match About page style) -->
+  <div class="hero-section comparative-hero">
+    <div class="hero-content">
+      <h1 class="hero-title" style="margin-bottom: 16px;">
+        Comparative Analysis: Uncovering Statistical Patterns
+      </h1>
+      <div class="hero-subtitle">
+        Explore advanced statistical comparisons, per-capita normalization, and significance testing across Australian jurisdictions
+      </div>
+    </div>
+    <div class="hero-bg-anim"></div>
+  </div>
+
   <main>
     <div class="container">
       <section class="page-header">
         <h2>Advanced Comparative Analysis</h2>
         <p>Statistical analysis with per-capita normalization, correlation studies, and significance testing</p>
-        <div class="new-badge">NEW FEATURE</div>
       </section>
 
       <!-- Methodology Overview -->
@@ -623,6 +637,62 @@
       
       .method-cards {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+    }
+    
+    /* Hero Section Animation */
+    @keyframes slideIn {
+      0% {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .comparative-hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #6a93f8 0%, #8f6ed5 100%);
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 2.8rem;
+      font-weight: 900;
+      margin-bottom: 16px;
+      animation: slideIn 0.7s ease-out;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.2rem;
+      font-weight: 500;
+      max-width: 800px;
+      margin: 0 auto;
+      animation: slideIn 0.7s ease-out;
+    }
+    
+    .hero-bg-anim {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      pointer-events: none;
+      animation: gradientSlide 3s ease-in-out infinite;
+    }
+    
+    @keyframes gradientSlide {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
       }
     }
   </style>

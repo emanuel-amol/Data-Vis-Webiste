@@ -492,7 +492,7 @@ class DataStoryNarrative {
         .attr('x', chart.xScale(2021))
         .attr('y', chart.yScale(spike2021.totalFines) - 70)
         .attr('text-anchor', 'middle')
-        .text('2021 Spike: +37%')
+        .text('2021 Spike: +35%')
         .style('font-weight', 'bold')
         .style('font-size', '12px')
         .style('fill', '#f59e0b')

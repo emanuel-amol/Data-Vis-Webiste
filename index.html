@@ -27,7 +27,8 @@
           <a href="pages/jurisdictions.html" class="nav-btn">Jurisdictions</a>
           <a href="pages/age-analysis.html" class="nav-btn">Age Demographics</a>
           <a href="pages/insights.html" class="nav-btn">Key Insights</a>
-          <a href="pages/data-story.html" class="nav-btn story-nav">📊 Data Story</a>
+          <a href="pages/comparative-analysis.html" class="nav-btn">Comparative Analysis</a>
+          <a href="pages/data-story.html" class="nav-btn">Data Story</a>
           <a href="pages/about.html" class="nav-btn">About</a>
         </div>
       </div>
@@ -36,14 +37,24 @@
 
   <main>
     <!-- Hero Section with Data Hook -->
-  <br><br><br><br>
+      <div class="hero-story">
+      <div class="container">
+        <div class="story-hook">
+          <h2 class="hook-question">What if everything we know about road safety is wrong?</h2>
+          <p style="font-size: 1.2rem; opacity: 0.9; margin-top: 20px;">
+            Explore 15 years of Australian enforcement data that challenges conventional wisdom
+          </p>
+        </div>
+      </div>
+    </div>
+
 
     <div class="container">
       <!-- Enhanced Story Path with Interactive Elements -->
       <section class="overview">
         <h2>Follow the Data Journey</h2>
         
-        <div class="interactive-story-path">
+        <div class="interactive-story-path" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; min-height: 220px; position: relative;">
           <div class="story-timeline">
             <div class="timeline-line"></div>
             
@@ -56,7 +67,7 @@
               <div class="node-content">
                 <h4>Time Trends</h4>
                 <p>Discover how enforcement patterns evolved over 15 years</p>
-                <div class="mini-insight">2021 Peak: 37% increase</div>
+                <div class="mini-insight">2021 Peak: 35% increase</div>
               </div>
             </div>
             
@@ -112,16 +123,9 @@
               </div>
             </div>
           </div>
-        </div>
-        
-        <p class="story-description">
-          Our data-driven narrative reveals surprising insights: middle-aged drivers account for the most violations, 
-          enforcement technology dramatically impacts detection rates, and the 2021 peak represents a pivotal moment 
-          in Australian road safety enforcement history.
-        </p>
-        
-        <div class="cta-container">
-          <a href="pages/time-trends.html" class="primary-cta">Begin the Data Journey</a>
+          <div class="cta-container" style="margin-top: 32px; display: flex; justify-content: center; width: 100%;">
+            <a href="pages/time-trends.html" class="primary-cta">Begin the Data Journey</a>
+          </div>
         </div>
       </section>
 
