@@ -40,25 +40,20 @@ class DrugsAlcoholInteractions {
 
   setupButtonHandlers() {
     // Show Insights button
-    const showInsightsBtn = document.getElementById('show-insights-btn') || 
-                           document.querySelector('button[onclick="showInsights()"]');
+    const showInsightsBtn = document.getElementById('show-insights-btn');
     if (showInsightsBtn) {
-      showInsightsBtn.removeAttribute('onclick');
       showInsightsBtn.addEventListener('click', () => this.toggleInsights());
     }
 
     // Compare Metrics button  
-    const compareBtn = document.getElementById('compare-metrics-btn') ||
-                      document.querySelector('button[onclick="compareMetrics()"]');
+    const compareBtn = document.getElementById('compare-metrics-btn');
     if (compareBtn) {
-      compareBtn.removeAttribute('onclick');
       compareBtn.addEventListener('click', () => this.toggleComparisonMode());
     }
 
     // Export button
-    const exportBtn = document.querySelector('.export-btn');
+    const exportBtn = document.getElementById('export-data-btn');
     if (exportBtn) {
-      exportBtn.removeAttribute('onclick');
       exportBtn.addEventListener('click', () => this.exportData());
     }
 

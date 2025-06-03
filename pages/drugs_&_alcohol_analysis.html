@@ -27,7 +27,7 @@
           <a href="age-analysis.html" class="nav-btn">Age Demographics</a>
           <a href="insights.html" class="nav-btn">Key Insights</a>
           <a href="data-story.html" class="nav-btn story-nav">📊 Data Story</a>
-          <a href="drugs-alcohol-analysis.html" class="nav-btn active">🍺 Drugs & Alcohol</a>
+          <a href="drugs_&_alcohol_analysis.html" class="nav-btn active">🍺 Drugs & Alcohol</a>
           <a href="about.html" class="nav-btn">About</a>
         </div>
       </div>
@@ -195,7 +195,7 @@
           <!-- Control Buttons -->
           <div class="filter-group">
             <button class="reset-btn" id="reset-filters">RESET FILTERS</button>
-            <button class="export-btn" onclick="exportDrugsAlcoholData()">EXPORT DATA</button>
+            <button class="export-btn" id="export-data-btn">EXPORT DATA</button>
           </div>
         </div>
       </div>
@@ -205,8 +205,8 @@
         <div class="chart-header">
           <h3>Drugs & Alcohol Enforcement Analysis</h3>
           <div class="chart-controls">
-            <button class="analysis-btn" onclick="showInsights()">📊 Show Insights</button>
-            <button class="analysis-btn" onclick="compareMetrics()">⚖️ Compare Outcomes</button>
+            <button class="analysis-btn" id="show-insights-btn">📊 Show Insights</button>
+            <button class="analysis-btn" id="compare-metrics-btn">⚖️ Compare Outcomes</button>
           </div>
         </div>
 
@@ -427,25 +427,11 @@
   <script src="../js/storytelling/story-interactions.js"></script>
   
   <script>
-    // Enhanced interactions
-    function showInsights() {
-      const insights = document.getElementById('chart-insights');
-      insights.style.display = insights.style.display === 'none' ? 'grid' : 'none';
-    }
-    
-    function compareMetrics() {
-      // Toggle comparison mode
-      console.log('Compare drugs vs alcohol metrics');
-    }
-    
-    function exportDrugsAlcoholData() {
-      // Export functionality
-      console.log('Export drugs & alcohol data');
-    }
-    
     // Initialize page animations
     document.addEventListener('DOMContentLoaded', function() {
-      AnimationUtils.initializePageAnimations();
+      if (window.AnimationUtils && typeof window.AnimationUtils.initializePageAnimations === 'function') {
+        window.AnimationUtils.initializePageAnimations();
+      }
     });
   </script>
 </body>
