@@ -503,9 +503,9 @@ document.addEventListener('DOMContentLoaded', function() {
   if (jurisdictionsContainer) {
     drugsAlcoholJurisdictionsChart = new DrugsAlcoholJurisdictionsChart();
     drugsAlcoholJurisdictionsChart.init();
+    window.drugsAlcoholJurisdictionsChart = drugsAlcoholJurisdictionsChart; // <-- Ensure global assignment
   }
 });
 
 // Export for use in other modules
 window.DrugsAlcoholJurisdictionsChart = DrugsAlcoholJurisdictionsChart;
-window.drugsAlcoholJurisdictionsChart = drugsAlcoholJurisdictionsChart;

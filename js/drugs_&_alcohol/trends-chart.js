@@ -111,7 +111,7 @@ class DrugsAlcoholTrendsChart {
         .attr('y', this.dimensions.height / 2)
         .attr('text-anchor', 'middle')
         .style('font-size', '16px')
-        .style('fill', '#7f8c8d')
+        .style('fill', '#7f8c8c')
         .text('No time trend data available');
       return;
     }
@@ -536,10 +536,10 @@ document.addEventListener('DOMContentLoaded', function() {
   if (trendsContainer) {
     drugsAlcoholTrendsChart = new DrugsAlcoholTrendsChart();
     drugsAlcoholTrendsChart.init();
+    window.drugsAlcoholTrendsChart = drugsAlcoholTrendsChart; // <-- Ensure global assignment
     console.log('Trends chart initialized - FINES focus enabled');
   }
 });
 
 // Export for use in other modules
 window.DrugsAlcoholTrendsChart = DrugsAlcoholTrendsChart;
-window.drugsAlcoholTrendsChart = drugsAlcoholTrendsChart;

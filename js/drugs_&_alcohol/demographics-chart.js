@@ -107,8 +107,14 @@ class DrugsAlcoholDemographicsChart {
     // Clear previous content
     this.chart.selectAll('*').remove();
 
-    // Check for filtered data first
-    const dataToUse = window.drugsAlcoholData?.filtered?.processed || this.data;
+    // Check for filtered data first - CRITICAL FIX
+    let dataToUse = this.data;
+    if (window.drugsAlcoholData?.filtered?.processed) {
+      dataToUse = window.drugsAlcoholData.filtered.processed;
+      console.log('Demographics: Using filtered data:', dataToUse);
+    } else {
+      console.log('Demographics: Using original data');
+    }
     const ageGroupData = dataToUse.byAgeGroup;
     
     if (!ageGroupData || ageGroupData.length === 0) {
@@ -473,6 +479,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (demographicsContainer) {
     drugsAlcoholDemographicsChart = new DrugsAlcoholDemographicsChart();
     drugsAlcoholDemographicsChart.init();
+    window.drugsAlcoholDemographicsChart = drugsAlcoholDemographicsChart; // <-- Ensure global assignment
     console.log('Demographics chart initialized - FINES focus enabled');
   }
 });

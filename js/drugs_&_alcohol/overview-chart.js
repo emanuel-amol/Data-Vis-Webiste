@@ -447,9 +447,9 @@ document.addEventListener('DOMContentLoaded', function() {
   if (overviewContainer) {
     drugsAlcoholOverviewChart = new DrugsAlcoholOverviewChart();
     drugsAlcoholOverviewChart.init();
+    window.drugsAlcoholOverviewChart = drugsAlcoholOverviewChart; // <-- Ensure global assignment
   }
 });
 
 // Export for use in other modules
 window.DrugsAlcoholOverviewChart = DrugsAlcoholOverviewChart;
-window.drugsAlcoholOverviewChart = drugsAlcoholOverviewChart;

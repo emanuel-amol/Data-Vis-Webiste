@@ -189,24 +189,36 @@ class DrugsAlcoholInteractions {
 
   loadChartInstances() {
     // Store references to chart instances
-    setTimeout(() => {
+    const tryLoad = () => {
+      let loaded = 0;
       if (window.drugsAlcoholOverviewChart) {
         this.charts.overview = window.drugsAlcoholOverviewChart;
+        loaded++;
       }
       if (window.drugsAlcoholTrendsChart) {
         this.charts.trends = window.drugsAlcoholTrendsChart;
+        loaded++;
       }
       if (window.drugsAlcoholJurisdictionsChart) {
         this.charts.jurisdictions = window.drugsAlcoholJurisdictionsChart;
+        loaded++;
       }
       if (window.drugsAlcoholDemographicsChart) {
         this.charts.demographics = window.drugsAlcoholDemographicsChart;
+        loaded++;
       }
       if (window.drugsAlcoholDetectionChart) {
         this.charts.detection = window.drugsAlcoholDetectionChart;
+        loaded++;
       }
-      console.log('Chart instances loaded - FINES focus enabled');
-    }, 1000);
+      if (loaded < 5) {
+        setTimeout(tryLoad, 300); // Try again until all charts are loaded
+      } else {
+        this.refreshAllCharts();
+        console.log('Chart instances loaded - FINES focus enabled');
+      }
+    };
+    tryLoad();
   }
 
   initializeFilters() {
@@ -326,31 +338,48 @@ class DrugsAlcoholInteractions {
 
     // Get current filter selections
     const filters = this.getCurrentFilters();
+    console.log('Current filters:', filters);
     
     // Apply filters to data
-    const filteredData = window.drugsAlcoholDataLoader.getDataByFilters(filters);
+    let filteredData = window.drugsAlcoholDataLoader.getDataByFilters(filters);
+
+    // Fallback: If filtering by age group returns no data, try including "All ages"
+    if (filters.ageGroups && filteredData.length === 0 && filters.includeAllAges) {
+      const fallbackFilters = { ...filters };
+      delete fallbackFilters.ageGroups;
+      filteredData = window.drugsAlcoholDataLoader.getDataByFilters(fallbackFilters)
+        .filter(d => d.AGE_GROUP === "All ages");
+    }
+
+    console.log(`Filtered to ${filteredData.length} records from ${this.data.raw.length} total`);
     
     // Update processed data using the loader's method
     const processedData = window.drugsAlcoholDataLoader.processFilteredData(filteredData);
+    console.log('Processed filtered data:', processedData);
     
-    // Update global data reference
-    window.drugsAlcoholData.filtered = {
-      raw: filteredData,
-      processed: processedData
-    };
+    // Update global data reference - CRITICAL
+    if (!window.drugsAlcoholData.filtered) {
+      window.drugsAlcoholData.filtered = {};
+    }
+    window.drugsAlcoholData.filtered.raw = filteredData;
+    window.drugsAlcoholData.filtered.processed = processedData;
     
-    // Refresh all charts with filtered data
-    this.refreshAllCharts();
+    console.log('Updated global filtered data reference');
     
     // Update statistics - FOCUS ON FINES
     this.updateFilteredStatistics(processedData);
     
-    console.log(`Filters applied to ${filteredData.length} records - FINES focus`);
+    // Refresh all charts with filtered data - DELAY TO ENSURE DATA IS SET
+    setTimeout(() => {
+      this.refreshAllCharts();
+    }, 100);
+    
+    console.log(`✓ Filters applied to ${filteredData.length} records - FINES focus`);
   }
 
   getCurrentFilters() {
     const filters = {};
-    
+
     // Year filters
     const yearInputs = document.querySelectorAll('#year-checkbox-list input[type="checkbox"]:checked');
     const yearValues = Array.from(yearInputs).map(input => input.value).filter(v => v !== 'All');
@@ -370,22 +399,35 @@ class DrugsAlcoholInteractions {
     const ageValues = Array.from(ageInputs).map(input => input.value).filter(v => v !== 'All');
     if (ageValues.length > 0 && !Array.from(ageInputs).some(input => input.value === 'All' && input.checked)) {
       filters.ageGroups = ageValues;
+      // Add fallback to include "All ages" if no age-specific data exists
+      filters.includeAllAges = true;
     }
-    
+
     return filters;
   }
 
   refreshAllCharts() {
     console.log('Refreshing all charts - FINES focus');
+    console.log('Filtered data available:', !!window.drugsAlcoholData?.filtered);
     
+    // Force update each chart instance
     Object.entries(this.charts).forEach(([name, chart]) => {
       if (chart && typeof chart.update === 'function') {
         try {
+          console.log(`Updating ${name} chart...`);
+          
+          // Set data reference directly on chart if needed
+          if (window.drugsAlcoholData?.filtered?.processed) {
+            chart.data = window.drugsAlcoholData.filtered.processed;
+          }
+          
           chart.update();
-          console.log(`Updated ${name} chart - FINES focus`);
+          console.log(`✓ Updated ${name} chart - FINES focus`);
         } catch (error) {
-          console.warn(`Error updating ${name} chart:`, error);
+          console.warn(`✗ Error updating ${name} chart:`, error);
         }
+      } else {
+        console.warn(`Chart ${name} not available or no update method`);
       }
     });
   }
@@ -771,3 +813,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Export for use in other modules
 window.DrugsAlcoholInteractions = DrugsAlcoholInteractions;
+
+// No changes needed here if you use the fallback in data-loader.js

@@ -417,8 +417,14 @@ class DrugsAlcoholDataLoader {
       filtered = filtered.filter(d => filters.years.includes(d.YEAR.toString()));
     }
 
+    // --- FIX: fallback to "All ages" if no age-specific data ---
     if (filters.ageGroups && filters.ageGroups.length > 0) {
-      filtered = filtered.filter(d => filters.ageGroups.includes(d.AGE_GROUP));
+      let ageFiltered = filtered.filter(d => filters.ageGroups.includes(d.AGE_GROUP));
+      if (ageFiltered.length === 0) {
+        // fallback: use "All ages" for the same filters
+        ageFiltered = filtered.filter(d => d.AGE_GROUP === "All ages");
+      }
+      filtered = ageFiltered;
     }
 
     if (filters.metrics && filters.metrics.length > 0) {
@@ -429,6 +435,7 @@ class DrugsAlcoholDataLoader {
       filtered = filtered.filter(d => filters.detectionMethods.includes(d.DETECTION_METHOD));
     }
 
+    console.log('Final filtered result:', filtered.length, 'records');
     return filtered;
   }
 

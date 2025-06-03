@@ -525,6 +525,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (detectionContainer) {
     drugsAlcoholDetectionChart = new DrugsAlcoholDetectionChart();
     drugsAlcoholDetectionChart.init();
+    window.drugsAlcoholDetectionChart = drugsAlcoholDetectionChart; // <-- Ensure global assignment
   }
 });
 
