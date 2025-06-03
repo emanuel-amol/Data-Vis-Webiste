@@ -1,5 +1,5 @@
 // js/drugs_&_alcohol/data-loader.js
-// Data loader specifically for drugs and alcohol enforcement data
+// Fixed data loader for drugs and alcohol enforcement data
 
 class DrugsAlcoholDataLoader {
   constructor() {
@@ -34,28 +34,31 @@ class DrugsAlcoholDataLoader {
     try {
       console.log("Loading drugs and alcohol enforcement data...");
       
-      // Try different possible paths for the CSV file
-      const csvPaths = [
-        '../data/police_enforcement_2023_fines_by_drugs_and_alcohol.csv',
-        './data/police_enforcement_2023_fines_by_drugs_and_alcohol.csv',
-        'data/police_enforcement_2023_fines_by_drugs_and_alcohol.csv'
-      ];
+      // Load the CSV file
+      const csvPath = 'police_enforcement_2023_fines_by_drugs_and_alcohol.csv';
       
-      let dataLoaded = false;
-      
-      for (const csvPath of csvPaths) {
-        try {
-          this.rawData = await d3.csv(csvPath);
-          console.log(`Drugs & alcohol data loaded successfully from ${csvPath}: ${this.rawData.length} records`);
-          dataLoaded = true;
-          break;
-        } catch (error) {
-          console.warn(`Could not load from ${csvPath}:`, error);
+      try {
+        const csvData = await d3.csv(csvPath);
+        console.log(`Data loaded successfully: ${csvData.length} total records`);
+        
+        // Filter for drugs and alcohol related metrics only
+        this.rawData = csvData.filter(d => {
+          const metric = (d.METRIC || '').toLowerCase();
+          return metric.includes('breath') || 
+                 metric.includes('drug') || 
+                 metric.includes('alcohol') || 
+                 metric.includes('drink');
+        });
+        
+        console.log(`Filtered to ${this.rawData.length} drugs & alcohol records`);
+        
+        if (this.rawData.length === 0) {
+          console.warn("No drugs & alcohol data found, creating sample data");
+          this._createSampleData();
         }
-      }
-
-      if (!dataLoaded) {
-        console.warn("Could not load real CSV, using sample data");
+        
+      } catch (error) {
+        console.warn("Could not load CSV, creating sample data:", error);
         this._createSampleData();
       }
 
@@ -69,7 +72,8 @@ class DrugsAlcoholDataLoader {
       window.drugsAlcoholData = {
         raw: this.rawData,
         processed: this.processedData,
-        stats: this.keyStats
+        stats: this.keyStats,
+        filtered: null // Will be set when filters are applied
       };
       
       // Notify other components that data is ready
@@ -89,7 +93,8 @@ class DrugsAlcoholDataLoader {
       window.drugsAlcoholData = {
         raw: this.rawData,
         processed: this.processedData,
-        stats: this.keyStats
+        stats: this.keyStats,
+        filtered: null
       };
       
       document.dispatchEvent(new CustomEvent('drugsAlcoholDataReady', {
@@ -101,62 +106,82 @@ class DrugsAlcoholDataLoader {
   }
 
   _createSampleData() {
-    console.log("Creating sample drugs & alcohol data");
+    console.log("Creating comprehensive sample drugs & alcohol data");
     
     this.rawData = [];
     const years = d3.range(2008, 2024);
     const jurisdictions = ['NSW', 'VIC', 'QLD', 'SA', 'WA', 'TAS', 'NT', 'ACT'];
-    const ageGroups = ['0-16', '17-25', '26-39', '40-64', '65 and over'];
+    const ageGroups = ['17-25', '26-39', '40-64', '65 and over'];
     const metrics = [
-      'Drink driving', 
-      'Drug driving', 
-      'Drug possession', 
-      'Alcohol-related disorder',
-      'Refuse breath test',
-      'Refuse drug test'
+      'positive_breath_tests',
+      'positive_drug_tests'
     ];
-    const detectionMethods = ['Roadside testing', 'Random breath test', 'Police patrol', 'Traffic stop'];
+    const detectionMethods = {
+      'positive_breath_tests': ['Random breath test', 'Roadside testing', 'Traffic stop'],
+      'positive_drug_tests': ['Roadside testing', 'Laboratory or Toxicology (Stage 3)', 'Traffic stop']
+    };
 
     // Create realistic patterns for drugs and alcohol violations
     years.forEach(year => {
       jurisdictions.forEach(jurisdiction => {
         ageGroups.forEach(ageGroup => {
           metrics.forEach(metric => {
-            detectionMethods.forEach(method => {
-              // Create realistic violation patterns
-              let baseFines = 10;
-              let baseArrests = 2;
-              let baseCharges = 3;
+            const methods = detectionMethods[metric];
+            methods.forEach(method => {
+              // Create realistic violation patterns - FOCUS ON FINES
+              let baseFines = 50; // Main focus
+              let baseArrests = 1; // Minimal
+              let baseCharges = 2; // Minimal
 
-              // Age group patterns
-              if (ageGroup === '17-25') {
-                baseFines *= 2.5; // Young adults higher risk
-                baseArrests *= 2.0;
-                baseCharges *= 2.0;
-              } else if (ageGroup === '26-39') {
-                baseFines *= 2.0;
-                baseArrests *= 1.8;
-                baseCharges *= 1.8;
-              } else if (ageGroup === '40-64') {
-                baseFines *= 1.5;
-                baseArrests *= 1.2;
-                baseCharges *= 1.2;
-              } else if (ageGroup === '0-16') {
-                baseFines *= 0.1; // Very low
-                baseArrests *= 0.1;
-                baseCharges *= 0.1;
+              // Age group patterns - different for breath vs drug tests
+              if (metric === 'positive_breath_tests') {
+                if (ageGroup === '17-25') {
+                  baseFines *= 2.0; // Young adults higher for alcohol - FOCUS ON FINES
+                  baseArrests *= 1.1; // Minimal change
+                  baseCharges *= 1.1; // Minimal change
+                } else if (ageGroup === '26-39') {
+                  baseFines *= 2.5; // Peak for alcohol violations - FOCUS ON FINES
+                  baseArrests *= 1.1; // Minimal change
+                  baseCharges *= 1.2; // Minimal change
+                } else if (ageGroup === '40-64') {
+                  baseFines *= 2.2; // FOCUS ON FINES
+                  baseArrests *= 1.0; // Minimal change
+                  baseCharges *= 1.1; // Minimal change
+                } else if (ageGroup === '65 and over') {
+                  baseFines *= 0.8; // Lower for elderly - FOCUS ON FINES
+                  baseArrests *= 0.8; // Minimal change
+                  baseCharges *= 0.8; // Minimal change
+                }
+              } else if (metric === 'positive_drug_tests') {
+                if (ageGroup === '17-25') {
+                  baseFines *= 3.0; // Very high for young adults and drugs - FOCUS ON FINES
+                  baseArrests *= 1.2; // Minimal change
+                  baseCharges *= 1.3; // Minimal change
+                } else if (ageGroup === '26-39') {
+                  baseFines *= 2.2; // FOCUS ON FINES
+                  baseArrests *= 1.1; // Minimal change
+                  baseCharges *= 1.1; // Minimal change
+                } else if (ageGroup === '40-64') {
+                  baseFines *= 1.3; // FOCUS ON FINES
+                  baseArrests *= 1.0; // Minimal change
+                  baseCharges *= 1.0; // Minimal change
+                } else if (ageGroup === '65 and over') {
+                  baseFines *= 0.3; // Very low for elderly and drugs - FOCUS ON FINES
+                  baseArrests *= 0.5; // Minimal change
+                  baseCharges *= 0.5; // Minimal change
+                }
               }
 
               // Jurisdiction patterns
               const jurisdictionMultipliers = {
-                'NSW': 2.5,
-                'VIC': 2.2,
-                'QLD': 1.8,
-                'WA': 1.5,
-                'SA': 1.2,
-                'ACT': 0.8,
-                'TAS': 0.6,
-                'NT': 0.5
+                'NSW': 2.8,
+                'VIC': 2.5,
+                'QLD': 2.0,
+                'WA': 1.7,
+                'SA': 1.3,
+                'ACT': 0.9,
+                'TAS': 0.7,
+                'NT': 0.8
               };
               
               const jurisdictionMultiplier = jurisdictionMultipliers[jurisdiction] || 1.0;
@@ -164,32 +189,37 @@ class DrugsAlcoholDataLoader {
               baseArrests *= jurisdictionMultiplier;
               baseCharges *= jurisdictionMultiplier;
 
-              // Metric patterns
-              if (metric === 'Drink driving') {
-                baseFines *= 3.0; // Most common
-                baseArrests *= 2.5;
-                baseCharges *= 2.5;
-              } else if (metric === 'Drug driving') {
-                baseFines *= 1.5; // Growing concern
-                baseArrests *= 1.8;
-                baseCharges *= 1.8;
-              } else if (metric === 'Refuse breath test') {
-                baseFines *= 0.5; // Less common
-                baseArrests *= 2.0; // But serious
-                baseCharges *= 2.0;
+              // Detection method patterns - FOCUS ON FINES
+              if (method === 'Random breath test' || method === 'Roadside testing') {
+                baseFines *= 1.8; // More common, more detections - FOCUS ON FINES
+                baseArrests *= 1.0; // Minimal change
+                baseCharges *= 1.0; // Minimal change
+              } else if (method === 'Laboratory or Toxicology (Stage 3)') {
+                baseFines *= 0.7; // More specialized, fewer - FOCUS ON FINES
+                baseArrests *= 1.2; // Slightly higher
+                baseCharges *= 1.3; // Slightly higher
               }
 
               // Year trends
               const yearIndex = year - 2008;
-              const yearMultiplier = 1 + (yearIndex * 0.03); // Gradual increase
+              let yearMultiplier = 1 + (yearIndex * 0.02); // Gradual increase
               
-              // Add some variation for recent years
-              if (year >= 2020) {
-                if (metric === 'Drug driving') {
-                  baseFines *= 1.4; // Increased focus on drug testing
-                  baseArrests *= 1.3;
-                  baseCharges *= 1.3;
+              // Add specific trends
+              if (metric === 'positive_drug_tests') {
+                // Drug testing increased significantly after 2015
+                if (year >= 2015) {
+                  yearMultiplier *= 1.8;
                 }
+                if (year >= 2020) {
+                  yearMultiplier *= 1.3; // Further increase
+                }
+              }
+
+              // COVID impact (2020-2021)
+              if (year === 2020) {
+                yearMultiplier *= 0.7; // Reduced enforcement
+              } else if (year === 2021) {
+                yearMultiplier *= 1.4; // Rebound effect
               }
 
               // Apply year multiplier
@@ -198,7 +228,7 @@ class DrugsAlcoholDataLoader {
               baseCharges *= yearMultiplier;
 
               // Add random variation
-              const randomFactor = 0.7 + (Math.random() * 0.6); // 0.7 to 1.3
+              const randomFactor = 0.6 + (Math.random() * 0.8); // 0.6 to 1.4
               baseFines *= randomFactor;
               baseArrests *= randomFactor;
               baseCharges *= randomFactor;
@@ -341,28 +371,36 @@ class DrugsAlcoholDataLoader {
     this.keyStats.totalCharges = d3.sum(this.rawData, d => d.CHARGES);
 
     // Find peak year
-    const peakYear = this.processedData.byYear.reduce((max, d) => 
-      (d.totalFines + d.totalArrests + d.totalCharges) > (max.totalFines + max.totalArrests + max.totalCharges) ? d : max
-    );
-    this.keyStats.peakYear = peakYear.year;
+    if (this.processedData.byYear.length > 0) {
+      const peakYear = this.processedData.byYear.reduce((max, d) => 
+        (d.totalFines + d.totalArrests + d.totalCharges) > (max.totalFines + max.totalArrests + max.totalCharges) ? d : max
+      );
+      this.keyStats.peakYear = peakYear.year;
+    }
 
     // Find top jurisdiction
-    const topJurisdiction = this.processedData.byJurisdiction.reduce((max, d) => 
-      (d.totalFines + d.totalArrests + d.totalCharges) > (max.totalFines + max.totalArrests + max.totalCharges) ? d : max
-    );
-    this.keyStats.topJurisdiction = topJurisdiction.jurisdiction;
+    if (this.processedData.byJurisdiction.length > 0) {
+      const topJurisdiction = this.processedData.byJurisdiction.reduce((max, d) => 
+        (d.totalFines + d.totalArrests + d.totalCharges) > (max.totalFines + max.totalArrests + max.totalCharges) ? d : max
+      );
+      this.keyStats.topJurisdiction = topJurisdiction.jurisdiction;
+    }
 
     // Find top age group
-    const topAgeGroup = this.processedData.byAgeGroup.reduce((max, d) => 
-      (d.totalFines + d.totalArrests + d.totalCharges) > (max.totalFines + max.totalArrests + max.totalCharges) ? d : max
-    );
-    this.keyStats.topAgeGroup = topAgeGroup.ageGroup;
+    if (this.processedData.byAgeGroup.length > 0) {
+      const topAgeGroup = this.processedData.byAgeGroup.reduce((max, d) => 
+        (d.totalFines + d.totalArrests + d.totalCharges) > (max.totalFines + max.totalArrests + max.totalCharges) ? d : max
+      );
+      this.keyStats.topAgeGroup = topAgeGroup.ageGroup;
+    }
 
     // Find primary metric (most common violation type)
-    const primaryMetric = this.processedData.byMetric.reduce((max, d) => 
-      (d.totalFines + d.totalArrests + d.totalCharges) > (max.totalFines + max.totalArrests + max.totalCharges) ? d : max
-    );
-    this.keyStats.primaryMetric = primaryMetric.metric;
+    if (this.processedData.byMetric.length > 0) {
+      const primaryMetric = this.processedData.byMetric.reduce((max, d) => 
+        (d.totalFines + d.totalArrests + d.totalCharges) > (max.totalFines + max.totalArrests + max.totalCharges) ? d : max
+      );
+      this.keyStats.primaryMetric = primaryMetric.metric.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+    }
 
     console.log("Drugs & alcohol statistics:", this.keyStats);
   }
@@ -418,14 +456,12 @@ class DrugsAlcoholDataLoader {
   // Get data for specific analysis
   getDrugVsAlcoholData() {
     const drugMetrics = this.rawData.filter(d => 
-      d.METRIC.toLowerCase().includes('drug') || 
-      d.METRIC.toLowerCase().includes('substance')
+      d.METRIC.toLowerCase().includes('drug')
     );
     
     const alcoholMetrics = this.rawData.filter(d => 
-      d.METRIC.toLowerCase().includes('drink') || 
-      d.METRIC.toLowerCase().includes('alcohol') ||
-      d.METRIC.toLowerCase().includes('breath')
+      d.METRIC.toLowerCase().includes('breath') || 
+      d.METRIC.toLowerCase().includes('alcohol')
     );
 
     return {
@@ -441,6 +477,66 @@ class DrugsAlcoholDataLoader {
         totalCharges: d3.sum(alcoholMetrics, d => d.CHARGES),
         records: alcoholMetrics.length
       }
+    };
+  }
+
+  // Process filtered data with same structure as main data
+  processFilteredData(filteredData) {
+    return {
+      byYear: d3.rollups(
+        filteredData,
+        v => ({
+          totalFines: d3.sum(v, d => d.FINES),
+          totalArrests: d3.sum(v, d => d.ARRESTS),
+          totalCharges: d3.sum(v, d => d.CHARGES),
+          records: v.length
+        }),
+        d => d.YEAR
+      ).map(([year, data]) => ({ year, ...data })).sort((a, b) => a.year - b.year),
+
+      byJurisdiction: d3.rollups(
+        filteredData,
+        v => ({
+          totalFines: d3.sum(v, d => d.FINES),
+          totalArrests: d3.sum(v, d => d.ARRESTS),
+          totalCharges: d3.sum(v, d => d.CHARGES),
+          records: v.length
+        }),
+        d => d.JURISDICTION
+      ).map(([jurisdiction, data]) => ({ jurisdiction, ...data })),
+
+      byAgeGroup: d3.rollups(
+        filteredData,
+        v => ({
+          totalFines: d3.sum(v, d => d.FINES),
+          totalArrests: d3.sum(v, d => d.ARRESTS),
+          totalCharges: d3.sum(v, d => d.CHARGES),
+          records: v.length
+        }),
+        d => d.AGE_GROUP
+      ).map(([ageGroup, data]) => ({ ageGroup, ...data })),
+
+      byMetric: d3.rollups(
+        filteredData,
+        v => ({
+          totalFines: d3.sum(v, d => d.FINES),
+          totalArrests: d3.sum(v, d => d.ARRESTS),
+          totalCharges: d3.sum(v, d => d.CHARGES),
+          records: v.length
+        }),
+        d => d.METRIC
+      ).map(([metric, data]) => ({ metric, ...data })),
+
+      byDetectionMethod: d3.rollups(
+        filteredData,
+        v => ({
+          totalFines: d3.sum(v, d => d.FINES),
+          totalArrests: d3.sum(v, d => d.ARRESTS),
+          totalCharges: d3.sum(v, d => d.CHARGES),
+          records: v.length
+        }),
+        d => d.DETECTION_METHOD
+      ).map(([method, data]) => ({ method, ...data }))
     };
   }
 }
@@ -477,12 +573,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Calculate and display comparison stats
       const comparisonData = drugsAlcoholDataLoader.getDrugVsAlcoholData();
-      updateElement('alcohol-total', comparisonData.alcohol.totalFines + comparisonData.alcohol.totalArrests + comparisonData.alcohol.totalCharges);
-      updateElement('drug-total', comparisonData.drugs.totalFines + comparisonData.drugs.totalArrests + comparisonData.drugs.totalCharges);
+      const alcoholTotal = comparisonData.alcohol.totalFines + comparisonData.alcohol.totalArrests + comparisonData.alcohol.totalCharges;
+      const drugTotal = comparisonData.drugs.totalFines + comparisonData.drugs.totalArrests + comparisonData.drugs.totalCharges;
+      
+      updateElement('alcohol-total', alcoholTotal);
+      updateElement('drug-total', drugTotal);
       updateElement('combined-total', data.stats.totalFines + data.stats.totalArrests + data.stats.totalCharges);
       
-      const alcoholDrugRatio = comparisonData.alcohol.totalFines > 0 && comparisonData.drugs.totalFines > 0 ? 
-        (comparisonData.alcohol.totalFines / comparisonData.drugs.totalFines).toFixed(1) + ':1' : 'N/A';
+      const alcoholDrugRatio = drugTotal > 0 ? (alcoholTotal / drugTotal).toFixed(1) + ':1' : 'N/A';
       updateElement('alcohol-drug-ratio', alcoholDrugRatio);
     }
   }).catch(error => {

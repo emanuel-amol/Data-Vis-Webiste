@@ -1,5 +1,5 @@
 // js/drugs_&_alcohol/interactions.js
-// Interactive functionality for drugs and alcohol analysis page
+// Fixed interactive functionality for drugs and alcohol analysis page - FOCUS ON FINES
 
 class DrugsAlcoholInteractions {
   constructor() {
@@ -23,6 +23,7 @@ class DrugsAlcoholInteractions {
     this.isInitialized = false;
     this.insightsVisible = false;
     this.comparisonMode = false;
+    this.focusOnFines = true; // PRIMARY FOCUS ON FINES
   }
 
   init() {
@@ -35,7 +36,7 @@ class DrugsAlcoholInteractions {
     this.loadChartInstances();
     
     this.isInitialized = true;
-    console.log('Drugs & Alcohol interactions initialized');
+    console.log('Drugs & Alcohol interactions initialized - FOCUS ON FINES');
   }
 
   setupButtonHandlers() {
@@ -63,7 +64,7 @@ class DrugsAlcoholInteractions {
       resetBtn.addEventListener('click', () => this.resetAllFilters());
     }
 
-    // Analysis toggles
+    // Analysis toggles - FOCUS ON FINES
     const showArrests = document.getElementById('show-arrests');
     const showCharges = document.getElementById('show-charges');
     
@@ -87,6 +88,7 @@ class DrugsAlcoholInteractions {
       this.updateFilterOptions();
       this.updateInsightsData();
       this.applyFilters();
+      console.log('Data loaded - focusing on FINES analysis');
     });
 
     // Window resize handler
@@ -127,8 +129,7 @@ class DrugsAlcoholInteractions {
 
   toggleInsights() {
     const insights = document.getElementById('chart-insights');
-    const button = document.querySelector('button[onclick="showInsights()"]') || 
-                   document.querySelector('.analysis-btn');
+    const button = document.getElementById('show-insights-btn');
     
     if (insights) {
       this.insightsVisible = !this.insightsVisible;
@@ -150,13 +151,13 @@ class DrugsAlcoholInteractions {
         }, 10);
       }
 
-      console.log(`Insights ${this.insightsVisible ? 'shown' : 'hidden'}`);
+      console.log(`Insights ${this.insightsVisible ? 'shown' : 'hidden'} - FINES focus`);
     }
   }
 
   toggleComparisonMode() {
     this.comparisonMode = !this.comparisonMode;
-    const button = document.querySelector('.analysis-btn:nth-child(2)');
+    const button = document.getElementById('compare-metrics-btn');
     
     if (button) {
       button.textContent = this.comparisonMode ? '⚖️ Exit Comparison' : '⚖️ Compare Outcomes';
@@ -166,7 +167,7 @@ class DrugsAlcoholInteractions {
     // Apply comparison styling to charts
     this.applyComparisonMode();
     
-    console.log(`Comparison mode ${this.comparisonMode ? 'enabled' : 'disabled'}`);
+    console.log(`Comparison mode ${this.comparisonMode ? 'enabled' : 'disabled'} - FINES focus`);
   }
 
   applyComparisonMode() {
@@ -204,6 +205,7 @@ class DrugsAlcoholInteractions {
       if (window.drugsAlcoholDetectionChart) {
         this.charts.detection = window.drugsAlcoholDetectionChart;
       }
+      console.log('Chart instances loaded - FINES focus enabled');
     }, 1000);
   }
 
@@ -215,6 +217,8 @@ class DrugsAlcoholInteractions {
   updateFilterOptions() {
     if (!this.data || !this.data.raw) return;
 
+    console.log('Updating filter options - FINES focus');
+    
     // Update year options
     this.updateYearOptions();
     
@@ -223,12 +227,6 @@ class DrugsAlcoholInteractions {
     
     // Update age group options
     this.updateAgeGroupOptions();
-    
-    // Update metric options
-    this.updateMetricOptions();
-    
-    // Update detection method options
-    this.updateDetectionMethodOptions();
   }
 
   updateYearOptions() {
@@ -273,7 +271,7 @@ class DrugsAlcoholInteractions {
 
   updateAgeGroupOptions() {
     const ageGroups = [...new Set(this.data.raw.map(d => d.AGE_GROUP))];
-    const ageOrder = ['0-16', '17-25', '26-39', '40-64', '65 and over'];
+    const ageOrder = ['17-25', '26-39', '40-64', '65 and over'];
     const sortedAgeGroups = ageGroups.sort((a, b) => ageOrder.indexOf(a) - ageOrder.indexOf(b));
     
     const ageCheckboxList = document.getElementById('age-checkbox-list');
@@ -295,33 +293,27 @@ class DrugsAlcoholInteractions {
     }
   }
 
-  updateMetricOptions() {
-    const metrics = [...new Set(this.data.raw.map(d => d.METRIC))].sort();
-    // This could be used for a metric filter if needed in the future
-  }
-
-  updateDetectionMethodOptions() {
-    const methods = [...new Set(this.data.raw.map(d => d.DETECTION_METHOD))].sort();
-    // This could be used for a detection method filter if needed in the future
-  }
-
   updateInsightsData() {
     if (!this.data || !this.data.stats) return;
 
-    // Update insight cards with real data
-    this.updateStatElement('primary-metric', this.data.stats.primaryMetric || 'Drink driving');
+    console.log('Updating insights data - FINES focus');
+
+    // Update insight cards with real data - FOCUS ON FINES
+    this.updateStatElement('primary-metric', this.data.stats.primaryMetric || 'Positive Breath Tests');
     this.updateStatElement('peak-year', this.data.stats.peakYear || '2021');
     this.updateStatElement('leading-jurisdiction', this.data.stats.topJurisdiction || 'NSW');
     this.updateStatElement('top-age-group', this.data.stats.topAgeGroup || '26-39');
 
-    // Update comparison data
+    // Update comparison data - FOCUS ON FINES
     if (window.drugsAlcoholDataLoader) {
       const comparisonData = window.drugsAlcoholDataLoader.getDrugVsAlcoholData();
-      this.updateStatElement('alcohol-total', comparisonData.alcohol.totalFines + comparisonData.alcohol.totalArrests + comparisonData.alcohol.totalCharges);
-      this.updateStatElement('drug-total', comparisonData.drugs.totalFines + comparisonData.drugs.totalArrests + comparisonData.drugs.totalCharges);
-      this.updateStatElement('combined-total', this.data.stats.totalFines + this.data.stats.totalArrests + this.data.stats.totalCharges);
       
-      const alcoholDrugRatio = comparisonData.alcohol.totalFines > 0 && comparisonData.drugs.totalFines > 0 ? 
+      // Focus primarily on FINES for the main stats
+      this.updateStatElement('alcohol-total', comparisonData.alcohol.totalFines);
+      this.updateStatElement('drug-total', comparisonData.drugs.totalFines);
+      this.updateStatElement('combined-total', this.data.stats.totalFines);
+      
+      const alcoholDrugRatio = comparisonData.drugs.totalFines > 0 ? 
         (comparisonData.alcohol.totalFines / comparisonData.drugs.totalFines).toFixed(1) + ':1' : 'N/A';
       this.updateStatElement('alcohol-drug-ratio', alcoholDrugRatio);
     }
@@ -330,14 +322,16 @@ class DrugsAlcoholInteractions {
   applyFilters() {
     if (!this.data || !window.drugsAlcoholDataLoader) return;
 
+    console.log('Applying filters - FINES focus');
+
     // Get current filter selections
     const filters = this.getCurrentFilters();
     
     // Apply filters to data
     const filteredData = window.drugsAlcoholDataLoader.getDataByFilters(filters);
     
-    // Update processed data
-    const processedData = this.processFilteredData(filteredData);
+    // Update processed data using the loader's method
+    const processedData = window.drugsAlcoholDataLoader.processFilteredData(filteredData);
     
     // Update global data reference
     window.drugsAlcoholData.filtered = {
@@ -348,8 +342,10 @@ class DrugsAlcoholInteractions {
     // Refresh all charts with filtered data
     this.refreshAllCharts();
     
-    // Update statistics
+    // Update statistics - FOCUS ON FINES
     this.updateFilteredStatistics(processedData);
+    
+    console.log(`Filters applied to ${filteredData.length} records - FINES focus`);
   }
 
   getCurrentFilters() {
@@ -379,28 +375,16 @@ class DrugsAlcoholInteractions {
     return filters;
   }
 
-  processFilteredData(filteredData) {
-    // Use the same processing logic as the main data loader
-    if (window.drugsAlcoholDataLoader) {
-      // Create a temporary processed structure
-      return {
-        byYear: window.drugsAlcoholDataLoader.getAggregatedData(filteredData, 'YEAR'),
-        byJurisdiction: window.drugsAlcoholDataLoader.getAggregatedData(filteredData, 'JURISDICTION'),
-        byAgeGroup: window.drugsAlcoholDataLoader.getAggregatedData(filteredData, 'AGE_GROUP'),
-        byMetric: window.drugsAlcoholDataLoader.getAggregatedData(filteredData, 'METRIC'),
-        byDetectionMethod: window.drugsAlcoholDataLoader.getAggregatedData(filteredData, 'DETECTION_METHOD')
-      };
-    }
-    return null;
-  }
-
   refreshAllCharts() {
-    Object.values(this.charts).forEach(chart => {
+    console.log('Refreshing all charts - FINES focus');
+    
+    Object.entries(this.charts).forEach(([name, chart]) => {
       if (chart && typeof chart.update === 'function') {
         try {
           chart.update();
+          console.log(`Updated ${name} chart - FINES focus`);
         } catch (error) {
-          console.warn('Error updating chart:', error);
+          console.warn(`Error updating ${name} chart:`, error);
         }
       }
     });
@@ -421,6 +405,7 @@ class DrugsAlcoholInteractions {
         if (typeof this.charts[chartKey].update === 'function') {
           try {
             this.charts[chartKey].update();
+            console.log(`Updated ${chartKey} chart for tab - FINES focus`);
           } catch (error) {
             console.warn(`Error updating ${chartKey} chart:`, error);
           }
@@ -432,19 +417,41 @@ class DrugsAlcoholInteractions {
   updateFilteredStatistics(processedData) {
     if (!processedData) return;
     
-    // Calculate filtered statistics
+    console.log('Updating filtered statistics - FINES focus');
+    
+    // Calculate filtered statistics - FOCUS ON FINES
     const totalFines = d3.sum(processedData.byYear, d => d.totalFines || 0);
     const totalArrests = d3.sum(processedData.byYear, d => d.totalArrests || 0);
     const totalCharges = d3.sum(processedData.byYear, d => d.totalCharges || 0);
     
-    // Update UI elements
+    // Update UI elements - MAIN FOCUS ON FINES
     this.updateStatElement('total-fines-stat', totalFines);
     this.updateStatElement('total-arrests-stat', totalArrests);
     this.updateStatElement('total-charges-stat', totalCharges);
     
-    // Update derived statistics
-    const combinedTotal = totalFines + totalArrests + totalCharges;
-    this.updateStatElement('combined-total', combinedTotal);
+    // Update derived statistics - FOCUS ON FINES
+    this.updateStatElement('combined-total', totalFines); // Changed to focus on fines
+    
+    // Update comparison with filtered data
+    if (window.drugsAlcoholData.filtered?.raw) {
+      const filteredRaw = window.drugsAlcoholData.filtered.raw;
+      
+      const alcoholFines = d3.sum(filteredRaw.filter(d => 
+        d.METRIC.toLowerCase().includes('breath') || 
+        d.METRIC.toLowerCase().includes('alcohol')
+      ), d => d.FINES);
+      
+      const drugFines = d3.sum(filteredRaw.filter(d => 
+        d.METRIC.toLowerCase().includes('drug')
+      ), d => d.FINES);
+      
+      this.updateStatElement('alcohol-total', alcoholFines);
+      this.updateStatElement('drug-total', drugFines);
+      
+      const alcoholDrugRatio = drugFines > 0 ? 
+        (alcoholFines / drugFines).toFixed(1) + ':1' : 'N/A';
+      this.updateStatElement('alcohol-drug-ratio', alcoholDrugRatio);
+    }
   }
 
   updateStatElement(elementId, value) {
@@ -459,6 +466,8 @@ class DrugsAlcoholInteractions {
   }
 
   resetAllFilters() {
+    console.log('Resetting all filters - FINES focus');
+    
     // Reset all filter checkboxes
     const allCheckboxes = document.querySelectorAll('.checkbox-list input[type="checkbox"]');
     allCheckboxes.forEach(checkbox => {
@@ -478,7 +487,7 @@ class DrugsAlcoholInteractions {
 
     // Reset comparison mode
     this.comparisonMode = false;
-    const compareBtn = document.querySelector('.analysis-btn:nth-child(2)');
+    const compareBtn = document.getElementById('compare-metrics-btn');
     if (compareBtn) {
       compareBtn.textContent = '⚖️ Compare Outcomes';
       compareBtn.style.backgroundColor = '#3b82f6';
@@ -488,7 +497,7 @@ class DrugsAlcoholInteractions {
     // Reset insights
     this.insightsVisible = false;
     const insights = document.getElementById('chart-insights');
-    const insightsBtn = document.querySelector('.analysis-btn:nth-child(1)');
+    const insightsBtn = document.getElementById('show-insights-btn');
     if (insights) insights.style.display = 'none';
     if (insightsBtn) {
       insightsBtn.textContent = '📊 Show Insights';
@@ -498,7 +507,7 @@ class DrugsAlcoholInteractions {
     // Reapply filters (which will be empty, showing all data)
     this.applyFilters();
     
-    console.log('All filters and modes reset');
+    console.log('All filters and modes reset - FINES focus maintained');
   }
 
   updateFilterDisplay(elementId, text) {
@@ -509,8 +518,7 @@ class DrugsAlcoholInteractions {
   }
 
   toggleMetricVisibility(metric, visible) {
-    // This could be used to show/hide specific metrics in charts
-    console.log(`Toggle ${metric} visibility: ${visible}`);
+    console.log(`Toggle ${metric} visibility: ${visible} - FINES focus maintained`);
     
     // Store the toggle state and refresh charts
     if (!this.activeFilters.visibilityToggles) {
@@ -540,6 +548,8 @@ class DrugsAlcoholInteractions {
       return;
     }
     
+    console.log('Exporting data - FINES focus');
+    
     const filteredData = window.drugsAlcoholData.filtered?.raw || this.data.raw;
     
     try {
@@ -552,7 +562,7 @@ class DrugsAlcoholInteractions {
       const url = URL.createObjectURL(blob);
       
       link.setAttribute('href', url);
-      link.setAttribute('download', `drugs_alcohol_enforcement_${new Date().toISOString().split('T')[0]}.csv`);
+      link.setAttribute('download', `drugs_alcohol_fines_${new Date().toISOString().split('T')[0]}.csv`);
       link.style.visibility = 'hidden';
       
       document.body.appendChild(link);
@@ -562,7 +572,7 @@ class DrugsAlcoholInteractions {
       // Clean up
       URL.revokeObjectURL(url);
       
-      console.log('Data export completed successfully');
+      console.log('Data export completed successfully - FINES focus');
       
       // Show success message
       this.showExportSuccess();
@@ -574,7 +584,7 @@ class DrugsAlcoholInteractions {
   }
 
   showExportSuccess() {
-    const exportBtn = document.querySelector('.export-btn');
+    const exportBtn = document.getElementById('export-data-btn');
     if (exportBtn) {
       const originalText = exportBtn.textContent;
       const originalColor = exportBtn.style.backgroundColor;
@@ -756,6 +766,7 @@ document.addEventListener('click', function(event) {
 document.addEventListener('DOMContentLoaded', function() {
   window.drugsAlcoholInteractions = new DrugsAlcoholInteractions();
   window.drugsAlcoholInteractions.init();
+  console.log('Drugs & Alcohol Interactions initialized - FINES focus enabled');
 });
 
 // Export for use in other modules

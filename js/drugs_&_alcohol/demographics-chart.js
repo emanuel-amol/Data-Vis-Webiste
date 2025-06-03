@@ -1,5 +1,5 @@
 // js/drugs_&_alcohol/demographics-chart.js
-// Demographics analysis visualization for drugs and alcohol enforcement data
+// Fixed demographics analysis visualization - FOCUS ON FINES
 
 class DrugsAlcoholDemographicsChart {
   constructor() {
@@ -14,25 +14,20 @@ class DrugsAlcoholDemographicsChart {
     };
     
     this.colors = {
-      ageGroup1: '#3498db',
-      ageGroup2: '#e74c3c',
-      ageGroup3: '#f39c12',
-      ageGroup4: '#9b59b6',
-      ageGroup5: '#2ecc71',
-      male: '#3498db',
-      female: '#e74c3c',
-      fines: '#f39c12',
-      arrests: '#e67e22',
-      charges: '#c0392b'
+      fines: '#3498db',        // PRIMARY - MAIN FOCUS
+      arrests: '#95a5a6',      // SECONDARY - Muted
+      charges: '#bdc3c7',      // TERTIARY - Very muted
+      primary: '#3498db'       // Main color for fines
     };
 
     this.ageGroupColors = {
-      '0-16': this.colors.ageGroup1,
-      '17-25': this.colors.ageGroup2,
-      '26-39': this.colors.ageGroup3,
-      '40-64': this.colors.ageGroup4,
-      '65 and over': this.colors.ageGroup5
+      '17-25': '#e74c3c',
+      '26-39': '#f39c12', 
+      '40-64': '#9b59b6',
+      '65 and over': '#2ecc71'
     };
+
+    this.focusOnFines = true; // PRIMARY FOCUS
   }
 
   init() {
@@ -55,7 +50,7 @@ class DrugsAlcoholDemographicsChart {
     this.chart = this.svg.append('g')
       .attr('transform', `translate(${this.dimensions.margin.left},${this.dimensions.margin.top})`);
 
-    // Add title
+    // Add title - FOCUS ON FINES
     this.svg.append('text')
       .attr('x', (this.dimensions.width + this.dimensions.margin.left + this.dimensions.margin.right) / 2)
       .attr('y', 30)
@@ -63,7 +58,7 @@ class DrugsAlcoholDemographicsChart {
       .style('font-size', '18px')
       .style('font-weight', 'bold')
       .style('fill', '#2c3e50')
-      .text('Drugs & Alcohol Violations by Age Demographics');
+      .text('Drugs & Alcohol FINES by Age Demographics');
 
     // Add subtitle
     this.svg.append('text')
@@ -72,7 +67,7 @@ class DrugsAlcoholDemographicsChart {
       .attr('text-anchor', 'middle')
       .style('font-size', '14px')
       .style('fill', '#7f8c8d')
-      .text('Age group patterns in drug and alcohol-related driving offenses');
+      .text('Focusing on fine patterns across age groups');
   }
 
   createTooltip() {
@@ -107,10 +102,14 @@ class DrugsAlcoholDemographicsChart {
   render() {
     if (!this.data) return;
 
+    console.log('Rendering demographics chart - FINES focus');
+
     // Clear previous content
     this.chart.selectAll('*').remove();
 
-    const ageGroupData = this.data.byAgeGroup;
+    // Check for filtered data first
+    const dataToUse = window.drugsAlcoholData?.filtered?.processed || this.data;
+    const ageGroupData = dataToUse.byAgeGroup;
     
     if (!ageGroupData || ageGroupData.length === 0) {
       this.chart.append('text')
@@ -124,21 +123,20 @@ class DrugsAlcoholDemographicsChart {
     }
 
     // Sort age groups in logical order
-    const ageOrder = ['0-16', '17-25', '26-39', '40-64', '65 and over'];
+    const ageOrder = ['17-25', '26-39', '40-64', '65 and over'];
     const sortedData = ageGroupData.sort((a, b) => {
       return ageOrder.indexOf(a.ageGroup) - ageOrder.indexOf(b.ageGroup);
     });
 
-    this.renderStackedBarChart(sortedData);
+    // FOCUS ON FINES - Primary visualization
+    this.renderFinesBarChart(sortedData);
   }
 
-  renderStackedBarChart(data) {
-    // Prepare stacked data
-    const metrics = ['totalFines', 'totalArrests', 'totalCharges'];
-    const colors = [this.colors.fines, this.colors.arrests, this.colors.charges];
+  renderFinesBarChart(data) {
+    console.log('Rendering fines-focused bar chart');
     
-    // Create stacked data
-    const stackedData = data.map(d => {
+    // Prepare data with FINES as primary focus
+    const chartData = data.map(d => {
       const total = d.totalFines + d.totalArrests + d.totalCharges;
       return {
         ageGroup: d.ageGroup,
@@ -146,21 +144,19 @@ class DrugsAlcoholDemographicsChart {
         totalArrests: d.totalArrests,
         totalCharges: d.totalCharges,
         total: total,
-        // Calculate percentages for stacking
-        finesPercent: total > 0 ? (d.totalFines / total) * 100 : 0,
-        arrestsPercent: total > 0 ? (d.totalArrests / total) * 100 : 0,
-        chargesPercent: total > 0 ? (d.totalCharges / total) * 100 : 0
+        // Calculate FINES percentage (primary focus)
+        finesPercent: total > 0 ? (d.totalFines / total) * 100 : 0
       };
     });
 
-    // Scales
+    // Scales - FOCUS ON FINES
     const xScale = d3.scaleBand()
       .domain(data.map(d => d.ageGroup))
       .range([0, this.dimensions.width])
       .padding(0.3);
 
     const yScale = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.totalFines + d.totalArrests + d.totalCharges) * 1.1])
+      .domain([0, d3.max(data, d => d.totalFines) * 1.2]) // FOCUS ON FINES
       .nice()
       .range([this.dimensions.height, 0]);
 
@@ -194,7 +190,7 @@ class DrugsAlcoholDemographicsChart {
       .style('font-size', '12px')
       .style('fill', '#7f8c8d');
 
-    // Add axis labels
+    // Add axis labels - FOCUS ON FINES
     this.chart.append('text')
       .attr('text-anchor', 'middle')
       .attr('x', this.dimensions.width / 2)
@@ -212,119 +208,121 @@ class DrugsAlcoholDemographicsChart {
       .style('font-size', '14px')
       .style('font-weight', '600')
       .style('fill', '#2c3e50')
-      .text('Number of Enforcement Actions');
+      .text('Number of FINES'); // FOCUS ON FINES
 
-    // Create stacked bars
-    stackedData.forEach(d => {
+    // Create FINES bars (primary focus)
+    chartData.forEach(d => {
       const barGroup = this.chart.append('g')
         .attr('class', 'bar-group')
         .attr('transform', `translate(${xScale(d.ageGroup)},0)`);
 
-      let yPos = yScale(0);
+      // Main FINES bar (prominent)
+      barGroup.append('rect')
+        .attr('class', 'fines-bar')
+        .attr('x', 0)
+        .attr('y', yScale(d.totalFines))
+        .attr('width', xScale.bandwidth() * 0.8) // Wider for prominence
+        .attr('height', this.dimensions.height - yScale(d.totalFines))
+        .attr('fill', this.colors.fines)
+        .attr('stroke', '#fff')
+        .attr('stroke-width', 2)
+        .style('cursor', 'pointer')
+        .on('mouseover', (event) => this.showTooltip(event, d, 'fines'))
+        .on('mousemove', (event) => this.moveTooltip(event))
+        .on('mouseout', () => this.hideTooltip());
 
-      // Fines (bottom)
-      if (d.totalFines > 0) {
-        const finesHeight = yScale(0) - yScale(d.totalFines);
-        yPos -= finesHeight;
-        
-        barGroup.append('rect')
-          .attr('class', 'fines-bar')
-          .attr('x', 0)
-          .attr('y', yPos)
-          .attr('width', xScale.bandwidth())
-          .attr('height', finesHeight)
-          .attr('fill', this.colors.fines)
-          .attr('stroke', '#fff')
-          .attr('stroke-width', 1)
-          .style('cursor', 'pointer')
-          .on('mouseover', (event) => this.showTooltip(event, d, 'fines'))
-          .on('mousemove', (event) => this.moveTooltip(event))
-          .on('mouseout', () => this.hideTooltip());
-      }
-
-      // Arrests (middle)
+      // Small indicators for arrests and charges (minimal)
       if (d.totalArrests > 0) {
-        const arrestsHeight = yScale(0) - yScale(d.totalArrests);
-        yPos -= arrestsHeight;
-        
         barGroup.append('rect')
-          .attr('class', 'arrests-bar')
-          .attr('x', 0)
-          .attr('y', yPos)
-          .attr('width', xScale.bandwidth())
-          .attr('height', arrestsHeight)
+          .attr('class', 'arrests-indicator')
+          .attr('x', xScale.bandwidth() * 0.82)
+          .attr('y', yScale(d.totalFines) - 15)
+          .attr('width', xScale.bandwidth() * 0.08)
+          .attr('height', 10)
           .attr('fill', this.colors.arrests)
-          .attr('stroke', '#fff')
-          .attr('stroke-width', 1)
+          .style('opacity', 0.6)
           .style('cursor', 'pointer')
           .on('mouseover', (event) => this.showTooltip(event, d, 'arrests'))
           .on('mousemove', (event) => this.moveTooltip(event))
           .on('mouseout', () => this.hideTooltip());
       }
 
-      // Charges (top)
       if (d.totalCharges > 0) {
-        const chargesHeight = yScale(0) - yScale(d.totalCharges);
-        yPos -= chargesHeight;
-        
         barGroup.append('rect')
-          .attr('class', 'charges-bar')
-          .attr('x', 0)
-          .attr('y', yPos)
-          .attr('width', xScale.bandwidth())
-          .attr('height', chargesHeight)
+          .attr('class', 'charges-indicator')
+          .attr('x', xScale.bandwidth() * 0.92)
+          .attr('y', yScale(d.totalFines) - 15)
+          .attr('width', xScale.bandwidth() * 0.08)
+          .attr('height', 10)
           .attr('fill', this.colors.charges)
-          .attr('stroke', '#fff')
-          .attr('stroke-width', 1)
+          .style('opacity', 0.6)
           .style('cursor', 'pointer')
           .on('mouseover', (event) => this.showTooltip(event, d, 'charges'))
           .on('mousemove', (event) => this.moveTooltip(event))
           .on('mouseout', () => this.hideTooltip());
       }
 
-      // Add total value label on top
-      if (d.total > 0) {
+      // Add FINES value label on top
+      if (d.totalFines > 0) {
         barGroup.append('text')
-          .attr('x', xScale.bandwidth() / 2)
-          .attr('y', yPos - 8)
+          .attr('x', xScale.bandwidth() * 0.4)
+          .attr('y', yScale(d.totalFines) - 8)
           .attr('text-anchor', 'middle')
-          .style('font-size', '11px')
+          .style('font-size', '12px')
           .style('font-weight', 'bold')
           .style('fill', '#2c3e50')
-          .text(d.total.toLocaleString());
+          .text(d.totalFines.toLocaleString());
       }
     });
 
-    // Add legend
-    this.addLegend();
+    // Add legend - FOCUS ON FINES
+    this.addFinesFocusedLegend();
 
-    // Add age group analysis
-    this.addAgeGroupAnalysis(stackedData);
+    // Add age group analysis - FOCUS ON FINES
+    this.addFinesAgeGroupAnalysis(chartData);
   }
 
   showTooltip(event, d, type) {
     const value = d[`total${type.charAt(0).toUpperCase() + type.slice(1)}`];
     const percentage = d.total > 0 ? ((value / d.total) * 100).toFixed(1) : 0;
     
-    this.tooltip
-      .style('visibility', 'visible')
-      .html(`
-        <div style="border-bottom: 1px solid rgba(255,255,255,0.3); margin-bottom: 8px; padding-bottom: 8px;">
-          <strong>${d.ageGroup} - ${type.charAt(0).toUpperCase() + type.slice(1)}</strong>
-        </div>
+    let tooltipContent = `
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.3); margin-bottom: 8px; padding-bottom: 8px;">
+        <strong>${d.ageGroup} - ${type.charAt(0).toUpperCase() + type.slice(1)}</strong>
+      </div>
+      <div style="margin-bottom: 6px;">
+        <strong>Count:</strong> ${value.toLocaleString()}
+      </div>`;
+    
+    if (type === 'fines') {
+      // Enhanced tooltip for FINES (primary focus)
+      tooltipContent += `
         <div style="margin-bottom: 6px;">
-          <strong>Count:</strong> ${value.toLocaleString()}
+          <strong>🎯 PRIMARY METRIC:</strong> FINES
         </div>
         <div style="margin-bottom: 6px;">
           <strong>% of Age Group:</strong> ${percentage}%
         </div>
         <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.2); font-size: 11px;">
           Total for ${d.ageGroup}: ${d.total.toLocaleString()}<br>
-          Fines: ${d.totalFines.toLocaleString()}, 
+          <strong>FINES: ${d.totalFines.toLocaleString()}</strong>, 
           Arrests: ${d.totalArrests.toLocaleString()}, 
           Charges: ${d.totalCharges.toLocaleString()}
+        </div>`;
+    } else {
+      tooltipContent += `
+        <div style="margin-bottom: 6px;">
+          <strong>% of Age Group:</strong> ${percentage}%
         </div>
-      `);
+        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.2); font-size: 11px;">
+          <strong>Primary Focus: FINES (${d.totalFines.toLocaleString()})</strong><br>
+          Secondary: Arrests (${d.totalArrests.toLocaleString()}), Charges (${d.totalCharges.toLocaleString()})
+        </div>`;
+    }
+    
+    this.tooltip
+      .style('visibility', 'visible')
+      .html(tooltipContent);
   }
 
   moveTooltip(event) {
@@ -337,15 +335,15 @@ class DrugsAlcoholDemographicsChart {
     this.tooltip.style('visibility', 'hidden');
   }
 
-  addLegend() {
+  addFinesFocusedLegend() {
     const legend = this.chart.append('g')
       .attr('class', 'legend')
       .attr('transform', `translate(${this.dimensions.width + 20}, 50)`);
 
     const legendData = [
-      { label: 'Fines', color: this.colors.fines },
-      { label: 'Arrests', color: this.colors.arrests },
-      { label: 'Charges', color: this.colors.charges }
+      { label: 'FINES (Primary)', color: this.colors.fines, primary: true },
+      { label: 'Arrests', color: this.colors.arrests, primary: false },
+      { label: 'Charges', color: this.colors.charges, primary: false }
     ];
 
     legendData.forEach((item, index) => {
@@ -353,44 +351,46 @@ class DrugsAlcoholDemographicsChart {
         .attr('transform', `translate(0, ${index * 25})`);
 
       legendItem.append('rect')
-        .attr('width', 18)
-        .attr('height', 18)
+        .attr('width', item.primary ? 20 : 15)
+        .attr('height', item.primary ? 18 : 12)
         .attr('fill', item.color)
         .attr('stroke', '#fff')
-        .attr('stroke-width', 1);
+        .attr('stroke-width', item.primary ? 2 : 1)
+        .style('opacity', item.primary ? 1 : 0.6);
 
       legendItem.append('text')
         .attr('x', 25)
         .attr('y', 9)
         .attr('dy', '0.35em')
-        .style('font-size', '12px')
+        .style('font-size', item.primary ? '12px' : '10px')
+        .style('font-weight', item.primary ? 'bold' : 'normal')
         .style('fill', '#2c3e50')
         .text(item.label);
     });
   }
 
-  addAgeGroupAnalysis(data) {
-    // Find the age group with highest violations
-    const topAgeGroup = data.reduce((max, d) => d.total > max.total ? d : max);
+  addFinesAgeGroupAnalysis(data) {
+    // Find the age group with highest FINES (primary focus)
+    const topFinesAgeGroup = data.reduce((max, d) => d.totalFines > max.totalFines ? d : max);
     
-    // Calculate distribution insights
-    const totalViolations = d3.sum(data, d => d.total);
-    const distribution = data.map(d => ({
+    // Calculate FINES distribution insights
+    const totalFines = d3.sum(data, d => d.totalFines);
+    const finesDistribution = data.map(d => ({
       ageGroup: d.ageGroup,
-      percentage: ((d.total / totalViolations) * 100).toFixed(1)
+      percentage: ((d.totalFines / totalFines) * 100).toFixed(1)
     }));
 
-    // Add analysis box
+    // Add analysis box - FOCUS ON FINES
     const analysisBox = this.svg.append('g')
       .attr('class', 'analysis-box')
       .attr('transform', `translate(${this.dimensions.width + this.dimensions.margin.left + 20}, ${this.dimensions.margin.top + 150})`);
 
     analysisBox.append('rect')
       .attr('width', 140)
-      .attr('height', 160)
+      .attr('height', 180)
       .attr('fill', '#ecf0f1')
-      .attr('stroke', '#bdc3c7')
-      .attr('stroke-width', 1)
+      .attr('stroke', '#3498db')
+      .attr('stroke-width', 2)
       .attr('rx', 8);
 
     analysisBox.append('text')
@@ -399,44 +399,62 @@ class DrugsAlcoholDemographicsChart {
       .style('font-size', '12px')
       .style('font-weight', 'bold')
       .style('fill', '#2c3e50')
-      .text('Age Group Analysis:');
+      .text('FINES Analysis:');
 
-    // Top age group
+    // Top age group for FINES
     analysisBox.append('text')
       .attr('x', 10)
       .attr('y', 40)
       .style('font-size', '10px')
       .style('font-weight', 'bold')
-      .style('fill', '#e74c3c')
-      .text(`Highest: ${topAgeGroup.ageGroup}`);
+      .style('fill', '#3498db')
+      .text(`🎯 Highest FINES:`);
 
     analysisBox.append('text')
       .attr('x', 10)
       .attr('y', 55)
-      .style('font-size', '9px')
-      .style('fill', '#34495e')
-      .text(`${topAgeGroup.total.toLocaleString()} violations`);
+      .style('font-size', '10px')
+      .style('font-weight', 'bold')
+      .style('fill', '#e74c3c')
+      .text(`${topFinesAgeGroup.ageGroup}`);
 
-    // Distribution
     analysisBox.append('text')
       .attr('x', 10)
-      .attr('y', 80)
+      .attr('y', 70)
+      .style('font-size', '9px')
+      .style('fill', '#34495e')
+      .text(`${topFinesAgeGroup.totalFines.toLocaleString()} fines`);
+
+    // FINES Distribution
+    analysisBox.append('text')
+      .attr('x', 10)
+      .attr('y', 95)
       .style('font-size', '10px')
       .style('font-weight', 'bold')
       .style('fill', '#2c3e50')
-      .text('Distribution:');
+      .text('FINES Distribution:');
 
-    distribution.forEach((d, i) => {
+    finesDistribution.forEach((d, i) => {
       analysisBox.append('text')
         .attr('x', 10)
-        .attr('y', 100 + i * 12)
+        .attr('y', 115 + i * 12)
         .style('font-size', '9px')
         .style('fill', '#34495e')
         .text(`${d.ageGroup}: ${d.percentage}%`);
     });
+
+    // Total FINES
+    analysisBox.append('text')
+      .attr('x', 10)
+      .attr('y', 170)
+      .style('font-size', '9px')
+      .style('font-weight', 'bold')
+      .style('fill', '#3498db')
+      .text(`Total FINES: ${totalFines.toLocaleString()}`);
   }
 
   update() {
+    console.log('Updating demographics chart - FINES focus');
     this.render();
   }
 
@@ -455,6 +473,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (demographicsContainer) {
     drugsAlcoholDemographicsChart = new DrugsAlcoholDemographicsChart();
     drugsAlcoholDemographicsChart.init();
+    console.log('Demographics chart initialized - FINES focus enabled');
   }
 });
 
