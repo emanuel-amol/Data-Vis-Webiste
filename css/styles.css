@@ -388,24 +388,64 @@ header {
   max-width: 220px;
 }
 
-/* Reset button */
-#reset {
-  height: 40px;
-  padding: 0 16px;
-  font-size: 14px;
-  font-weight: bold;
-  border: none;
-  border-radius: 4px;
-  background-color: white;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  margin: 0; /* Remove margin-top and margin-bottom */
-  align-self: flex-end;
+/* Consistent Red Color Variables */
+:root {
+  --primary-red: #ef4444;
+  --primary-red-dark: #dc2626;
+  --primary-red-light: #fee2e2;
 }
 
-#reset:hover {
-  background-color: #f0f0f0;
+/* Reset button */
+#reset,
+.reset-btn,
+.reset-btn-enhanced {
+  background-color: var(--primary-red);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 2px 2px 8px rgba(239, 68, 68, 0.2);
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  font-weight: bold;
+  padding: 10px 16px;
+}
+
+#reset:hover,
+.reset-btn:hover,
+.reset-btn-enhanced:hover {
+  background-color: var(--primary-red-dark);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Red highlights for cards, borders, and insights */
+.stat-change.positive,
+.stat-change.negative,
+.stat-change.neutral {
+  /* ...existing code... */
+}
+
+.stat-change.negative {
+  background-color: var(--primary-red-light);
+  color: var(--primary-red-dark);
+}
+
+/* For journey-step or story-node with red border or background */
+.journey-step[style*="border-color: #ef4444;"],
+.story-node[style*="border-color: #ef4444;"] {
+  border-color: var(--primary-red) !important;
+}
+
+.journey-insight[style*="background: rgba(239, 68, 68, 0.1);"],
+.story-node .journey-insight[style*="background: rgba(239, 68, 68, 0.1);"] {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: var(--primary-red-dark);
+}
+
+/* For .feature-icon or .feature-card with red gradient */
+.feature-icon[style*="background: linear-gradient(135deg, #ef4444, #dc2626);"],
+.team-member .feature-icon[style*="background: linear-gradient(135deg, #ef4444, #dc2626);"] {
+  background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark)) !important;
 }
 
 /* Additional styles for the new pages */
@@ -616,16 +656,22 @@ header {
 }
 
 .story-node {
-  min-width: 180px;
-  flex: 0 0 auto;
-  padding: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  gap: 10px;
-  background: white;
+  min-width: 180px;
+  flex: 0 0 auto;
+  padding: 15px;
+  background: white;  /* Ensure all nodes have a white background */
   border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Remove any special background styling for Key Insights and Data Story nodes */
+.story-node[data-step="6"],
+.story-node[data-step="7"] {
+  background: white !important;
+  /* Remove any gradient or color overrides */
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
