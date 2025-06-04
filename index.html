@@ -21,13 +21,14 @@
     
     <nav class="nav-container">
       <div class="container">
-        <div class="nav-buttons">
+        <div class="nav-buttons" style="display: flex; justify-content: center; align-items: center; flex-wrap: nowrap; gap: 0.5rem; margin: 0 auto; overflow-x: auto; padding: 0.5rem; -webkit-overflow-scrolling: touch;">
           <a href="index.html" class="nav-btn active">Home</a>
           <a href="pages/time-trends.html" class="nav-btn">Time Trends</a>
           <a href="pages/jurisdictions.html" class="nav-btn">Jurisdictions</a>
           <a href="pages/age-analysis.html" class="nav-btn">Age Demographics</a>
-          <a href="pages/insights.html" class="nav-btn">Key Insights</a>
+          <a href="pages/drugs_&_alcohol_analysis.html" class="nav-btn">Drugs & Alcohol</a>
           <a href="pages/comparative-analysis.html" class="nav-btn">Comparative Analysis</a>
+          <a href="pages/insights.html" class="nav-btn">Key Insights</a>
           <a href="pages/data-story.html" class="nav-btn">Data Story</a>
           <a href="pages/about.html" class="nav-btn">About</a>
         </div>
@@ -53,79 +54,102 @@
       <!-- Enhanced Story Path with Interactive Elements -->
       <section class="overview">
         <h2>Follow the Data Journey</h2>
-        
-        <div class="interactive-story-path" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; min-height: 220px; position: relative;">
-          <div class="story-timeline">
-            <div class="timeline-line"></div>
-            
-            <div class="story-node active" data-step="1">
-              <div class="node-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M3 3v18h18V3H3zm16 16H5V5h14v14zm-7-2l-4-4 1.41-1.41L12 14.17l6.59-6.58L20 9l-8 8z"/>
-                </svg>
-              </div>
-              <div class="node-content">
-                <h4>Time Trends</h4>
-                <p>Discover how enforcement patterns evolved over 15 years</p>
-                <div class="mini-insight">2021 Peak: 35% increase</div>
-              </div>
+        <div class="story-timeline">
+          <div class="timeline-line"></div>
+          
+          <div class="story-node active" data-step="1">
+            <div class="node-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 3v18h18V3H3zm16 16H5V5h14v14zm-7-2l-4-4 1.41-1.41L12 14.17l6.59-6.58L20 9l-8 8z"/>
+              </svg>
             </div>
-            
-            <div class="story-node" data-step="2">
-              <div class="node-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                </svg>
-              </div>
-              <div class="node-content">
-                <h4>Jurisdictional Patterns</h4>
-                <p>Compare enforcement strategies across states</p>
-                <div class="mini-insight">NSW: Dramatic mobile phone enforcement</div>
-              </div>
-            </div>
-            
-            <div class="story-node" data-step="3">
-              <div class="node-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2 2 0 0 0 18.09 7H16c-.8 0-1.54.5-1.84 1.24L12.5 12 15 22h5z"/>
-                </svg>
-              </div>
-              <div class="node-content">
-                <h4>Age Demographics</h4>
-                <p>Uncover surprising patterns in age-related violations</p>
-                <div class="mini-insight">40-64 group: Unexpected leaders</div>
-              </div>
-            </div>
-            
-            <div class="story-node" data-step="4">
-              <div class="node-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                </svg>
-              </div>
-              <div class="node-content">
-                <h4>Comparative Analysis</h4>
-                <p>Advanced statistical comparisons and correlations</p>
-                <div class="mini-insight">Statistical significance testing</div>
-              </div>
-            </div>
-            
-            <div class="story-node" data-step="5">
-              <div class="node-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2.5-9H19V1h-2v1H7V1H5v1H3.5C2.67 2 2 2.67 2 3.5v15c0 .83.67 1.5 1.5 1.5h17c.83 0 1.5-.67 1.5-1.5v-15c0-.83-.67-1.5-1.5-1.5zm0 16.5h-17v-11h17v11z"/>
-                </svg>
-              </div>
-              <div class="node-content">
-                <h4>Key Insights</h4>
-                <p>Actionable recommendations for policy makers</p>
-                <div class="mini-insight">Evidence-based solutions</div>
-              </div>
+            <div class="node-content">
+              <h4>Time Trends</h4>
+              <p>Discover how enforcement patterns evolved over 15 years</p>
+              <div class="mini-insight">2021 Peak: 35% increase</div>
             </div>
           </div>
-          <div class="cta-container" style="margin-top: 32px; display: flex; justify-content: center; width: 100%;">
-            <a href="pages/time-trends.html" class="primary-cta">Begin the Data Journey</a>
+          
+          <div class="story-node" data-step="2">
+            <div class="node-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+              </svg>
+            </div>
+            <div class="node-content">
+              <h4>Jurisdictions</h4>
+              <p>Compare enforcement strategies across states</p>
+              <div class="mini-insight">NSW: Dramatic mobile phone enforcement</div>
+            </div>
           </div>
+          
+          <div class="story-node" data-step="3">
+            <div class="node-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2z"/>
+              </svg>
+            </div>
+            <div class="node-content">
+              <h4>Age Demographics</h4>
+              <p>Uncover surprising patterns in age-related violations</p>
+              <div class="mini-insight">40-64 group: Unexpected leaders</div>
+            </div>
+          </div>
+          
+          <div class="story-node" data-step="4">
+            <div class="node-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <div class="node-content">
+              <h4>Drugs & Alcohol</h4>
+              <p>Analyze substance-related enforcement data</p>
+              <div class="mini-insight">Impact on road safety</div>
+            </div>
+          </div>
+
+          <div class="story-node" data-step="5">
+            <div class="node-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+              </svg>
+            </div>
+            <div class="node-content">
+              <h4>Comparative Analysis</h4>
+              <p>Advanced statistical comparisons and correlations</p>
+              <div class="mini-insight">Statistical significance testing</div>
+            </div>
+          </div>
+
+          <div class="story-node" data-step="6">
+            <div class="node-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/>
+              </svg>
+            </div>
+            <div class="node-content">
+              <h4>Key Insights</h4>
+              <p>Major findings and policy implications</p>
+              <div class="mini-insight">Evidence-based solutions</div>
+            </div>
+          </div>
+
+          <div class="story-node" data-step="7">
+            <div class="node-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+            </div>
+            <div class="node-content">
+              <h4>Data Story</h4>
+              <p>Complete narrative journey through the data</p>
+              <div class="mini-insight">Comprehensive analysis</div>
+            </div>
+          </div>
+        </div>
+        <div class="cta-container" style="margin-top: 32px; display: flex; justify-content: center; width: 100%;">
+          <a href="pages/time-trends.html" class="primary-cta">Begin the Data Journey</a>
         </div>
       </section>
 

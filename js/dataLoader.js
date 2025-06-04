@@ -38,7 +38,7 @@ class DataLoader {
       console.log("Loading road safety enforcement data...");
       
       // Try the correct path based on your folder structure
-      const csvPath = '../data/police_enforcement_2023_fines_20240920.csv';
+      const csvPath = '../data/police_enforcement_2023_fines.csv';
       
       try {
         this.rawData = await d3.csv(csvPath);
