@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Key Insights - Road Safety Enforcement</title>
   <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/storytelling.css">
-  <link rel="stylesheet" href="../css/advanced-interactions.css">
-  <link rel="stylesheet" href="../css/data-story-enhancements.css">
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
@@ -79,7 +76,7 @@
       </div>
 
       <!-- Policy Maker Dashboard -->
-      <div class="policy-dashboard">
+      <div class="policy-dashboard animated-reveal">
         <h2>Interactive Jurisdictional Analysis Dashboard</h2>
         
         <!-- Dashboard Controls -->
@@ -278,7 +275,7 @@
         </div>
 
         <!-- Comparative Statistics Table -->
-        <div class="comparative-table-section">
+        <div class="comparative-table-section animated-reveal">
           <h3>Jurisdictional Comparison Table</h3>
           <div class="table-container">
             <table id="comparison-table" class="comparison-table">
@@ -293,70 +290,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr data-jurisdiction="NSW" class="clickable-row">
-                  <td><strong>NSW</strong></td>
-                  <td>1,250,000</td>
-                  <td>152 per 1,000</td>
-                  <td>+132%</td>
-                  <td>A+</td>
-                  <td>Excellent</td>
-                </tr>
-                <tr data-jurisdiction="VIC" class="clickable-row">
-                  <td><strong>VIC</strong></td>
-                  <td>980,000</td>
-                  <td>148 per 1,000</td>
-                  <td>+45%</td>
-                  <td>A</td>
-                  <td>Very Good</td>
-                </tr>
-                <tr data-jurisdiction="QLD" class="clickable-row">
-                  <td><strong>QLD</strong></td>
-                  <td>720,000</td>
-                  <td>135 per 1,000</td>
-                  <td>+28%</td>
-                  <td>B+</td>
-                  <td>Good</td>
-                </tr>
-                <tr data-jurisdiction="WA" class="clickable-row">
-                  <td><strong>WA</strong></td>
-                  <td>420,000</td>
-                  <td>158 per 1,000</td>
-                  <td>+15%</td>
-                  <td>B</td>
-                  <td>Good</td>
-                </tr>
-                <tr data-jurisdiction="SA" class="clickable-row">
-                  <td><strong>SA</strong></td>
-                  <td>280,000</td>
-                  <td>162 per 1,000</td>
-                  <td>+8%</td>
-                  <td>B-</td>
-                  <td>Fair</td>
-                </tr>
-                <tr data-jurisdiction="TAS" class="clickable-row">
-                  <td><strong>TAS</strong></td>
-                  <td>85,000</td>
-                  <td>156 per 1,000</td>
-                  <td>+12%</td>
-                  <td>C+</td>
-                  <td>Fair</td>
-                </tr>
-                <tr data-jurisdiction="ACT" class="clickable-row">
-                  <td><strong>ACT</strong></td>
-                  <td>65,000</td>
-                  <td>148 per 1,000</td>
-                  <td>+22%</td>
-                  <td>B</td>
-                  <td>Good</td>
-                </tr>
-                <tr data-jurisdiction="NT" class="clickable-row">
-                  <td><strong>NT</strong></td>
-                  <td>35,000</td>
-                  <td>140 per 1,000</td>
-                  <td>+5%</td>
-                  <td>C</td>
-                  <td>Needs Improvement</td>
-                </tr>
+                <!-- Table rows will be populated by JavaScript -->
               </tbody>
             </table>
           </div>
@@ -364,7 +298,7 @@
       </div>
 
       <!-- Action Enablement Section -->
-      <div class="action-enablement">
+      <div class="action-enablement animated-reveal">
         <h2>Decision Support Tools</h2>
         <div class="tools-grid">
           <div class="tool-card">
@@ -398,7 +332,7 @@
       </div>
 
       <!-- Major Insights with Progressive Disclosure -->
-      <div class="insights-preview">
+      <div class="insights-preview animated-reveal">
         <h2>Five Evidence-Based Policy Insights</h2>
         
         <div class="insight-revealer">
@@ -464,7 +398,7 @@
                 <p>This suggests violation rates are driven more by behavioral factors than opportunity frequency. The pandemic period revealed that enforcement effectiveness isn't simply a function of traffic density.</p>
                 
                 <div class="recommendation">
-                  <strong>Policy Recommendation:</strong> Focus enforcement strategies on behavioral modification rather than just traffic volume management. Invest in public awareness campaigns about automated detection.</p>
+                  <strong>Policy Recommendation:</strong> Focus enforcement strategies on behavioral modification rather than just traffic volume management. Invest in public awareness campaigns about automated detection.
                 </div>
               </div>
             </div>
@@ -481,7 +415,7 @@
                 <p>Every major finding in this analysis contradicts traditional assumptions about road safety. This demonstrates the critical importance of evidence-based policy development over intuition-based decisions.</p>
                 
                 <div class="recommendation">
-                  <strong>Policy Recommendation:</strong> Establish mandatory data review cycles for all road safety policies. Challenge existing assumptions with regular comprehensive analysis rather than relying on traditional beliefs.</p>
+                  <strong>Policy Recommendation:</strong> Establish mandatory data review cycles for all road safety policies. Challenge existing assumptions with regular comprehensive analysis rather than relying on traditional beliefs.
                 </div>
               </div>
             </div>
@@ -500,7 +434,7 @@
         </div>
         <div class="footer-section">
           <h4>Data Authority</h4>
-          <p>Bureau of Infrastructure and Transport Research Economics (BITRE)<br>5,017 enforcement records (2008-2023)</p>
+          <p>Bureau of Infrastructure and Transport Research Economics (BITRE)<br>4,173 enforcement records (2008-2023)</p>
         </div>
         <div class="footer-section">
           <h4>Research Team</h4>
@@ -513,286 +447,117 @@
     </div>
   </footer>
 
-  <!-- Load scripts -->
-  <script src="../js/utils/statistics.js"></script>
-  <script src="../js/utils/animations.js"></script>
-  <script src="../js/storytelling/story-interactions.js"></script>
-  <script src="../js/script.js"></script>
-  
-  <script>
-    // Policy Maker Dashboard Functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      initializePolicyDashboard();
-      AnimationUtils.initializePageAnimations();
-    });
-
-    function initializePolicyDashboard() {
-      // Jurisdiction data for the policy dashboard
-      const jurisdictionData = {
-        'NSW': {
-          name: 'New South Wales',
-          fines: '1,250,000',
-          growth: '+132%',
-          rank: '1st',
-          techDescription: 'Pioneer in mobile phone detection technology deployment. Revolutionary camera network implemented 2019-2021.',
-          techBoost: '+132%',
-          policies: [
-            'Accelerate automated detection deployment nationwide',
-            'Share mobile phone camera technology with other states',
-            'Establish NSW as national center of excellence for enforcement technology',
-            'Develop driver behavior change programs targeting middle-aged demographic'
-          ]
-        },
-        'VIC': {
-          name: 'Victoria',
-          fines: '980,000',
-          growth: '+45%',
-          rank: '2nd',
-          techDescription: 'Consistent leader with systematic camera deployment strategy. Maintained highest per-capita rates.',
-          techBoost: '+45%',
-          policies: [
-            'Maintain systematic enforcement approach as national model',
-            'Expand mentorship role for other jurisdictions',
-            'Develop consistent enforcement protocols for national adoption',
-            'Continue focus on experience-based driver education'
-          ]
-        },
-        'QLD': {
-          name: 'Queensland',
-          fines: '720,000',
-          growth: '+28%',
-          rank: '3rd',
-          techDescription: 'Steady growth with balanced urban-regional deployment. Sustainable development approach.',
-          techBoost: '+28%',
-          policies: [
-            'Accelerate technology adoption to match leading states',
-            'Expand camera coverage in regional areas',
-            'Develop targeted campaigns for tourism-heavy regions',
-            'Improve coordination between urban and regional enforcement'
-          ]
-        },
-        'WA': {
-          name: 'Western Australia',
-          fines: '420,000',
-          growth: '+15%',
-          rank: '4th',
-          techDescription: 'Moderate technology adoption. Opportunity for significant improvement with enhanced systems.',
-          techBoost: '+15%',
-          policies: [
-            'Major technology upgrade required to reach national standards',
-            'Leverage vast geographic area for innovative enforcement strategies',
-            'Develop partnerships with eastern states for technology transfer',
-            'Focus on highway and mining route enforcement'
-          ]
-        },
-        'SA': {
-          name: 'South Australia',
-          fines: '280,000',
-          growth: '+8%',
-          rank: '5th',
-          techDescription: 'Limited technology deployment. Significant opportunity for modernization and improvement.',
-          techBoost: '+8%',
-          policies: [
-            'Urgent technology modernization program needed',
-            'Establish partnership with Victoria for knowledge transfer',
-            'Develop state-specific enforcement strategy',
-            'Increase focus on Adelaide metropolitan area'
-          ]
-        },
-        'TAS': {
-          name: 'Tasmania',
-          fines: '85,000',
-          growth: '+12%',
-          rank: '6th',
-          techDescription: 'Small-scale deployment with moderate growth. Island geography offers unique opportunities.',
-          techBoost: '+12%',
-          policies: [
-            'Develop island-specific enforcement model',
-            'Focus on tourist route safety during peak seasons',
-            'Leverage small population for community-based programs',
-            'Coordinate with mainland states for technology sharing'
-          ]
-        },
-        'ACT': {
-          name: 'Australian Capital Territory',
-          fines: '65,000',
-          growth: '+22%',
-          rank: '7th',
-          techDescription: 'Compact jurisdiction with good technology adoption rate. High per-capita efficiency.',
-          techBoost: '+22%',
-          policies: [
-            'Serve as testing ground for new enforcement technologies',
-            'Develop best practices for urban-focused enforcement',
-            'Coordinate closely with surrounding NSW systems',
-            'Focus on commuter and government vehicle compliance'
-          ]
-        },
-        'NT': {
-          name: 'Northern Territory',
-          fines: '35,000',
-          growth: '+5%',
-          rank: '8th',
-          techDescription: 'Minimal technology deployment. Vast distances create unique enforcement challenges.',
-          techBoost: '+5%',
-          policies: [
-            'Develop innovative solutions for vast geographic coverage',
-            'Focus on major highway and mining route enforcement',
-            'Establish mobile enforcement units for remote areas',
-            'Create partnerships with mining companies for workplace safety'
-          ]
-        }
-      };
-
-      // Add click handlers for map jurisdictions
-      document.querySelectorAll('.jurisdiction').forEach(jurisdiction => {
-        jurisdiction.addEventListener('click', function() {
-          const jurisdictionId = this.getAttribute('data-jurisdiction');
-          selectJurisdiction(jurisdictionId, jurisdictionData[jurisdictionId]);
-          
-          // Visual feedback
-          document.querySelectorAll('.jurisdiction').forEach(j => j.classList.remove('selected'));
-          this.classList.add('selected');
-        });
-        
-        jurisdiction.addEventListener('mouseenter', function() {
-          this.style.opacity = '1';
-          this.style.transform = 'scale(1.05)';
-        });
-        
-        jurisdiction.addEventListener('mouseleave', function() {
-          if (!this.classList.contains('selected')) {
-            this.style.opacity = '0.7';
-            this.style.transform = 'scale(1)';
-          }
-        });
-      });
-
-      // Add click handlers for table rows
-      document.querySelectorAll('.clickable-row').forEach(row => {
-        row.addEventListener('click', function() {
-          const jurisdictionId = this.getAttribute('data-jurisdiction');
-          selectJurisdiction(jurisdictionId, jurisdictionData[jurisdictionId]);
-          
-          // Visual feedback for table
-          document.querySelectorAll('.clickable-row').forEach(r => r.classList.remove('selected'));
-          this.classList.add('selected');
-          
-          // Visual feedback for map
-          document.querySelectorAll('.jurisdiction').forEach(j => j.classList.remove('selected'));
-          document.getElementById(jurisdictionId).classList.add('selected');
-        });
-      });
-    }
-
-    function selectJurisdiction(jurisdictionId, data) {
-      // Update the insights panel
-      document.getElementById('selected-jurisdiction').textContent = `Analysis for ${data.name}`;
-      document.getElementById('jurisdiction-details').style.display = 'block';
-      
-      // Update jurisdiction details
-      document.getElementById('jurisdiction-name').textContent = data.name;
-      document.getElementById('metric-fines').textContent = data.fines;
-      document.getElementById('metric-growth').textContent = data.growth;
-      document.getElementById('metric-rank').textContent = data.rank;
-      
-      // Update technology impact
-      document.getElementById('tech-description').textContent = data.techDescription;
-      document.getElementById('tech-boost').textContent = data.techBoost;
-      
-      // Update policy recommendations
-      const policyList = document.getElementById('policy-list');
-      policyList.innerHTML = '';
-      data.policies.forEach(policy => {
-        const li = document.createElement('li');
-        li.textContent = policy;
-        policyList.appendChild(li);
-      });
-      
-      // Scroll to insights panel
-      document.querySelector('.insights-panel').scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'nearest' 
-      });
-    }
-
-    // Export functionality
-    function generateExecutiveReport() {
-      // Simulate report generation
-      alert('Executive Report: Generating comprehensive analysis with policy recommendations and statistical evidence. This would download a PDF report in a real implementation.');
-    }
-
-    function exportDataPackage() {
-      // Simulate data export
-      alert('Data Package: Exporting raw data, processed statistics, and visualization assets. This would download a ZIP file in a real implementation.');
-    }
-
-    function openPolicySimulator() {
-      alert('Policy Simulator: Opening modeling tool for enforcement strategy analysis. This would launch an interactive simulation in a real implementation.');
-    }
-
-    function viewRoadmap() {
-      alert('Implementation Roadmap: Displaying step-by-step guidance for enforcement strategy implementation. This would show a detailed roadmap in a real implementation.');
-    }
-
-    // Progressive disclosure functionality
-    const revealTriggers = document.querySelectorAll('.reveal-trigger');
-    const revealedInsights = new Set();
-    
-    revealTriggers.forEach(trigger => {
-      trigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const insightItem = trigger.closest('.insight-item');
-        const insightId = insightItem.dataset.reveal;
-        
-        if (revealedInsights.has(insightId)) {
-          // Hide insight
-          insightItem.classList.remove('revealed');
-          revealedInsights.delete(insightId);
-          trigger.textContent = 'Click to reveal';
-          trigger.style.background = 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)';
-        } else {
-          // Reveal insight
-          insightItem.classList.add('revealed');
-          revealedInsights.add(insightId);
-          
-          const content = insightItem.querySelector('.insight-content');
-          content.style.maxHeight = '500px';
-          content.style.padding = '30px';
-          
-          trigger.textContent = 'Hide insight';
-          trigger.style.background = '#10b981';
-        }
-      });
-    });
-  </script>
+  <!-- Load D3 and insights JavaScript modules -->
+  <script src="../js/insights/insights-data-loader.js"></script>
+  <script src="../js/insights/insights-map-visualization.js"></script>
+  <script src="../js/insights/insights-dashboard-controller.js"></script>
+  <script src="../js/insights/insights-animations.js"></script>
+  <script src="../js/insights/insights-main.js"></script>
 
   <style>
+    /* Enhanced styles for the insights page */
+    .stat-card {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .stat-card:hover::before {
+      left: 100%;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+
+    .stat-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .stat-card-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .key-stat {
+      display: block;
+      font-size: 3rem;
+      font-weight: 800;
+      color: #0C1A3C;
+      margin-bottom: 10px;
+      line-height: 1;
+    }
+
+    .stat-description {
+      font-size: 1rem;
+      color: #374151;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .stat-change {
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: #10b981;
+      color: white;
+      display: inline-block;
+    }
+
     .policy-dashboard {
       margin: 40px 0;
-      padding: 30px;
+      padding: 40px;
       background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
     }
 
     .dashboard-controls {
-      background: #f8f9fa;
-      padding: 20px;
-      border-radius: 8px;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      padding: 25px;
+      border-radius: 12px;
       margin-bottom: 30px;
+      border: 1px solid #e2e8f0;
     }
 
     .control-panel {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
+      gap: 25px;
       align-items: end;
+    }
+
+    .control-panel h4 {
+      grid-column: 1 / -1;
+      margin: 0 0 15px 0;
+      color: #0C1A3C;
+      font-size: 1.2rem;
     }
 
     .control-group {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 8px;
     }
 
     .control-group label {
@@ -802,17 +567,26 @@
     }
 
     .control-group select {
-      padding: 8px 12px;
+      padding: 12px 16px;
       border: 2px solid #e5e7eb;
-      border-radius: 6px;
+      border-radius: 8px;
       background: white;
       font-size: 14px;
+      transition: all 0.2s ease;
+      min-height: 44px;
+    }
+
+    .control-group select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
 
     .control-group input[type="checkbox"] {
       margin-right: 8px;
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
+      accent-color: #3b82f6;
     }
 
     .dashboard-grid {
@@ -824,29 +598,27 @@
 
     .map-section {
       background: white;
-      padding: 25px;
+      padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border: 1px solid #e2e8f0;
     }
 
     .section-header h3 {
       color: #0C1A3C;
       margin-bottom: 10px;
-      font-size: 1.3rem;
+      font-size: 1.4rem;
     }
 
     .section-header p {
       color: #6b7280;
-      margin-bottom: 20px;
-    }
-
-    #australia-map-container {
-      position: relative;
+      margin-bottom: 25px;
+      font-style: italic;
     }
 
     .jurisdiction {
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .jurisdiction:hover {
@@ -856,54 +628,59 @@
 
     .jurisdiction.selected {
       opacity: 1 !important;
-      transform: scale(1.05);
-      filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+      transform: scale(1.08);
+      filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.8));
     }
 
     .map-legend {
-      margin-top: 20px;
-      padding: 15px;
-      background: #f8f9fa;
+      margin-top: 25px;
+      padding: 20px;
+      background: #f8fafc;
       border-radius: 8px;
+      border: 1px solid #e2e8f0;
     }
 
     .map-legend h4 {
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       color: #374151;
-      font-size: 1rem;
+      font-size: 1.1rem;
     }
 
     .legend-items {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
     }
 
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.85rem;
+      gap: 10px;
+      font-size: 0.9rem;
     }
 
     .legend-color {
-      width: 16px;
-      height: 16px;
-      border-radius: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.3);
     }
 
     .insights-panel {
       background: white;
-      padding: 25px;
+      padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border: 1px solid #e2e8f0;
       height: fit-content;
+      position: sticky;
+      top: 20px;
     }
 
     .panel-header h3 {
       color: #0C1A3C;
       margin-bottom: 10px;
-      font-size: 1.3rem;
+      font-size: 1.4rem;
     }
 
     .panel-header p {
@@ -913,8 +690,8 @@
     }
 
     .jurisdiction-details {
-      border-top: 1px solid #e5e7eb;
-      padding-top: 20px;
+      border-top: 2px solid #e5e7eb;
+      padding-top: 25px;
     }
 
     .detail-section {
@@ -925,27 +702,29 @@
 
     .detail-section:last-child {
       border-bottom: none;
+      margin-bottom: 0;
     }
 
     .detail-section h4 {
       color: #374151;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
       font-size: 1.1rem;
     }
 
     .key-metrics {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .metric-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 12px;
-      background: #f8f9fa;
-      border-radius: 6px;
+      padding: 12px 15px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
     }
 
     .metric-label {
@@ -956,6 +735,7 @@
     .metric-value {
       font-weight: 700;
       color: #3b82f6;
+      font-size: 1.1rem;
     }
 
     .age-breakdown {
@@ -967,25 +747,27 @@
     .age-group {
       display: flex;
       justify-content: space-between;
-      padding: 6px 10px;
+      padding: 10px 12px;
       background: #f0f7ff;
-      border-radius: 4px;
+      border-radius: 6px;
       font-size: 0.9rem;
+      border: 1px solid #e0e7ff;
     }
 
     .trend-indicator {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px;
+      padding: 12px 15px;
       background: #ecfdf5;
-      border-radius: 6px;
-      margin-top: 10px;
+      border-radius: 8px;
+      margin-top: 15px;
+      border: 1px solid #d1fae5;
     }
 
     .policy-implications {
       background: #fef3c7;
-      padding: 15px;
+      padding: 20px;
       border-radius: 8px;
       border-left: 4px solid #f59e0b;
     }
@@ -995,53 +777,58 @@
     }
 
     #policy-list {
-      margin: 0;
+      margin: 15px 0 0 0;
       padding-left: 20px;
     }
 
     #policy-list li {
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       color: #78350f;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
     .citations {
       font-size: 0.85rem;
       color: #6b7280;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
     .citation {
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       font-style: italic;
+      padding: 8px 12px;
+      background: #f8fafc;
+      border-radius: 6px;
+      border-left: 3px solid #3b82f6;
     }
 
     .comparative-table-section {
-      margin: 40px 0;
+      margin: 50px 0;
     }
 
     .table-container {
       overflow-x: auto;
-      margin-top: 20px;
+      margin-top: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
 
     .comparison-table {
       width: 100%;
       border-collapse: collapse;
       background: white;
-      border-radius: 8px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
     .comparison-table thead {
-      background: #3b82f6;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
       color: white;
     }
 
     .comparison-table th,
     .comparison-table td {
-      padding: 12px 15px;
+      padding: 15px 18px;
       text-align: left;
       border-bottom: 1px solid #e5e7eb;
     }
@@ -1049,73 +836,116 @@
     .comparison-table th {
       font-weight: 600;
       font-size: 0.9rem;
+      letter-spacing: 0.5px;
     }
 
     .clickable-row {
       cursor: pointer;
-      transition: background-color 0.2s ease;
+      transition: all 0.2s ease;
     }
 
     .clickable-row:hover {
       background-color: #f8fafc;
+      transform: translateX(4px);
     }
 
     .clickable-row.selected {
       background-color: #dbeafe;
+      border-left: 4px solid #3b82f6;
     }
 
     .action-enablement {
-      margin: 50px 0;
-      padding: 40px;
+      margin: 60px 0;
+      padding: 50px;
       background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-      border-radius: 12px;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
     }
 
     .action-enablement h2 {
       text-align: center;
       color: #0C1A3C;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
+      font-size: 2.2rem;
     }
 
     .tools-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
     }
 
     .tool-card {
       background: white;
-      padding: 25px;
+      padding: 35px;
       border-radius: 12px;
       text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .tool-card:hover::before {
+      left: 100%;
     }
 
     .tool-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
     }
 
     .tool-icon {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
+      font-size: 3rem;
+      margin-bottom: 20px;
       display: block;
     }
 
     .tool-card h4 {
       color: #374151;
-      margin-bottom: 12px;
-      font-size: 1.2rem;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
     }
 
     .tool-card p {
       color: #6b7280;
-      margin-bottom: 20px;
-      line-height: 1.5;
+      margin-bottom: 25px;
+      line-height: 1.6;
     }
 
     .tool-btn {
       background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      min-height: 44px;
+      font-size: 1rem;
+    }
+
+    .tool-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+    }
+
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #059669);
       color: white;
       border: none;
       padding: 12px 24px;
@@ -1123,49 +953,160 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      width: 100%;
-    }
-
-    .tool-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-    }
-
-    .export-btn {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      min-height: 44px;
     }
 
     .export-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
     }
 
-    /* Responsive adjustments */
+    .insights-preview {
+      margin: 60px 0;
+    }
+
+    .insights-preview h2 {
+      text-align: center;
+      color: #0C1A3C;
+      margin-bottom: 40px;
+      font-size: 2.2rem;
+    }
+
+    .insight-revealer {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .insight-item {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .insight-trigger {
+      padding: 25px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+
+    .insight-trigger h3 {
+      color: #0C1A3C;
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    .reveal-trigger {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-height: 44px;
+    }
+
+    .reveal-trigger:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+    }
+
+    .insight-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    .insight-item.revealed .insight-content {
+      max-height: 500px;
+      padding: 30px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .insight-card-large {
+      background: linear-gradient(135deg, #f0f7ff 0%, #e0e7ff 100%);
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid #c7d2fe;
+    }
+
+    .insight-card-large h4 {
+      color: #1e40af;
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+      line-height: 1.4;
+    }
+
+    .insight-card-large p {
+      color: #374151;
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
+
+    .recommendation {
+      background: #fef3c7;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #f59e0b;
+    }
+
+    .recommendation strong {
+      color: #92400e;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    /* Responsive Design */
     @media (max-width: 1024px) {
       .dashboard-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 25px;
+      }
+      
+      .insights-panel {
+        position: static;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
       }
       
       .control-panel {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       }
     }
 
     @media (max-width: 768px) {
-      .policy-dashboard {
-        padding: 20px;
+      .hero-story {
+        padding: 40px 0;
+      }
+      
+      .hook-question {
+        font-size: 2rem;
+      }
+      
+      .policy-dashboard,
+      .action-enablement {
+        padding: 25px;
+      }
+      
+      .stats-dashboard {
+        padding: 25px;
       }
       
       .dashboard-controls {
-        padding: 15px;
+        padding: 20px;
       }
       
       .control-panel {
@@ -1192,9 +1133,65 @@
       
       .comparison-table th,
       .comparison-table td {
-        padding: 8px 10px;
+        padding: 10px 12px;
       }
+      
+      .insight-trigger {
+        padding: 20px;
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .reveal-trigger {
+        width: 100%;
+      }
+    }
+
+    /* Animation Classes */
+    .animated-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .animated-reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Focus styles for accessibility */
+    .tool-btn:focus,
+    .export-btn:focus,
+    .reveal-trigger:focus,
+    .jurisdiction:focus {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
+
+    /* Loading states */
+    .loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      margin: -10px 0 0 -10px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </body>
-</html>
