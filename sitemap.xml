@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://road-safety-australia.edu.au/</loc>
+    <lastmod>2024-12-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://road-safety-australia.edu.au/images/road-safety-social-preview.jpg</image:loc>
+      <image:title>Australian Road Safety Data Visualization</image:title>
+      <image:caption>Interactive visualization showing 15 years of Australian road safety enforcement trends</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Time Trends Page -->
+  <url>
+    <loc>https://road-safety-australia.edu.au/pages/time-trends.html</loc>
+    <lastmod>2024-12-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://road-safety-australia.edu.au/images/time-trends-chart.jpg</image:loc>
+      <image:title>Road Safety Enforcement Time Trends 2008-2023</image:title>
+      <image:caption>Chart showing 37% spike in enforcement in 2021 due to technology adoption</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Jurisdictions Page -->
+  <url>
+    <loc>https://road-safety-australia.edu.au/pages/jurisdictions.html</loc>
+    <lastmod>2024-12-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://road-safety-australia.edu.au/images/australia-map-enforcement.jpg</image:loc>
+      <image:title>Australian Jurisdictional Enforcement Comparison</image:title>
+      <image:caption>Map showing enforcement patterns across Australian states and territories</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Age Analysis Page -->
+  <url>
+    <loc>https://road-safety-australia.edu.au/pages/age-analysis.html</loc>
+    <lastmod>2024-12-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://road-safety-australia.edu.au/images/age-demographics-chart.jpg</image:loc>
+      <image:title>Road Safety Violations by Age Group</image:title>
+      <image:caption>Bar chart revealing middle-aged drivers lead violation statistics</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Drugs & Alcohol Page -->
+  <url>
+    <loc>https://road-safety-australia.edu.au/pages/drugs-alcohol.html</loc>
+    <lastmod>2024-12-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Comparative Analysis Page -->
+  <url>
+    <loc>https://road-safety-australia.edu.au/pages/comparative-analysis.html</loc>
+    <lastmod>2024-12-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Key Insights Page -->
+  <url>
+    <loc>https://road-safety-australia.edu.au/pages/insights.html</loc>
+    <lastmod>2024-12-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Data Story Page -->
+  <url>
+    <loc>https://road-safety-australia.edu.au/pages/data-story.html</loc>
+    <lastmod>2024-12-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- About Page -->
+  <url>
+    <loc>https://road-safety-australia.edu.au/pages/about.html</loc>
+    <lastmod>2024-12-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+</urlset>

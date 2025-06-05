@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <url>
+    <loc>https://road-safety-australia.edu.au/</loc>
+    <image:image>
+      <image:loc>https://road-safety-australia.edu.au/images/road-safety-social-preview.jpg</image:loc>
+      <image:title>Australian Road Safety Data Visualization Preview</image:title>
+      <image:caption>Social media preview showing key statistics from 15 years of enforcement data</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://road-safety-australia.edu.au/images/logo.png</image:loc>
+      <image:title>Australian Government Logo</image:title>
+      <image:caption>Official logo for Australian road safety data project</image:caption>
+    </image:image>
+  </url>
+  
+</urlset>
