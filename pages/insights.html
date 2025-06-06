@@ -1104,5 +1104,36 @@
   <script src="../js/insights/d3-responsive-dashboard-controller.js"></script>
   <script src="../js/insights/d3-integration.js"></script>
   <script src="../js/insights/insights-main.js"></script>
+  <script>
+    // Ensure global functions are available for tool buttons
+    window.generateExecutiveReport = function() {
+      if (window.insightsMain && typeof window.insightsMain.generateExecutiveReport === 'function') {
+        window.insightsMain.generateExecutiveReport();
+      }
+    };
+    window.exportDataPackage = function() {
+      if (window.insightsMain && typeof window.insightsMain.exportDataPackage === 'function') {
+        window.insightsMain.exportDataPackage();
+      }
+    };
+    window.openPolicySimulator = function() {
+      if (window.insightsMain && typeof window.insightsMain.openPolicySimulator === 'function') {
+        window.insightsMain.openPolicySimulator();
+      }
+    };
+    window.viewRoadmap = function() {
+      if (window.insightsMain && typeof window.insightsMain.viewImplementationRoadmap === 'function') {
+        window.insightsMain.viewImplementationRoadmap();
+      }
+    };
+    window.toggleInsight = function(triggerElement) {
+      if (window.insightsAnimations && typeof window.insightsAnimations.toggleInsight === 'function') {
+        const insightItem = triggerElement.closest('.insight-item');
+        const content = insightItem.querySelector('.insight-content');
+        const button = insightItem.querySelector('.reveal-trigger');
+        window.insightsAnimations.toggleInsight(insightItem, content, button);
+      }
+    };
+  </script>
 </body>
 </html>
