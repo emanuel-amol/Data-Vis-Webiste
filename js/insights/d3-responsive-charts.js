@@ -25,6 +25,8 @@ class ResponsiveChartFactory {
     }
 
     createTrendChart(container, data, options = {}) {
+        if (!Array.isArray(data) || data.length === 0) return;
+        
         const margin = { ...this.defaultMargin, right: 120, ...options.margin };
         const containerElement = d3.select(container);
         
@@ -168,6 +170,8 @@ class ResponsiveChartFactory {
     }
 
     createBarChart(container, data, options = {}) {
+        if (!Array.isArray(data) || data.length === 0) return;
+        
         const margin = { ...this.defaultMargin, bottom: 60, ...options.margin };
         const containerElement = d3.select(container);
         
@@ -266,6 +270,8 @@ class ResponsiveChartFactory {
     }
 
     createPieChart(container, data, options = {}) {
+        if (!Array.isArray(data) || data.length === 0) return;
+        
         const containerElement = d3.select(container);
         containerElement.selectAll("*").remove();
         
@@ -371,6 +377,8 @@ class ResponsiveChartFactory {
     }
 
     createScatterPlot(container, data, options = {}) {
+        if (!Array.isArray(data) || data.length === 0) return;
+        
         const margin = { ...this.defaultMargin, ...options.margin };
         const containerElement = d3.select(container);
         
