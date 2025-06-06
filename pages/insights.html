@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Key Insights - Road Safety Enforcement</title>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
     /* Base styles and reset */
     * {
@@ -74,7 +73,6 @@
       margin: 0;
       padding: 10px 0;
       flex-wrap: wrap;
-      overflow-x: auto;
     }
 
     .nav-btn {
@@ -858,64 +856,21 @@
 
         <!-- Main Dashboard Layout -->
         <div class="dashboard-grid">
+          <div id="visualization-error" style="display: none"></div>
           <!-- Interactive Map Section -->
           <div class="map-section">
             <div class="section-header">
               <h3>Interactive Jurisdiction Map</h3>
               <p>Click on jurisdictions to compare enforcement effectiveness</p>
             </div>
+            <!-- Replace static SVG with D3 map container -->
             <div id="australia-map-container">
-              <svg id="australia-map" width="100%" height="500" viewBox="0 0 800 600">
-                <!-- NSW -->
-                <path id="NSW" class="jurisdiction" d="M400,200 L550,200 L550,350 L400,350 Z" 
-                      fill="#3b82f6" opacity="0.7" stroke="#1e40af" stroke-width="2" 
-                      data-jurisdiction="NSW" data-fines="1250000" data-growth="132" data-rank="1"/>
-                <text x="475" y="275" text-anchor="middle" fill="white" font-weight="bold" font-size="12">NSW</text>
-                
-                <!-- VIC -->
-                <path id="VIC" class="jurisdiction" d="M300,350 L450,350 L450,450 L300,450 Z" 
-                      fill="#8b5cf6" opacity="0.7" stroke="#7c3aed" stroke-width="2"
-                      data-jurisdiction="VIC" data-fines="980000" data-growth="45" data-rank="2"/>
-                <text x="375" y="400" text-anchor="middle" fill="white" font-weight="bold" font-size="12">VIC</text>
-                
-                <!-- QLD -->
-                <path id="QLD" class="jurisdiction" d="M400,100 L600,100 L600,250 L400,250 Z" 
-                      fill="#10b981" opacity="0.7" stroke="#059669" stroke-width="2"
-                      data-jurisdiction="QLD" data-fines="720000" data-growth="28" data-rank="3"/>
-                <text x="500" y="175" text-anchor="middle" fill="white" font-weight="bold" font-size="12">QLD</text>
-                
-                <!-- WA -->
-                <path id="WA" class="jurisdiction" d="M50,150 L200,150 L200,400 L50,400 Z" 
-                      fill="#f59e0b" opacity="0.7" stroke="#d97706" stroke-width="2"
-                      data-jurisdiction="WA" data-fines="420000" data-growth="15" data-rank="4"/>
-                <text x="125" y="275" text-anchor="middle" fill="white" font-weight="bold" font-size="12">WA</text>
-                
-                <!-- SA -->
-                <path id="SA" class="jurisdiction" d="M250,250 L350,250 L350,400 L250,400 Z" 
-                      fill="#ef4444" opacity="0.7" stroke="#dc2626" stroke-width="2"
-                      data-jurisdiction="SA" data-fines="280000" data-growth="8" data-rank="5"/>
-                <text x="300" y="325" text-anchor="middle" fill="white" font-weight="bold" font-size="12">SA</text>
-                
-                <!-- TAS -->
-                <path id="TAS" class="jurisdiction" d="M350,480 L420,480 L420,520 L350,520 Z" 
-                      fill="#06b6d4" opacity="0.7" stroke="#0891b2" stroke-width="2"
-                      data-jurisdiction="TAS" data-fines="85000" data-growth="12" data-rank="6"/>
-                <text x="385" y="500" text-anchor="middle" fill="white" font-weight="bold" font-size="10">TAS</text>
-                
-                <!-- ACT -->
-                <circle id="ACT" class="jurisdiction" cx="480" cy="320" r="15" 
-                        fill="#8b5cf6" opacity="0.7" stroke="#7c3aed" stroke-width="2"
-                        data-jurisdiction="ACT" data-fines="65000" data-growth="22" data-rank="7"/>
-                <text x="480" y="325" text-anchor="middle" fill="white" font-weight="bold" font-size="8">ACT</text>
-                
-                <!-- NT -->
-                <path id="NT" class="jurisdiction" d="M250,50 L400,50 L400,200 L250,200 Z" 
-                      fill="#6b7280" opacity="0.7" stroke="#4b5563" stroke-width="2"
-                      data-jurisdiction="NT" data-fines="35000" data-growth="5" data-rank="8"/>
-                <text x="325" y="125" text-anchor="middle" fill="white" font-weight="bold" font-size="12">NT</text>
-              </svg>
-              
-              <!-- Map Legend -->
+              <div id="australia-map"></div>
+              <div id="trend-chart"></div>
+              <div id="jurisdiction-bar-chart"></div>
+              <div id="age-pie-chart"></div>
+              <div id="performance-scatter"></div>
+              <!-- Map Legend remains unchanged -->
               <div class="map-legend">
                 <h4>Enforcement Intensity</h4>
                 <div class="legend-items">
@@ -1140,403 +1095,14 @@
     </div>
   </footer>
 
-  <script>
-    // Sample data for demonstration
-    const jurisdictionData = {
-      'NSW': {
-        name: 'New South Wales',
-        totalFines: 1250000,
-        growthRate: 132,
-        rank: 1,
-        techDescription: 'Pioneer in mobile phone detection technology deployment. Revolutionary camera network implemented 2019-2021.',
-        policies: [
-          'Share technology and best practices with other jurisdictions',
-          'Maintain leadership in enforcement innovation',
-          'Develop targeted campaigns for middle-aged drivers (40-64)'
-        ]
-      },
-      'VIC': {
-        name: 'Victoria',
-        totalFines: 980000,
-        growthRate: 45,
-        rank: 2,
-        techDescription: 'Consistent leader with systematic camera deployment strategy. Maintained highest per-capita rates.',
-        policies: [
-          'Continue systematic approach to technology deployment',
-          'Share best practices with emerging jurisdictions',
-          'Focus on driver education and behavior change'
-        ]
-      },
-      'QLD': {
-        name: 'Queensland',
-        totalFines: 720000,
-        growthRate: 28,
-        rank: 3,
-        techDescription: 'Steady growth with balanced urban-regional deployment. Sustainable development approach.',
-        policies: [
-          'Increase enforcement presence in regional areas',
-          'Accelerate camera deployment in high-risk zones',
-          'Develop targeted campaigns for middle-aged drivers (40-64)'
-        ]
-      },
-      'WA': {
-        name: 'Western Australia',
-        totalFines: 420000,
-        growthRate: 15,
-        rank: 4,
-        techDescription: 'Moderate technology adoption. Opportunity for significant improvement with enhanced systems.',
-        policies: [
-          'Urgent technology modernization program needed',
-          'Establish partnerships with leading jurisdictions',
-          'Increase automated camera deployment'
-        ]
-      },
-      'SA': {
-        name: 'South Australia',
-        totalFines: 280000,
-        growthRate: 8,
-        rank: 5,
-        techDescription: 'Limited technology deployment. Significant opportunity for modernization and improvement.',
-        policies: [
-          'Urgent technology modernization program needed',
-          'Establish partnerships with leading jurisdictions',
-          'Increase enforcement presence and visibility'
-        ]
-      },
-      'TAS': {
-        name: 'Tasmania',
-        totalFines: 85000,
-        growthRate: 12,
-        rank: 6,
-        techDescription: 'Regional deployment challenges. Focus on sustainable technology solutions.',
-        policies: [
-          'Adapt technology solutions for regional deployment',
-          'Increase enforcement presence and visibility',
-          'Develop targeted campaigns for middle-aged drivers (40-64)'
-        ]
-      },
-      'ACT': {
-        name: 'Australian Capital Territory',
-        totalFines: 65000,
-        growthRate: 22,
-        rank: 7,
-        techDescription: 'Compact jurisdiction with focused technology deployment. Good growth trajectory.',
-        policies: [
-          'Continue focused technology deployment',
-          'Leverage urban concentration for effectiveness',
-          'Develop targeted campaigns for middle-aged drivers (40-64)'
-        ]
-      },
-      'NT': {
-        name: 'Northern Territory',
-        totalFines: 35000,
-        growthRate: 5,
-        rank: 8,
-        techDescription: 'Challenging geographic and demographic factors. Requires innovative deployment strategies.',
-        policies: [
-          'Develop innovative deployment strategies',
-          'Focus on high-traffic corridors',
-          'Establish partnerships with leading jurisdictions'
-        ]
-      }
-    };
-
-    // Initialize tooltip
-    let tooltip = null;
-
-    // Initialize the page
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log('Insights page loaded');
-      setupMapInteractivity();
-      setupControls();
-      animateCounters();
-    });
-
-    function setupMapInteractivity() {
-      // Create tooltip
-      tooltip = d3.select('body')
-        .append('div')
-        .attr('class', 'insights-map-tooltip')
-        .style('visibility', 'hidden');
-
-      // Add event listeners to jurisdictions
-      d3.selectAll('.jurisdiction')
-        .style('cursor', 'pointer')
-        .on('click', function(event) {
-          const jurisdiction = this.getAttribute('data-jurisdiction');
-          selectJurisdiction(jurisdiction);
-        })
-        .on('mouseover', function(event) {
-          const jurisdiction = this.getAttribute('data-jurisdiction');
-          const data = jurisdictionData[jurisdiction];
-          
-          d3.select(this)
-            .transition()
-            .duration(200)
-            .style('opacity', '1')
-            .style('transform', 'scale(1.05)');
-          
-          showTooltip(event, jurisdiction, data);
-        })
-        .on('mousemove', function(event) {
-          moveTooltip(event);
-        })
-        .on('mouseout', function(event) {
-          if (!this.classList.contains('selected')) {
-            d3.select(this)
-              .transition()
-              .duration(200)
-              .style('opacity', '0.7')
-              .style('transform', 'scale(1)');
-          }
-          hideTooltip();
-        });
-    }
-
-    function selectJurisdiction(jurisdictionCode) {
-      const data = jurisdictionData[jurisdictionCode];
-      if (!data) return;
-
-      console.log('Selected jurisdiction:', jurisdictionCode, data);
-
-      // Update visual selection
-      d3.selectAll('.jurisdiction')
-        .classed('selected', false)
-        .style('opacity', '0.7')
-        .style('transform', 'scale(1)')
-        .style('filter', '');
-
-      d3.select(`#${jurisdictionCode}`)
-        .classed('selected', true)
-        .style('opacity', '1')
-        .style('transform', 'scale(1.08)')
-        .style('filter', 'drop-shadow(0 0 12px rgba(59, 130, 246, 0.8))');
-
-      // Update insights panel
-      updateInsightsPanel(data);
-    }
-
-    function updateInsightsPanel(data) {
-      // Show the insights panel
-      const insightsPanel = document.getElementById('jurisdiction-details');
-      const selectedText = document.getElementById('selected-jurisdiction');
-      
-      if (selectedText) {
-        selectedText.textContent = `Analysis for ${data.name}`;
-      }
-      
-      if (insightsPanel) {
-        insightsPanel.style.display = 'block';
-      }
-
-      // Update jurisdiction details
-      updateElement('jurisdiction-name', data.name);
-      updateElement('metric-fines', data.totalFines.toLocaleString());
-      updateElement('metric-growth', `+${data.growthRate}%`);
-      updateElement('metric-rank', `${data.rank}${getOrdinalSuffix(data.rank)}`);
-      
-      // Update technology description
-      updateElement('tech-description', data.techDescription);
-      updateElement('tech-boost', `+${data.growthRate}%`);
-      
-      // Update policy recommendations
-      const policyList = document.getElementById('policy-list');
-      if (policyList && data.policies) {
-        policyList.innerHTML = '';
-        data.policies.forEach(policy => {
-          const li = document.createElement('li');
-          li.textContent = policy;
-          li.style.marginBottom = '10px';
-          li.style.color = '#78350f';
-          li.style.lineHeight = '1.5';
-          policyList.appendChild(li);
-        });
-      }
-    }
-
-    function updateElement(elementId, value) {
-      const element = document.getElementById(elementId);
-      if (element) {
-        element.textContent = value;
-      }
-    }
-
-    function getOrdinalSuffix(number) {
-      const j = number % 10;
-      const k = number % 100;
-      if (j === 1 && k !== 11) return 'st';
-      if (j === 2 && k !== 12) return 'nd';
-      if (j === 3 && k !== 13) return 'rd';
-      return 'th';
-    }
-
-    function showTooltip(event, jurisdictionCode, data) {
-      if (!tooltip || !data) return;
-      
-      tooltip
-        .style('visibility', 'visible')
-        .html(`
-          <div style="border-bottom: 1px solid rgba(255,255,255,0.3); margin-bottom: 8px; padding-bottom: 8px;">
-            <strong>${data.name}</strong>
-          </div>
-          <div style="margin-bottom: 6px;">
-            <strong>Total Fines:</strong> ${data.totalFines.toLocaleString()}
-          </div>
-          <div style="margin-bottom: 6px;">
-            <strong>Growth Rate:</strong> +${data.growthRate}%
-          </div>
-          <div style="margin-bottom: 6px;">
-            <strong>Ranking:</strong> #${data.rank} nationally
-          </div>
-          <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.2); font-size: 11px;">
-            Click to view detailed analysis
-          </div>
-        `);
-      
-      moveTooltip(event);
-    }
-
-    function moveTooltip(event) {
-      if (!tooltip) return;
-      tooltip
-        .style('top', (event.pageY - 10) + 'px')
-        .style('left', (event.pageX + 15) + 'px');
-    }
-
-    function hideTooltip() {
-      if (!tooltip) return;
-      tooltip.style('visibility', 'hidden');
-    }
-
-    function setupControls() {
-      // Export report button
-      const exportBtn = document.getElementById('export-report');
-      if (exportBtn) {
-        exportBtn.addEventListener('click', function() {
-          generateExecutiveReport();
-        });
-      }
-
-      // Metric and year selectors
-      const metricSelect = document.getElementById('metric-select');
-      const yearSelect = document.getElementById('year-select');
-      
-      if (metricSelect) {
-        metricSelect.addEventListener('change', function(e) {
-          console.log('Metric changed to:', e.target.value);
-        });
-      }
-      
-      if (yearSelect) {
-        yearSelect.addEventListener('change', function(e) {
-          console.log('Year changed to:', e.target.value);
-        });
-      }
-    }
-
-    function animateCounters() {
-      const counters = document.querySelectorAll('.counter');
-      
-      counters.forEach(counter => {
-        const target = parseInt(counter.getAttribute('data-target'));
-        if (isNaN(target)) return;
-        
-        animateValue(counter, 0, target, 2000);
-      });
-    }
-
-    function animateValue(element, start, end, duration) {
-      if (!element) return;
-      
-      const startTime = performance.now();
-      const change = end - start;
-      
-      const updateValue = (currentTime) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        // Easing function (ease-out cubic)
-        const easedProgress = 1 - Math.pow(1 - progress, 3);
-        
-        const currentValue = start + (change * easedProgress);
-        
-        // Format the number appropriately
-        if (end > 1000) {
-          element.textContent = Math.round(currentValue).toLocaleString();
-        } else {
-          element.textContent = Math.round(currentValue);
-        }
-        
-        if (progress < 1) {
-          requestAnimationFrame(updateValue);
-        } else {
-          // Ensure final value is exactly the target
-          if (end > 1000) {
-            element.textContent = end.toLocaleString();
-          } else {
-            element.textContent = end;
-          }
-        }
-      };
-      
-      requestAnimationFrame(updateValue);
-    }
-
-    function toggleInsight(trigger) {
-      const insightItem = trigger.closest('.insight-item');
-      const button = trigger.querySelector('.reveal-trigger');
-      const content = insightItem.querySelector('.insight-content');
-      
-      if (insightItem.classList.contains('revealed')) {
-        // Hide insight
-        insightItem.classList.remove('revealed');
-        content.style.maxHeight = '0';
-        content.style.padding = '0 30px';
-        content.style.opacity = '0';
-        content.style.transform = 'translateY(-20px)';
-        button.textContent = 'Click to reveal';
-        button.style.background = 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)';
-      } else {
-        // Show insight
-        insightItem.classList.add('revealed');
-        content.style.maxHeight = '500px';
-        content.style.padding = '30px';
-        content.style.opacity = '1';
-        content.style.transform = 'translateY(0)';
-        button.textContent = 'Hide insight';
-        button.style.background = '#10b981';
-      }
-    }
-
-    // Global functions for button actions
-    function generateExecutiveReport() {
-      const button = document.getElementById('export-report');
-      const originalText = button.textContent;
-      
-      button.textContent = '📊 Generating...';
-      button.disabled = true;
-      button.classList.add('loading');
-      
-      setTimeout(() => {
-        alert('Executive Report generated successfully! In a real implementation, this would generate and download a comprehensive PDF report with policy recommendations and statistical evidence.');
-        
-        button.textContent = originalText;
-        button.disabled = false;
-        button.classList.remove('loading');
-      }, 2000);
-    }
-
-    function exportDataPackage() {
-      alert('Data Package: Exporting raw data, processed statistics, and visualization assets. This would download a ZIP file in a real implementation.');
-    }
-
-    function openPolicySimulator() {
-      alert('Policy Simulator: Opening modeling tool for enforcement strategy analysis. This would launch an interactive simulation in a real implementation.');
-    }
-
-    function viewRoadmap() {
-      alert('Implementation Roadmap: Displaying step-by-step guidance for enforcement strategy implementation. This would show a detailed roadmap in a real implementation.');
-    }
-  </script>
+  <!-- Scripts in correct initialization order -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="../js/insights/insights-animations.js"></script>
+  <script src="../js/insights/enhanced-d3-data-loader.js"></script>
+  <script src="../js/insights/d3-responsive-charts.js"></script>
+  <script src="../js/insights/d3-responsive-map-visualization.js"></script>
+  <script src="../js/insights/d3-responsive-dashboard-controller.js"></script>
+  <script src="../js/insights/d3-integration.js"></script>
+  <script src="../js/insights/insights-main.js"></script>
 </body>
 </html>

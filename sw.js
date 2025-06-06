@@ -26,8 +26,13 @@ const urlsToCache = [
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(function(cache) {
-        return cache.addAll(urlsToCache);
+      .then(async cache => {
+        try {
+          await cache.addAll(urlsToCache);
+        } catch (err) {
+          // Ignore failed requests so install doesn't fail
+          console.warn('Service worker cache addAll failed:', err);
+        }
       })
   );
 });
