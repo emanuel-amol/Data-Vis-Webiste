@@ -123,7 +123,7 @@
               </div>
             </div>
             
-            <div class="story-node" data-step="6" style="text-align: center; position: relative; z-index: 2; background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%); border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); padding: 15px;">
+            <div class="story-node" data-step="6" style="text-align: center; position: relative; z-index: 2;">
               <div class="node-icon" style="width: 60px; height: 60px; margin: 0 auto 15px; background: rgba(255, 255, 255, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);">
                 <svg viewBox="0 0 24 24" fill="currentColor" style="width: 28px; height: 28px; color: #06b6d4;">
                   <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2.5-9H19V1h-2v1H7V1H5v1H3.5C2.67 2 2 2.67 2 3.5v15c0 .83.67 1.5 1.5 1.5h17c.83 0 1.5-.67 1.5-1.5v-15c0-.83-.67-1.5-1.5-1.5zm0 16.5h-17v-11h17v11z"/>
@@ -136,7 +136,7 @@
               </div>
             </div>
             
-            <div class="story-node" data-step="7" style="text-align: center; position: relative; z-index: 2; background: linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%); border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); padding: 15px;">
+            <div class="story-node" data-step="7" style="text-align: center; position: relative; z-index: 2;">
               <div class="node-icon" style="width: 60px; height: 60px; margin: 0 auto 15px; background: rgba(255, 255, 255, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);">
                 <svg viewBox="0 0 24 24" fill="currentColor" style="width: 28px; height: 28px; color: #8b5cf6;">
                   <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
@@ -357,177 +357,170 @@
   <script src="js/previews/home-previews.js"></script>
   <script src="js/script.js"></script>
 
-  <script>
-    // Initialize statistics display when data loads
-    document.addEventListener('roadSafetyDataReady', function(event) {
-      const data = event.detail.data;
-      
-      // Update total fines statistic
-      const totalFines = data.stats.totalFines;
-      const totalFinesElement = document.getElementById('total-fines-stat');
-      if (totalFinesElement) {
-        AnimationUtils.animateCounter(totalFinesElement, totalFines, 2000);
-      }
-      
-      // Update middle age statistic
-      const middleAgeStat = document.getElementById('middle-age-stat');
-      const ageGroupStat = document.getElementById('age-stat-display');
-      
-      if (data.processed && data.processed.byAgeGroup) {
-        const middleAgeData = data.processed.byAgeGroup.find(d => d.ageGroup === '40-64');
-        if (middleAgeData) {
-          const percentage = ((middleAgeData.totalFines / totalFines) * 100).toFixed(1);
-          
-          if (middleAgeStat) {
-            middleAgeStat.textContent = `${percentage}%`;
-          }
-          
-          if (ageGroupStat) {
-            ageGroupStat.textContent = `${percentage}%`;
-          }
-        }
-      }
-    });
+  <!-- Add this script to your index.html just before the closing </body> tag -->
 
-    // Enhanced journey step interactions
-    document.addEventListener('DOMContentLoaded', function() {
-      const journeySteps = document.querySelectorAll('.journey-step');
-      
-      journeySteps.forEach(step => {
-        step.addEventListener('click', () => {
-          const journey = step.dataset.journey;
-          navigateToJourney(journey);
-        });
-        
-        step.addEventListener('mouseenter', () => {
-          if (!step.classList.contains('completed')) {
-            step.style.transform = 'translateY(-8px)';
-            step.style.boxShadow = '0 12px 30px rgba(0,0,0,0.15)';
-          }
-        });
-        
-        step.addEventListener('mouseleave', () => {
-          if (!step.classList.contains('completed')) {
-            step.style.transform = 'translateY(0)';
-            step.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
-          }
-        });
-      });
-
-      function navigateToJourney(journey) {
-        const routes = {
-          'trends': 'pages/time-trends.html',
-          'geography': 'pages/jurisdictions.html',
-          'demographics': 'pages/age-analysis.html',
-          'drugs': 'pages/drugs-alcohol.html',
-          'comparative': 'pages/comparative-analysis.html',
-          'insights': 'pages/insights.html'
-        };
-        
-        if (routes[journey]) {
-          // Add transition effect
-          document.body.style.transition = 'opacity 0.3s ease';
-          document.body.style.opacity = '0.7';
-          
-          setTimeout(() => {
-            window.location.href = routes[journey];
-          }, 300);
-        }
-      }
-
-      // Progressive disclosure for insights
-      const revealTriggers = document.querySelectorAll('.reveal-trigger');
-      const revealedInsights = new Set();
-      
-      revealTriggers.forEach(trigger => {
-        trigger.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const insightItem = trigger.closest('.insight-item');
-          const insightId = insightItem.dataset.reveal;
-          
-          if (revealedInsights.has(insightId)) {
-            // Hide insight
-            insightItem.classList.remove('revealed');
-            revealedInsights.delete(insightId);
-            trigger.textContent = 'Click to reveal';
-            trigger.style.background = 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)';
-          } else {
-            // Reveal insight
-            insightItem.classList.add('revealed');
-            revealedInsights.add(insightId);
-            
-            const content = insightItem.querySelector('.insight-content');
-            content.style.maxHeight = '300px';
-            content.style.padding = '30px';
-            
-            trigger.textContent = 'Hide insight';
-            trigger.style.background = '#10b981';
-          }
-        });
-      });
-    });
-  </script>
-
-  <style>
-    .story-node {
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .story-node:hover {
-      transform: translateY(-8px);
-    }
-    
-    .story-node.active .node-icon {
-      transform: scale(1.1);
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-    }
-    
-    .primary-cta:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
-    }
-    
-    .secondary-cta:hover {
-      background: #3b82f6;
-      color: white;
-      transform: translateY(-3px);
-    }
-    
-    .insight-item.revealed .insight-content {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    @media (max-width: 768px) {
-      .story-timeline {
-        grid-template-columns: 1fr !important;
-        gap: 20px !important;
+<script>
+// Scrollytelling fix integration
+document.addEventListener('DOMContentLoaded', function() {
+  // Only proceed if we're on the home page with scrollytelling
+  if (!document.querySelector('.scrollytelling-container')) return;
+  
+  console.log('Initializing scrollytelling fixes...');
+  
+  // Apply enhanced CSS if not already present
+  if (!document.getElementById('scrollytelling-enhanced-styles')) {
+    const enhancedStyles = document.createElement('style');
+    enhancedStyles.id = 'scrollytelling-enhanced-styles';
+    enhancedStyles.textContent = `
+      /* Scrollytelling enhancement overrides */
+      .scrollytelling-container {
+        padding: 100px 0 !important;
+        background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%) !important;
       }
       
-      .timeline-line {
-        display: none !important;
+      .story-step {
+        opacity: 0.3 !important;
+        transition: all 0.5s ease !important;
+        border-left: 4px solid transparent !important;
+        padding-left: 30px !important;
+        margin-bottom: 60px !important;
+        transform: translateX(0) !important;
+        min-height: 400px !important;
       }
       
-      .scrolly-content {
-        grid-template-columns: 1fr !important;
-        gap: 40px !important;
+      .story-step.active {
+        opacity: 1 !important;
+        border-left-color: #3b82f6 !important;
+        background: linear-gradient(90deg, rgba(59, 130, 246, 0.08) 0%, rgba(59, 130, 246, 0.02) 50%, transparent 100%) !important;
+        transform: translateX(10px) !important;
+        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1) !important;
       }
       
       .sticky-viz {
-        position: static !important;
-        height: 400px !important;
+        background: white !important;
+        border-radius: 20px !important;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+        border: 1px solid #e2e8f0 !important;
+        overflow: hidden !important;
       }
       
-      .journey-map {
-        grid-template-columns: 1fr !important;
+      #scrolly-chart svg {
+        background: white !important;
+        border-radius: 8px !important;
       }
+    `;
+    document.head.appendChild(enhancedStyles);
+  }
+  
+  // Enhanced intersection observer for better step detection
+  const steps = document.querySelectorAll('.story-step');
+  let currentActiveStep = 0;
+  
+  if (steps.length === 0) {
+    console.warn('No story steps found');
+    return;
+  }
+  
+  // Set initial state
+  steps.forEach((step, index) => {
+    step.classList.toggle('active', index === 0);
+  });
+  
+  // Create intersection observer with better thresholds
+  const observerOptions = {
+    root: null,
+    rootMargin: '-20% 0px -20% 0px',
+    threshold: [0, 0.25, 0.5, 0.75, 1]
+  };
+  
+  const stepObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const stepIndex = Array.from(steps).indexOf(entry.target);
       
-      .cta-buttons {
-        flex-direction: column !important;
-        align-items: center !important;
+      if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+        if (stepIndex !== currentActiveStep) {
+          console.log(`Activating step ${stepIndex}`);
+          
+          // Update step states
+          steps.forEach((step, index) => {
+            const isActive = index === stepIndex;
+            step.classList.toggle('active', isActive);
+          });
+          
+          currentActiveStep = stepIndex;
+          
+          // Trigger chart update if scrollytelling instance exists
+          if (window.scrollytelling && typeof window.scrollytelling.updateChart === 'function') {
+            window.scrollytelling.updateChart(stepIndex);
+          } else if (window.FixedScrollytelling) {
+            // Create new instance if needed
+            window.scrollytelling = new window.FixedScrollytelling();
+          }
+        }
       }
+    });
+  }, observerOptions);
+  
+  // Observe all steps
+  steps.forEach(step => stepObserver.observe(step));
+  
+  // Initialize chart if container exists
+  const chartContainer = document.getElementById('scrolly-chart');
+  if (chartContainer && !chartContainer.querySelector('svg')) {
+    // Create a simple loading state
+    chartContainer.innerHTML = `
+      <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #6b7280; font-style: italic;">
+        <div style="width: 20px; height: 20px; border: 2px solid #e5e7eb; border-top: 2px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 10px;"></div>
+        Loading visualization...
+      </div>
+    `;
+    
+    // Add spin animation
+    const spinStyle = document.createElement('style');
+    spinStyle.textContent = `
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    `;
+    document.head.appendChild(spinStyle);
+    
+    // Initialize after a short delay
+    setTimeout(() => {
+      if (window.FixedScrollytelling) {
+        window.scrollytelling = new window.FixedScrollytelling();
+      }
+    }, 1000);
+  }
+  
+  console.log('Scrollytelling fixes applied successfully');
+});
+
+// Fallback: ensure steps are properly styled even without intersection observer
+window.addEventListener('scroll', function() {
+  if (!document.querySelector('.scrollytelling-container')) return;
+  
+  const steps = document.querySelectorAll('.story-step');
+  const scrollY = window.scrollY;
+  const windowHeight = window.innerHeight;
+  
+  steps.forEach((step, index) => {
+    const rect = step.getBoundingClientRect();
+    const stepTop = rect.top + scrollY;
+    const stepMiddle = stepTop + rect.height / 2;
+    
+    // Check if step is in the middle of the viewport
+    const isInView = stepMiddle > scrollY + windowHeight * 0.3 && 
+                     stepMiddle < scrollY + windowHeight * 0.7;
+    
+    if (isInView && !step.classList.contains('active')) {
+      // Remove active from all steps
+      steps.forEach(s => s.classList.remove('active'));
+      // Add active to current step
+      step.classList.add('active');
     }
-  </style>
+  });
+});
+</script>
 </body>
 </html>

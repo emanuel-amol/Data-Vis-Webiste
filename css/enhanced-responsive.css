@@ -2176,3 +2176,193 @@ header {
   
   /* Dark mode styles would go here when implemented */
 }
+
+/* === GESTURE-BASED NAVIGATION ENHANCEMENTS === */
+
+/* Enable pinch-to-zoom and pan for chart containers */
+.chart-container,
+.enhanced-chart-container,
+.sticky-viz,
+#jurisdiction-map,
+#time-trends-chart,
+#age-distribution-chart {
+  touch-action: pan-x pan-y pinch-zoom;
+  /* Allow pinch-zoom and panning on touch devices */
+  overscroll-behavior: contain;
+  /* Prevent accidental scroll chaining */
+  transition: transform 0.25s cubic-bezier(.4,2,.6,1), box-shadow 0.2s;
+  will-change: transform;
+}
+
+/* Visual cue for pinch-to-zoom (shown on mobile/tablet) */
+@media (pointer: coarse) {
+  .gesture-cue {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: #6b7280;
+    background: rgba(248,250,252,0.9);
+    border-radius: 8px;
+    padding: 8px 16px;
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    transform: translateX(-50%);
+    z-index: 10;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    animation: gestureFadeIn 1s;
+  }
+  @keyframes gestureFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* Smooth transitions for swipe navigation */
+.chart-container,
+.enhanced-chart-container,
+.sticky-viz {
+  transition: transform 0.3s cubic-bezier(.4,1.5,.6,1), box-shadow 0.2s;
+}
+
+/* Context menu visual feedback for long-press */
+.context-menu-active {
+  box-shadow: 0 0 0 4px #fbbf24;
+  border-radius: 8px;
+  outline: 2px solid #fbbf24;
+  outline-offset: 2px;
+  z-index: 1001;
+}
+
+/* Hide gesture cue on desktop */
+@media (pointer: fine) {
+  .gesture-cue { display: none !important; }
+}
+
+/* === ADAPTIVE CONTROL SIZING & TOUCH TARGETS === */
+
+/* Ensure all interactive elements have at least 44px touch target */
+button,
+input[type="button"],
+input[type="submit"],
+input[type="checkbox"],
+input[type="radio"],
+.select-box,
+.viz-tab,
+.nav-btn,
+.reset-btn,
+.export-btn,
+.primary-btn,
+.secondary-btn,
+.analysis-btn,
+.feature-link,
+.reveal-trigger,
+.cta-buttons a,
+.cta-buttons button,
+.checkbox-list label,
+.toggle-label,
+.story-node,
+.stat-card,
+.insight-card,
+.feature-card,
+.tab-content .primary-btn,
+.tab-content .secondary-btn {
+  min-height: 44px;
+  min-width: 44px;
+  /* For checkboxes/radios, min-width may not apply, but label will */
+}
+
+/* Increase spacing between controls for touch accuracy */
+button,
+input[type="button"],
+input[type="submit"],
+.select-box,
+.viz-tab,
+.nav-btn,
+.reset-btn,
+.export-btn,
+.primary-btn,
+.secondary-btn,
+.analysis-btn,
+.feature-link,
+.reveal-trigger,
+.cta-buttons a,
+.cta-buttons button,
+.checkbox-list label,
+.toggle-label {
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+/* Remove extra margin for last-child in a row */
+button:last-child,
+input[type="button"]:last-child,
+input[type="submit"]:last-child,
+.select-box:last-child,
+.viz-tab:last-child,
+.nav-btn:last-child,
+.reset-btn:last-child,
+.export-btn:last-child,
+.primary-btn:last-child,
+.secondary-btn:last-child,
+.analysis-btn:last-child,
+.feature-link:last-child,
+.reveal-trigger:last-child,
+.cta-buttons a:last-child,
+.cta-buttons button:last-child,
+.checkbox-list label:last-child,
+.toggle-label:last-child {
+  margin-right: 0;
+}
+
+/* Thumb-zone optimization: position key controls at bottom or sides on mobile */
+@media (max-width: 600px) {
+  .cta-buttons,
+  .filter-bar,
+  .enhanced-filters,
+  .viz-tabs,
+  .nav-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0.75rem;
+    /* Place controls lower for thumb reach */
+    margin-bottom: 1.5rem;
+  }
+  .cta-buttons {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.95);
+    z-index: 100;
+    padding: 0.75rem 0.5rem 0.75rem 0.5rem;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.07);
+  }
+  body {
+    padding-bottom: 80px; /* Space for fixed CTA/buttons */
+  }
+}
+
+/* Checkbox/radio touch area: expand label for easier tap */
+.checkbox-list label,
+.toggle-label {
+  min-height: 44px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+/* For small screens, increase spacing between stacked controls */
+@media (max-width: 600px) {
+  .filter-bar,
+  .enhanced-filters,
+  .cta-buttons,
+  .viz-tabs,
+  .nav-buttons {
+    gap: 1rem;
+  }
+}

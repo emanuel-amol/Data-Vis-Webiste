@@ -13,7 +13,7 @@ const svg = d3.select("#age-distribution-chart")
   .attr("height", height + margin.top + margin.bottom)
   .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
   .style("background-color", "#fff")
-  .attr("role", "img")
+  .attr("role", "img") // ARIA role for image
   .attr("aria-label", "Bar chart showing distribution of fines across age groups");
 
 // Chart group with proper margin

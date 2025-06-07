@@ -35,7 +35,7 @@
     </nav>
   </header>
 
-  <main>
+  <main aria-label="Main content">
     <!-- Hero Section -->
     <div class="hero-story">
       <div class="container">
@@ -185,7 +185,7 @@
       <!-- Enhanced Chart Container -->
       <div class="enhanced-chart-container chart-fade-in">
         <div class="chart-header">
-          <h3>Distribution of Fines Across Age Groups</h3>
+          <h3 id="age-distribution-heading">Distribution of Fines Across Age Groups</h3>
           <div class="chart-controls">
             <button class="analysis-btn" onclick="showAgeInsights()">🔍 Age Analysis</button>
             
@@ -193,9 +193,14 @@
         </div>
         
         <div class="enhanced-chart">
-          <div id="age-distribution-chart" class="chart-placeholder" style="display:flex; flex-direction:column; align-items:center; width:100%; min-height: 500px;">
+          <div id="age-distribution-chart" class="chart-placeholder" aria-labelledby="age-distribution-heading" aria-describedby="age-distribution-desc" role="region" tabindex="0" style="display:flex; flex-direction:column; align-items:center; width:100%; min-height: 500px;">
             <!-- The SVG will be sized and spaced by the JS -->
           </div>
+          <div id="age-distribution-desc" class="visually-hidden">
+            Bar chart showing the distribution of road safety fines across age groups. Use the data table below for accessible details.
+          </div>
+          <!-- Visually hidden data table for screen readers -->
+          <div id="age-distribution-chart-data-table" class="visually-hidden" aria-label="Tabular data alternative for age group fines"></div>
         </div>
 
         <!-- Chart Insights -->

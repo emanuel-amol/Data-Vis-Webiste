@@ -533,5 +533,122 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener('resize', handleResize);
   window.lastWidth = window.innerWidth;
 
+  // === Accessibility: ARIA live region for announcements ===
+  let ariaLive = document.getElementById('aria-live-region');
+  if (!ariaLive) {
+    ariaLive = document.createElement('div');
+    ariaLive.id = 'aria-live-region';
+    ariaLive.setAttribute('aria-live', 'polite');
+    ariaLive.setAttribute('role', 'status');
+    ariaLive.className = 'visually-hidden';
+    document.body.appendChild(ariaLive);
+  }
+
+  // Announce visualization updates
+  function announce(msg) {
+    ariaLive.textContent = '';
+    setTimeout(() => { ariaLive.textContent = msg; }, 50);
+  }
+
+  // Announce chart updates on filter change
+  function announceChartUpdate() {
+    announce('Visualizations updated with current filters.');
+  }
+
+  // Announce tab changes
+  function announceTabChange(tabName) {
+    announce(`Switched to ${tabName} visualization.`);
+  }
+
+  // Add alternative text to SVGs if missing
+  function addAltTextToCharts() {
+    document.querySelectorAll('.chart-container svg, .enhanced-chart-container svg, .sticky-viz svg').forEach(svg => {
+      if (!svg.hasAttribute('aria-label')) {
+        svg.setAttribute('aria-label', 'Data visualization chart. See data table below for details.');
+      }
+      svg.setAttribute('role', 'img');
+      svg.setAttribute('tabindex', '0');
+    });
+  }
+
+  // Render data table alternative for screen readers
+  window.renderDataTableAlternative = function(containerId, data, columns) {
+    // Remove old table if exists
+    let oldTable = document.getElementById(`${containerId}-data-table`);
+    if (oldTable) oldTable.remove();
+
+    // Only render if data is present
+    if (!data || !Array.isArray(data) || data.length === 0) return;
+
+    // Create table
+    const table = document.createElement('table');
+    table.id = `${containerId}-data-table`;
+    table.className = 'visually-hidden';
+    table.setAttribute('aria-label', 'Tabular data alternative for visualization');
+    table.setAttribute('tabindex', '0');
+
+    // Header
+    const thead = document.createElement('thead');
+    const tr = document.createElement('tr');
+    columns.forEach(col => {
+      const th = document.createElement('th');
+      th.textContent = col;
+      tr.appendChild(th);
+    });
+    thead.appendChild(tr);
+    table.appendChild(thead);
+
+    // Body
+    const tbody = document.createElement('tbody');
+    data.forEach(row => {
+      const tr = document.createElement('tr');
+      columns.forEach(col => {
+        const td = document.createElement('td');
+        td.textContent = row[col] !== undefined ? row[col] : '';
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    // Insert after the chart container
+    const container = document.getElementById(containerId + '-data-table');
+    if (container) {
+      container.innerHTML = '';
+      container.appendChild(table);
+    }
+  };
+
+  // Patch updateCharts to announce updates and add alt text/table
+  const origUpdateCharts = window.updateCharts;
+  window.updateCharts = function() {
+    if (typeof origUpdateCharts === 'function') origUpdateCharts();
+    announceChartUpdate();
+    addAltTextToCharts();
+    // Example: render data table for age chart if data available
+    if (window.ageBarData) {
+      window.renderDataTableAlternative('age-distribution-chart', window.ageBarData, ['AGE_GROUP', 'FINES']);
+    }
+    // Example: render data table for jurisdiction line chart if available
+    if (window.jurisdictionLineData) {
+      window.renderDataTableAlternative('jurisdiction-line-chart', window.jurisdictionLineData, ['YEAR', 'JURISDICTION', 'FINES']);
+    }
+    // Example: render data table for time trends chart if available
+    if (window.timeTrendsData) {
+      window.renderDataTableAlternative('time-trends-chart', window.timeTrendsData, ['YEAR', 'TOTAL_FINES']);
+    }
+  };
+
+  // Patch tab switching to announce tab changes
+  if (tabs.length > 0) {
+    tabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        // Announce tab change for screen readers
+        const tabLabel = tab.textContent || tab.getAttribute('aria-label') || 'visualization';
+        announceTabChange(tabLabel);
+      });
+    });
+  }
+
   console.log("Main script initialization complete");
 });

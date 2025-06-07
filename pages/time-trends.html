@@ -35,7 +35,7 @@
     </nav>
   </header>
 
-  <main>
+  <main aria-label="Main content">
     <!-- Hero Section -->
     <div class="hero-story">
       <div class="container">
@@ -172,7 +172,7 @@
       <!-- Enhanced Chart Container -->
       <div class="enhanced-chart-container chart-fade-in">
         <div class="chart-header">
-          <h3>Yearly Trends in Total Fines (2008-2023)</h3>
+          <h3 id="time-trends-heading">Yearly Trends in Total Fines (2008-2023)</h3>
           <div class="chart-controls">
             <button class="analysis-btn" onclick="showInsights()">📊 Show Insights</button>
             
@@ -180,9 +180,14 @@
         </div>
         
         <div class="enhanced-chart">
-          <div id="time-trends-chart" style="width:100%; min-height: 500px;">
+          <div id="time-trends-chart" aria-labelledby="time-trends-heading" aria-describedby="time-trends-desc" role="region" tabindex="0" style="width:100%; min-height: 500px;">
             <svg viewBox="0 0 1000 600" width="100%" height="500"></svg>
           </div>
+          <div id="time-trends-desc" class="visually-hidden">
+            Line chart showing yearly trends in total fines. See the data table below for accessible details.
+          </div>
+          <!-- Visually hidden data table for screen readers -->
+          <div id="time-trends-chart-data-table" class="visually-hidden" aria-label="Tabular data alternative for yearly trends"></div>
         </div>
 
         <!-- Chart Insights -->
