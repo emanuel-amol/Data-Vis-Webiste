@@ -1,4 +1,4 @@
-// js/storytelling/data-story-narrative.js - Create this new file
+// js/storytelling/data-story-narrative.js - Fixed version
 
 class DataStoryNarrative {
   constructor() {
@@ -7,17 +7,19 @@ class DataStoryNarrative {
     this.charts = {};
     this.data = null;
     this.scrollProgress = 0;
+    this.isDataLoaded = false;
     
     this.init();
   }
 
   init() {
+    console.log("Initializing Data Story Narrative...");
     this.setupChapters();
     this.setupProgressBar();
     this.setupScrollTracking();
     this.setupChartContainers();
-    this.loadData();
     this.setupInteractions();
+    this.loadData();
   }
 
   setupChapters() {
@@ -27,6 +29,8 @@ class DataStoryNarrative {
       console.log('No story chapters found');
       return;
     }
+
+    console.log(`Found ${this.chapters.length} story chapters`);
 
     // Setup intersection observer for chapters
     const options = {
@@ -53,7 +57,10 @@ class DataStoryNarrative {
     const progressFill = document.getElementById('progress-fill');
     const progressSteps = document.querySelectorAll('.progress-step');
     
-    if (!progressFill || !progressSteps.length) return;
+    if (!progressFill || !progressSteps.length) {
+      console.log('Progress bar elements not found');
+      return;
+    }
 
     // Add click handlers to progress steps
     progressSteps.forEach((step, index) => {
@@ -69,7 +76,7 @@ class DataStoryNarrative {
     const updateProgress = () => {
       const scrollTop = window.pageYOffset;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      this.scrollProgress = scrollTop / docHeight;
+      this.scrollProgress = Math.max(0, Math.min(1, scrollTop / docHeight));
       
       this.updateProgressBar();
       ticking = false;
@@ -92,6 +99,8 @@ class DataStoryNarrative {
 
   activateChapter(chapterIndex) {
     if (chapterIndex === this.currentChapter) return;
+
+    console.log(`Activating chapter ${chapterIndex}`);
 
     // Update progress steps
     const progressSteps = document.querySelectorAll('.progress-step');
@@ -123,14 +132,20 @@ class DataStoryNarrative {
     chartIds.forEach(id => {
       const container = document.getElementById(id);
       if (container) {
+        console.log(`Initializing chart container: ${id}`);
         this.initializeChart(id, container);
+      } else {
+        console.warn(`Chart container not found: ${id}`);
       }
     });
   }
 
   initializeChart(chartId, container) {
+    const containerRect = container.getBoundingClientRect();
+    const containerWidth = Math.max(500, containerRect.width || 600);
+    
     const margin = { top: 40, right: 60, bottom: 60, left: 80 };
-    const width = 600 - margin.left - margin.right;
+    const width = containerWidth - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
 
     // Clear existing content
@@ -141,7 +156,8 @@ class DataStoryNarrative {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
-      .style('background', '#fafafa');
+      .style('background', '#fafafa')
+      .style('border-radius', '8px');
 
     const chartGroup = svg.append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
@@ -154,7 +170,8 @@ class DataStoryNarrative {
       height,
       margin,
       xScale: d3.scaleLinear().range([0, width]),
-      yScale: d3.scaleLinear().range([height, 0])
+      yScale: d3.scaleLinear().range([height, 0]),
+      container
     };
 
     // Add axes groups
@@ -164,25 +181,32 @@ class DataStoryNarrative {
 
     this.charts[chartId].yAxis = chartGroup.append('g')
       .attr('class', 'y-axis');
+
+    console.log(`Chart ${chartId} initialized with dimensions: ${width}x${height}`);
   }
 
   loadData() {
-    // Generate sample data for the narrative
-    this.data = this.generateNarrativeData();
-    
-    // Use global data if available
+    // Check if global data is already available
     if (window.roadSafetyData && window.roadSafetyData.processed) {
+      console.log("Using existing global data");
       this.data = this.processGlobalData(window.roadSafetyData.processed);
+      this.isDataLoaded = true;
+      this.updateAllCharts();
+      return;
     }
+
+    // Generate sample data immediately for display
+    console.log("Generating sample data for immediate display");
+    this.data = this.generateNarrativeData();
+    this.isDataLoaded = true;
+    this.updateAllCharts();
 
     // Listen for real data
     document.addEventListener('roadSafetyDataReady', (event) => {
+      console.log("Real data received, updating charts");
       this.data = this.processGlobalData(event.detail.data.processed);
       this.updateAllCharts();
     });
-
-    // Initialize first chart
-    this.updateChapterVisualization(0);
   }
 
   generateNarrativeData() {
@@ -191,7 +215,10 @@ class DataStoryNarrative {
     return {
       timeline: years.map(year => ({
         year,
-        totalFines: Math.floor(50000 + (year - 2008) * 15000 * (1 + Math.sin((year - 2008) * 0.3))),
+        totalFines: Math.floor(180000 + (year - 2008) * 12000 + 
+          (year === 2021 ? 60000 : 0) + // 2021 spike
+          (year === 2020 ? -30000 : 0) + // 2020 dip
+          Math.random() * 20000),
         youngDrivers: Math.floor(15000 + (year - 2008) * 2000 + Math.random() * 3000),
         middleAged: Math.floor(25000 + (year - 2008) * 8000 + Math.random() * 5000),
         seniors: Math.floor(8000 + (year - 2008) * 1000 + Math.random() * 2000)
@@ -209,9 +236,7 @@ class DataStoryNarrative {
         { jurisdiction: 'QLD', fines: 480000, increase2021: 28 },
         { jurisdiction: 'SA', fines: 220000, increase2021: 15 },
         { jurisdiction: 'WA', fines: 280000, increase2021: 22 },
-        { jurisdiction: 'TAS', fines: 65000, increase2021: 8 },
-        { jurisdiction: 'NT', fines: 35000, increase2021: 12 },
-        { jurisdiction: 'ACT', fines: 45000, increase2021: 18 }
+        { jurisdiction: 'TAS', fines: 65000, increase2021: 8 }
       ]
     };
   }
@@ -219,14 +244,52 @@ class DataStoryNarrative {
   processGlobalData(processedData) {
     if (!processedData) return this.generateNarrativeData();
 
-    return {
-      timeline: processedData.byYear || [],
-      ageGroups: processedData.byAgeGroup || [],
-      jurisdictions: processedData.byJurisdiction || []
-    };
+    try {
+      // Process age groups data
+      const ageGroups = (processedData.byAgeGroup || []).map(d => ({
+        ageGroup: d.ageGroup,
+        fines: d.totalFines || 0,
+        percentage: 0 // Will calculate later
+      }));
+
+      // Calculate percentages
+      const totalFines = ageGroups.reduce((sum, d) => sum + d.fines, 0);
+      ageGroups.forEach(d => {
+        d.percentage = totalFines > 0 ? (d.fines / totalFines * 100) : 0;
+      });
+
+      // Process timeline data
+      const timeline = (processedData.byYear || []).map(d => ({
+        year: d.year,
+        totalFines: d.totalFines || 0
+      }));
+
+      // Process jurisdiction data
+      const jurisdictions = (processedData.byJurisdiction || []).map(d => ({
+        jurisdiction: d.jurisdiction,
+        fines: d.totalFines || 0,
+        increase2021: Math.floor(Math.random() * 50 + 10) // Simulated for now
+      }));
+
+      return {
+        timeline,
+        ageGroups,
+        jurisdictions
+      };
+    } catch (error) {
+      console.error("Error processing global data:", error);
+      return this.generateNarrativeData();
+    }
   }
 
   updateChapterVisualization(chapterIndex) {
+    if (!this.isDataLoaded || !this.data) {
+      console.log("Data not loaded yet, skipping visualization update");
+      return;
+    }
+
+    console.log(`Updating visualization for chapter ${chapterIndex}`);
+
     switch (chapterIndex) {
       case 0: // Introduction
         this.renderAssumptionChart();
@@ -242,14 +305,19 @@ class DataStoryNarrative {
         this.renderGeographyChart();
         break;
       default:
+        console.log(`No visualization for chapter ${chapterIndex}`);
         break;
     }
   }
 
   renderAssumptionChart() {
     const chart = this.charts['intro-chart'];
-    if (!chart) return;
+    if (!chart) {
+      console.warn("Intro chart not found");
+      return;
+    }
 
+    console.log("Rendering assumption chart");
     chart.chartGroup.selectAll('*').remove();
 
     // Create hypothetical data showing expected young driver dominance
@@ -260,15 +328,13 @@ class DataStoryNarrative {
       { ageGroup: '65+', fines: 100000, color: '#9ca3af', expected: false }
     ];
 
-    // Setup scales
-    chart.xScale.domain(assumptionData.map(d => d.ageGroup));
-    chart.yScale.domain([0, d3.max(assumptionData, d => d.fines) * 1.1]);
-
     // Convert to band scale for bars
     const xBandScale = d3.scaleBand()
       .domain(assumptionData.map(d => d.ageGroup))
       .range([0, chart.width])
       .padding(0.2);
+
+    chart.yScale.domain([0, d3.max(assumptionData, d => d.fines) * 1.1]);
 
     // Add axes
     chart.xAxis.call(d3.axisBottom(xBandScale));
@@ -285,7 +351,9 @@ class DataStoryNarrative {
       .attr('y', chart.height)
       .attr('height', 0)
       .attr('fill', d => d.color)
-      .attr('opacity', 0.7);
+      .attr('opacity', 0.7)
+      .attr('stroke', d => d.color)
+      .attr('stroke-width', 1);
 
     // Animate bars
     bars.transition()
@@ -302,6 +370,7 @@ class DataStoryNarrative {
       .attr('text-anchor', 'middle')
       .text('Expected: Highest')
       .style('font-weight', 'bold')
+      .style('font-size', '12px')
       .style('fill', '#ef4444')
       .style('opacity', 0)
       .transition()
@@ -315,19 +384,24 @@ class DataStoryNarrative {
       .attr('y', 25)
       .attr('text-anchor', 'middle')
       .text('Common Assumption: Young Drivers Lead in Violations')
-      .style('font-size', '16px')
-      .style('font-weight', 'bold');
+      .style('font-size', '14px')
+      .style('font-weight', 'bold')
+      .style('fill', '#374151');
   }
 
   renderRevelationChart() {
     const chart = this.charts['revelation-chart'];
-    if (!chart) return;
+    if (!chart || !this.data.ageGroups) {
+      console.warn("Revelation chart or age groups data not found");
+      return;
+    }
 
+    console.log("Rendering revelation chart");
     chart.chartGroup.selectAll('*').remove();
 
-    const realData = this.data.ageGroups;
+    const realData = this.data.ageGroups.filter(d => d.fines > 0);
 
-    // Setup scales
+    // Convert to band scale for bars
     const xBandScale = d3.scaleBand()
       .domain(realData.map(d => d.ageGroup))
       .range([0, chart.width])
@@ -365,7 +439,7 @@ class DataStoryNarrative {
     if (winner) {
       chart.chartGroup.append('text')
         .attr('x', xBandScale(winner.ageGroup) + xBandScale.bandwidth() / 2)
-        .attr('y', chart.yScale(winner.fines) - 30)
+        .attr('y', chart.yScale(winner.fines) - 40)
         .attr('text-anchor', 'middle')
         .text('HIGHEST!')
         .style('font-weight', 'bold')
@@ -380,11 +454,11 @@ class DataStoryNarrative {
       // Add percentage
       chart.chartGroup.append('text')
         .attr('x', xBandScale(winner.ageGroup) + xBandScale.bandwidth() / 2)
-        .attr('y', chart.yScale(winner.fines) - 10)
+        .attr('y', chart.yScale(winner.fines) - 20)
         .attr('text-anchor', 'middle')
-        .text(`${winner.percentage}% of all fines`)
+        .text(`${winner.percentage.toFixed(1)}% of all fines`)
         .style('font-weight', 'bold')
-        .style('font-size', '12px')
+        .style('font-size', '11px')
         .style('fill', '#f59e0b')
         .style('opacity', 0)
         .transition()
@@ -399,17 +473,22 @@ class DataStoryNarrative {
       .attr('y', 25)
       .attr('text-anchor', 'middle')
       .text('Reality: Age Distribution of Road Safety Fines')
-      .style('font-size', '16px')
-      .style('font-weight', 'bold');
+      .style('font-size', '14px')
+      .style('font-weight', 'bold')
+      .style('fill', '#374151');
   }
 
   renderInvestigationChart() {
     const chart = this.charts['investigation-chart'];
-    if (!chart) return;
+    if (!chart || !this.data.timeline) {
+      console.warn("Investigation chart or timeline data not found");
+      return;
+    }
 
+    console.log("Rendering investigation chart");
     chart.chartGroup.selectAll('*').remove();
 
-    const timelineData = this.data.timeline;
+    const timelineData = this.data.timeline.filter(d => d.totalFines > 0);
 
     // Setup scales
     chart.xScale.domain(d3.extent(timelineData, d => d.year));
@@ -458,9 +537,9 @@ class DataStoryNarrative {
       .duration(2000)
       .attr('stroke-dashoffset', 0);
 
-    // Highlight 2021 spike
+    // Highlight 2021 spike if present
     const spike2021 = timelineData.find(d => d.year === 2021);
-    if (spike2021) {
+    if (spike2021 && chart.xScale(2021) >= 0 && chart.xScale(2021) <= chart.width) {
       chart.chartGroup.append('circle')
         .attr('cx', chart.xScale(2021))
         .attr('cy', chart.yScale(spike2021.totalFines))
@@ -492,9 +571,9 @@ class DataStoryNarrative {
         .attr('x', chart.xScale(2021))
         .attr('y', chart.yScale(spike2021.totalFines) - 70)
         .attr('text-anchor', 'middle')
-        .text('2021 Spike: +35%')
+        .text('2021 Spike')
         .style('font-weight', 'bold')
-        .style('font-size', '12px')
+        .style('font-size', '11px')
         .style('fill', '#f59e0b')
         .style('opacity', 0)
         .transition()
@@ -509,21 +588,27 @@ class DataStoryNarrative {
       .attr('y', 25)
       .attr('text-anchor', 'middle')
       .text('Timeline: The Technology Effect (2008-2023)')
-      .style('font-size', '16px')
-      .style('font-weight', 'bold');
+      .style('font-size', '14px')
+      .style('font-weight', 'bold')
+      .style('fill', '#374151');
   }
 
   renderGeographyChart() {
     const chart = this.charts['geography-chart'];
-    if (!chart) return;
+    if (!chart || !this.data.jurisdictions) {
+      console.warn("Geography chart or jurisdictions data not found");
+      return;
+    }
 
+    console.log("Rendering geography chart");
     chart.chartGroup.selectAll('*').remove();
 
     const jurisdictionData = this.data.jurisdictions
+      .filter(d => d.fines > 0)
       .sort((a, b) => b.fines - a.fines)
       .slice(0, 6); // Top 6 jurisdictions
 
-    // Setup scales
+    // Convert to band scale for bars
     const xBandScale = d3.scaleBand()
       .domain(jurisdictionData.map(d => d.jurisdiction))
       .range([0, chart.width])
@@ -558,33 +643,15 @@ class DataStoryNarrative {
       .attr('y', d => chart.yScale(d.fines))
       .attr('height', d => chart.height - chart.yScale(d.fines));
 
-    // Add 2021 increase indicators
-    jurisdictionData.forEach((d, i) => {
-      if (d.increase2021 > 20) {
-        chart.chartGroup.append('text')
-          .attr('x', xBandScale(d.jurisdiction) + xBandScale.bandwidth() / 2)
-          .attr('y', chart.yScale(d.fines) - 10)
-          .attr('text-anchor', 'middle')
-          .text(`+${d.increase2021}%`)
-          .style('font-size', '10px')
-          .style('font-weight', 'bold')
-          .style('fill', '#ef4444')
-          .style('opacity', 0)
-          .transition()
-          .delay(1500 + i * 100)
-          .duration(500)
-          .style('opacity', 1);
-      }
-    });
-
     // Add chart title
     chart.svg.append('text')
       .attr('x', chart.width / 2 + chart.margin.left)
       .attr('y', 25)
       .attr('text-anchor', 'middle')
       .text('Geographic Patterns: Jurisdictional Differences')
-      .style('font-size', '16px')
-      .style('font-weight', 'bold');
+      .style('font-size', '14px')
+      .style('font-weight', 'bold')
+      .style('fill', '#374151');
   }
 
   animateRevelationStats() {
@@ -638,22 +705,20 @@ class DataStoryNarrative {
         this.highlightFactor(factor);
       });
     });
-
-    // Progress step clicks
-    const progressSteps = document.querySelectorAll('.progress-step');
-    progressSteps.forEach((step, index) => {
-      step.addEventListener('click', () => {
-        this.jumpToChapter(index);
-      });
-    });
   }
 
   highlightFactor(factor) {
-    // This could update charts to highlight specific aspects
     console.log(`Highlighting factor: ${factor}`);
+    // This could update charts to highlight specific aspects
   }
 
   updateAllCharts() {
+    if (!this.isDataLoaded) {
+      console.log("Data not loaded, cannot update charts");
+      return;
+    }
+    
+    console.log("Updating all charts");
     this.updateChapterVisualization(this.currentChapter);
   }
 
@@ -663,314 +728,20 @@ class DataStoryNarrative {
       currentChapter: this.currentChapter,
       totalChapters: this.chapters.length,
       scrollProgress: this.scrollProgress,
-      data: this.data
+      data: this.data,
+      isDataLoaded: this.isDataLoaded
     };
   }
 }
 
-// CSS for narrative elements
-const narrativeStyles = document.createElement('style');
-narrativeStyles.textContent = `
-  .story-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 10px 0;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .progress-bar {
-    height: 4px;
-    background: #e5e7eb;
-    margin-bottom: 10px;
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #3b82f6, #f59e0b);
-    width: 0%;
-    transition: width 0.3s ease;
-  }
-
-  .progress-steps {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
-  }
-
-  .progress-step {
-    font-size: 0.9rem;
-    color: #6b7280;
-    cursor: pointer;
-    transition: color 0.3s ease;
-    position: relative;
-  }
-
-  .progress-step.active {
-    color: #3b82f6;
-    font-weight: 600;
-  }
-
-  .progress-step::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background: #3b82f6;
-    transition: width 0.3s ease;
-  }
-
-  .progress-step.active::after {
-    width: 100%;
-  }
-
-  .story-chapter {
-    min-height: 100vh;
-    padding: 120px 0 80px 0;
-    scroll-margin-top: 80px;
-  }
-
-  .narrative-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 40px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: start;
-  }
-
-  .chapter-header {
-    grid-column: 1 / -1;
-    text-align: center;
-    margin-bottom: 40px;
-  }
-
-  .chapter-number {
-    display: block;
-    font-size: 1rem;
-    color: #3b82f6;
-    font-weight: 600;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
-
-  .chapter-header h2 {
-    font-size: 2.5rem;
-    color: #0C1A3C;
-    margin: 0;
-  }
-
-  .narrative-content {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #374151;
-  }
-
-  .lead-paragraph {
-    font-size: 1.3rem;
-    font-weight: 500;
-    color: #1f2937;
-    margin-bottom: 30px;
-  }
-
-  .reveal-text {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #f59e0b;
-    text-align: center;
-    margin: 40px 0;
-    padding: 30px;
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    border-radius: 15px;
-    border-left: 5px solid #f59e0b;
-  }
-
-  .data-callout {
-    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-    padding: 30px;
-    border-radius: 15px;
-    text-align: center;
-    margin: 30px 0;
-    border-left: 5px solid #3b82f6;
-  }
-
-  .callout-stat {
-    font-size: 3rem;
-    font-weight: 900;
-    color: #1e40af;
-    margin-bottom: 10px;
-  }
-
-  .callout-text {
-    font-size: 1.1rem;
-    color: #1e40af;
-    font-weight: 600;
-  }
-
-  .revelation-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 30px;
-    margin: 40px 0;
-  }
-
-  .revelation-stat-item {
-    background: white;
-    padding: 30px 20px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    border-top: 4px solid #f59e0b;
-  }
-
-  .stat-number {
-    font-size: 2.5rem;
-    font-weight: 900;
-    color: #f59e0b;
-    margin-bottom: 10px;
-    display: block;
-  }
-
-  .stat-label {
-    font-size: 0.9rem;
-    color: #6b7280;
-    margin-bottom: 5px;
-  }
-
-  .stat-percentage {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #374151;
-  }
-
-  .myth-buster {
-    background: #fee2e2;
-    border: 2px solid #ef4444;
-    border-radius: 12px;
-    padding: 25px;
-    margin: 40px 0;
-  }
-
-  .myth-buster h4:first-child {
-    color: #dc2626;
-    text-decoration: line-through;
-    margin-bottom: 15px;
-  }
-
-  .myth-buster h4:last-child {
-    color: #16a34a;
-    font-weight: 700;
-  }
-
-  .investigation-factors {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-    margin: 40px 0;
-  }
-
-  .factor-card {
-    background: white;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .factor-card:hover, .factor-card.active {
-    border-color: #3b82f6;
-    background: #f8fafc;
-    transform: translateY(-2px);
-  }
-
-  .factor-icon {
-    font-size: 2rem;
-    margin-bottom: 15px;
-  }
-
-  .factor-card h4 {
-    color: #0C1A3C;
-    margin-bottom: 10px;
-  }
-
-  .factor-detail {
-    margin-top: 15px;
-    padding: 10px;
-    background: rgba(59, 130, 246, 0.1);
-    border-radius: 6px;
-    font-size: 0.9rem;
-    color: #1e40af;
-  }
-
-  .chapter-visualization {
-    background: white;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 120px;
-  }
-
-  .narrative-chart {
-    width: 100%;
-    min-height: 400px;
-  }
-
-  .chart-caption {
-    text-align: center;
-    font-size: 0.9rem;
-    color: #6b7280;
-    margin-top: 15px;
-    font-style: italic;
-  }
-
-  @media (max-width: 768px) {
-    .narrative-container {
-      grid-template-columns: 1fr;
-      gap: 40px;
-      padding: 0 20px;
-    }
-    
-    .chapter-header h2 {
-      font-size: 2rem;
-    }
-    
-    .reveal-text {
-      font-size: 1.5rem;
-    }
-    
-    .chapter-visualization {
-      position: static;
-    }
-    
-    .progress-steps {
-      gap: 15px;
-    }
-    
-    .progress-step {
-      font-size: 0.8rem;
-    }
-  }
-`;
-document.head.appendChild(narrativeStyles);
-
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+  console.log("DOM ready, checking for story chapters...");
   if (document.querySelector('.story-chapter')) {
+    console.log("Story chapters found, initializing narrative...");
     window.dataStoryNarrative = new DataStoryNarrative();
+  } else {
+    console.log("No story chapters found on this page");
   }
 });
 
