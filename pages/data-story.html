@@ -3,18 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Data Story - Road Safety Enforcement</title>
-  <!-- Base styles -->
+  <title>Drugs & Alcohol Enforcement - Road Safety Enforcement</title>
   <link rel="stylesheet" href="../css/styles.css">
-  <!-- Enhanced responsive design -->
-  <link rel="stylesheet" href="../css/enhanced-responsive.css">
-  <!-- Enhanced general styles -->
-  <link rel="stylesheet" href="../css/enhanced-styles.css">
-  <!-- Advanced interactions -->
-  <link rel="stylesheet" href="../css/advanced-interactions.css">
-  <!-- Storytelling specific styles -->
   <link rel="stylesheet" href="../css/storytelling.css">
-  <!-- Data story specific enhancements -->
+  <link rel="stylesheet" href="../css/advanced-interactions.css">
   <link rel="stylesheet" href="../css/data-story-enhancements.css">
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
@@ -26,7 +18,6 @@
       </div>
       <h1 class="heading">Australian Road Safety Enforcement</h1>
     </div>
-    
     <nav class="nav-container">
       <div class="container">
         <div class="nav-buttons">
@@ -44,292 +35,290 @@
     </nav>
   </header>
 
-  <!-- Hero Section (match About page style) -->
-  <div class="hero-section data_story-hero">
-    <div class="hero-content">
-      <h1 class="hero-title" style="margin-bottom: 16px;">
-        How we uncovered the hidden patterns in 15 years of road safety data
-      </h1>
-      <div class="hero-subtitle">
-        The methodology, team, and discoveries behind Australia's most comprehensive road safety enforcement analysis
+
+  <!-- Hero Section -->
+  <div class="hero-story">
+    <div class="container">
+      <div class="story-hook">
+        <h2 class="hook-question">What if everything we know about road safety is wrong?</h2>
+        <p style="font-size: 1.2rem; opacity: 0.9; margin-top: 20px;">
+          Explore 15 years of Australian enforcement data that challenges conventional wisdom
+        </p>
       </div>
     </div>
-    <div class="hero-bg-anim"></div>
   </div>
 
-
-  <main>
+  <div class="container">
     <!-- Story Progress Bar -->
     <div class="story-progress">
       <div class="progress-bar">
         <div class="progress-fill" id="progress-fill"></div>
       </div>
       <div class="progress-steps">
-        <div class="progress-step active" data-chapter="0">Introduction</div>
-        <div class="progress-step" data-chapter="1">The Revelation</div>
-        <div class="progress-step" data-chapter="2">Investigation</div>
-        <div class="progress-step" data-chapter="3">Geography</div>
-        <div class="progress-step" data-chapter="4">Implications</div>
+
       </div>
     </div>
 
-    <!-- Chapter 1: Introduction -->
-    <section class="story-chapter" id="introduction" data-chapter="0">
-      <div class="narrative-container">
-        <div class="chapter-header">
-          <span class="chapter-number">Chapter 1</span>
-          <h2>The Question That Started It All</h2>
-        </div>
-        
-        <div class="narrative-content">
-          <p class="lead-paragraph">Every day, thousands of Australians receive road safety fines. The conventional wisdom says young, inexperienced drivers are the primary culprits. News stories focus on "hoon" behavior, insurance companies charge higher premiums for drivers under 25, and road safety campaigns target the 17-25 demographic.</p>
-          
-          <p>But what if this conventional wisdom is wrong?</p>
-          
-          <div class="data-callout">
-            <div class="callout-stat">5,017</div>
-            <div class="callout-text">enforcement records analyzed across 15 years</div>
+    <div class="content-wrapper">
+      <!-- Story Chapters -->
+      <!-- Chapter 1: Introduction -->
+      <section class="story-chapter" id="introduction" data-chapter="0">
+        <div class="narrative-container">
+          <div class="chapter-header">
+            <span class="chapter-number">Chapter 1</span>
+            <h2>The Question That Started It All</h2>
           </div>
           
-          <p>When we analyzed 15 years of road safety enforcement data from the Bureau of Infrastructure and Transport Research Economics, we discovered something that challenges everything we think we know about driver behavior in Australia.</p>
+          <div class="narrative-content">
+            <p class="lead-paragraph">Every day, thousands of Australians receive road safety fines. The conventional wisdom says young, inexperienced drivers are the primary culprits. News stories focus on "hoon" behavior, insurance companies charge higher premiums for drivers under 25, and road safety campaigns target the 17-25 demographic.</p>
+            
+            <p>But what if this conventional wisdom is wrong?</p>
+            
+            <div class="data-callout">
+              <div class="callout-stat">5,017</div>
+              <div class="callout-text">enforcement records analyzed across 15 years</div>
+            </div>
+            
+            <p>When we analyzed 15 years of road safety enforcement data from the Bureau of Infrastructure and Transport Research Economics, we discovered something that challenges everything we think we know about driver behavior in Australia.</p>
+          </div>
+          
+          <div class="chapter-visualization">
+            <div id="intro-chart" class="narrative-chart"></div>
+            <div class="chart-caption">Traditional view: Young drivers should dominate violation statistics</div>
+          </div>
         </div>
-        
-        <div class="chapter-visualization">
-          <div id="intro-chart" class="narrative-chart"></div>
-          <div class="chart-caption">Traditional view: Young drivers should dominate violation statistics</div>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Chapter 2: The Revelation -->
-    <section class="story-chapter" id="revelation" data-chapter="1">
-      <div class="narrative-container">
-        <div class="chapter-header">
-          <span class="chapter-number">Chapter 2</span>
-          <h2>The Surprising Truth</h2>
-        </div>
-        
-        <div class="narrative-content">
-          <p class="reveal-text">Middle-aged adults (40-64) receive more road safety fines than any other age group.</p>
+      <!-- Chapter 2: The Revelation -->
+      <section class="story-chapter" id="revelation" data-chapter="1">
+        <div class="narrative-container">
+          <div class="chapter-header">
+            <span class="chapter-number">Chapter 2</span>
+            <h2>The Surprising Truth</h2>
+          </div>
           
-          <div class="revelation-stats">
-            <div class="revelation-stat-item">
-              <div class="stat-number" data-target="604750">0</div>
-              <div class="stat-label">40-64 age group fines</div>
-              <div class="stat-percentage">45% of all fines</div>
+          <div class="narrative-content">
+            <p class="reveal-text">Middle-aged adults (40-64) receive more road safety fines than any other age group.</p>
+            
+            <div class="revelation-stats">
+              <div class="revelation-stat-item">
+                <div class="stat-number" data-target="604750">0</div>
+                <div class="stat-label">40-64 age group fines</div>
+                <div class="stat-percentage">45% of all fines</div>
+              </div>
+              
+              <div class="revelation-stat-item">
+                <div class="stat-number" data-target="430000">0</div>
+                <div class="stat-label">26-39 age group fines</div>
+                <div class="stat-percentage">30% of all fines</div>
+              </div>
+              
+              <div class="revelation-stat-item">
+                <div class="stat-number" data-target="298300">0</div>
+                <div class="stat-label">17-25 age group fines</div>
+                <div class="stat-percentage">Only 21% of all fines</div>
+              </div>
             </div>
             
-            <div class="revelation-stat-item">
-              <div class="stat-number" data-target="430000">0</div>
-              <div class="stat-label">26-39 age group fines</div>
-              <div class="stat-percentage">30% of all fines</div>
-            </div>
+            <p>This isn't a statistical anomaly or a data error. It's a consistent pattern that holds true across all Australian jurisdictions and throughout the entire 15-year period we analyzed.</p>
             
-            <div class="revelation-stat-item">
-              <div class="stat-number" data-target="298300">0</div>
-              <div class="stat-label">17-25 age group fines</div>
-              <div class="stat-percentage">Only 21% of all fines</div>
+            <div class="myth-buster">
+              <h4>Myth: Young drivers are the biggest road safety problem</h4>
+              <h4>Reality: Experienced drivers (40-64) receive the most fines</h4>
             </div>
           </div>
           
-          <p>This isn't a statistical anomaly or a data error. It's a consistent pattern that holds true across all Australian jurisdictions and throughout the entire 15-year period we analyzed.</p>
-          
-          <div class="myth-buster">
-            <h4>Myth: Young drivers are the biggest road safety problem</h4>
-            <h4>Reality: Experienced drivers (40-64) receive the most fines</h4>
+          <div class="chapter-visualization">
+            <div id="revelation-chart" class="narrative-chart"></div>
+            <div class="chart-caption">Reality: Age distribution of road safety fines in Australia (2008-2023)</div>
           </div>
         </div>
-        
-        <div class="chapter-visualization">
-          <div id="revelation-chart" class="narrative-chart"></div>
-          <div class="chart-caption">Reality: Age distribution of road safety fines in Australia (2008-2023)</div>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Chapter 3: The Investigation -->
-    <section class="story-chapter" id="investigation" data-chapter="2">
-      <div class="narrative-container">
-        <div class="chapter-header">
-          <span class="chapter-number">Chapter 3</span>
-          <h2>Digging Deeper: Why This Happens</h2>
-        </div>
-        
-        <div class="narrative-content">
-          <p>To understand this pattern, we need to examine three key factors that emerged from our analysis:</p>
-          
-          <div class="investigation-factors">
-            <div class="factor-card active" data-factor="volume">
-              <div class="factor-icon">🚗</div>
-              <h4>Driving Volume</h4>
-              <p>Middle-aged adults drive more frequently and for longer distances than other age groups.</p>
-              <div class="factor-detail">
-                <strong>Key insight:</strong> More time on road = more opportunities for violations
-              </div>
-            </div>
-            
-            <div class="factor-card" data-factor="technology">
-              <div class="factor-icon">📱</div>
-              <h4>Technology Factor</h4>
-              <p>Automated detection systems don't show age bias - they catch violations as they happen.</p>
-              <div class="factor-detail">
-                <strong>Key insight:</strong> Technology reveals true violation patterns
-              </div>
-            </div>
-            
-            <div class="factor-card" data-factor="complacency">
-              <div class="factor-icon">😴</div>
-              <h4>Experience Paradox</h4>
-              <p>Decades of driving experience may lead to overconfidence and complacency.</p>
-              <div class="factor-detail">
-                <strong>Key insight:</strong> Experience ≠ Perfect compliance
-              </div>
-            </div>
+      <!-- Chapter 3: The Investigation -->
+      <section class="story-chapter" id="investigation" data-chapter="2">
+        <div class="narrative-container">
+          <div class="chapter-header">
+            <span class="chapter-number">Chapter 3</span>
+            <h2>Digging Deeper: Why This Happens</h2>
           </div>
           
-          <p>The most dramatic evidence came in 2021, when automated mobile phone detection cameras were widely deployed. The result? A 37% increase in total fines, with middle-aged drivers still leading the statistics.</p>
+          <div class="narrative-content">
+            <p>To understand this pattern, we need to examine three key factors that emerged from our analysis:</p>
+            
+            <div class="investigation-factors">
+              <div class="factor-card active" data-factor="volume">
+                <div class="factor-icon">🚗</div>
+                <h4>Driving Volume</h4>
+                <p>Middle-aged adults drive more frequently and for longer distances than other age groups.</p>
+                <div class="factor-detail">
+                  <strong>Key insight:</strong> More time on road = more opportunities for violations
+                </div>
+              </div>
+              
+              <div class="factor-card" data-factor="technology">
+                <div class="factor-icon">📱</div>
+                <h4>Technology Factor</h4>
+                <p>Automated detection systems don't show age bias - they catch violations as they happen.</p>
+                <div class="factor-detail">
+                  <strong>Key insight:</strong> Technology reveals true violation patterns
+                </div>
+              </div>
+              
+              <div class="factor-card" data-factor="complacency">
+                <div class="factor-icon">😴</div>
+                <h4>Experience Paradox</h4>
+                <p>Decades of driving experience may lead to overconfidence and complacency.</p>
+                <div class="factor-detail">
+                  <strong>Key insight:</strong> Experience ≠ Perfect compliance
+                </div>
+              </div>
+            </div>
+            
+            <p>The most dramatic evidence came in 2021, when automated mobile phone detection cameras were widely deployed. The result? A 37% increase in total fines, with middle-aged drivers still leading the statistics.</p>
+          </div>
+          
+          <div class="chapter-visualization">
+            <div id="investigation-chart" class="narrative-chart"></div>
+            <div class="chart-caption">The 2021 spike: Technology reveals the true scale of violations</div>
+          </div>
         </div>
-        
-        <div class="chapter-visualization">
-          <div id="investigation-chart" class="narrative-chart"></div>
-          <div class="chart-caption">The 2021 spike: Technology reveals the true scale of violations</div>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Chapter 4: Geographic Patterns -->
-    <section class="story-chapter" id="geography" data-chapter="3">
-      <div class="narrative-container">
-        <div class="chapter-header">
-          <span class="chapter-number">Chapter 4</span>
-          <h2>The Geographic Story</h2>
-        </div>
-        
-        <div class="narrative-content">
-          <p>The pattern isn't uniform across Australia. Our analysis reveals significant jurisdictional differences that tell their own story:</p>
+      <!-- Chapter 4: Geographic Patterns -->
+      <section class="story-chapter" id="geography" data-chapter="3">
+        <div class="narrative-container">
+          <div class="chapter-header">
+            <span class="chapter-number">Chapter 4</span>
+            <h2>The Geographic Story</h2>
+          </div>
           
-          <div class="geographic-insights">
-            <div class="geo-insight">
-              <div class="geo-state">NSW</div>
-              <div class="geo-story">
-                <h5>The Technology Pioneer</h5>
-                <p>New South Wales saw a 132% increase in fines from 2019-2021 after implementing mobile phone detection cameras. This wasn't an increase in violations - it was technology finally catching what was always happening.</p>
-              </div>
-            </div>
+          <div class="narrative-content">
+            <p>The pattern isn't uniform across Australia. Our analysis reveals significant jurisdictional differences that tell their own story:</p>
             
-            <div class="geo-insight">
-              <div class="geo-state">VIC</div>
-              <div class="geo-story">
-                <h5>The Consistent Enforcer</h5>
-                <p>Victoria has maintained consistently high enforcement rates throughout the entire period, suggesting a mature, systematic approach to road safety enforcement.</p>
+            <div class="geographic-insights">
+              <div class="geo-insight">
+                <div class="geo-state">NSW</div>
+                <div class="geo-story">
+                  <h5>The Technology Pioneer</h5>
+                  <p>New South Wales saw a 132% increase in fines from 2019-2021 after implementing mobile phone detection cameras. This wasn't an increase in violations - it was technology finally catching what was always happening.</p>
+                </div>
               </div>
-            </div>
-            
-            <div class="geo-insight">
-              <div class="geo-state">QLD</div>
-              <div class="geo-story">
-                <h5>The Steady Climber</h5>
-                <p>Queensland shows steady growth in enforcement activity, with middle-aged drivers maintaining their position as the most-fined group throughout.</p>
+              
+              <div class="geo-insight">
+                <div class="geo-state">VIC</div>
+                <div class="geo-story">
+                  <h5>The Consistent Enforcer</h5>
+                  <p>Victoria has maintained consistently high enforcement rates throughout the entire period, suggesting a mature, systematic approach to road safety enforcement.</p>
+                </div>
+              </div>
+              
+              <div class="geo-insight">
+                <div class="geo-state">QLD</div>
+                <div class="geo-story">
+                  <h5>The Steady Climber</h5>
+                  <p>Queensland shows steady growth in enforcement activity, with middle-aged drivers maintaining their position as the most-fined group throughout.</p>
+                </div>
               </div>
             </div>
           </div>
+          
+          <div class="chapter-visualization">
+            <div id="geography-chart" class="narrative-chart"></div>
+            <div class="chart-caption">Enforcement patterns vary by jurisdiction, but the age pattern remains consistent</div>
+          </div>
         </div>
-        
-        <div class="chapter-visualization">
-          <div id="geography-chart" class="narrative-chart"></div>
-          <div class="chart-caption">Enforcement patterns vary by jurisdiction, but the age pattern remains consistent</div>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Chapter 5: Implications -->
-    <section class="story-chapter" id="implications" data-chapter="4">
-      <div class="narrative-container">
-        <div class="chapter-header">
-          <span class="chapter-number">Chapter 5</span>
-          <h2>What This Means for Road Safety</h2>
-        </div>
-        
-        <div class="narrative-content">
-          <p>This revelation has profound implications for how we approach road safety in Australia:</p>
-          
-          <div class="implications-grid">
-            <div class="implication-item">
-              <div class="implication-icon">🎯</div>
-              <h4>Targeted Campaigns</h4>
-              <p>Road safety campaigns should specifically address middle-aged drivers, focusing on complacency and overconfidence rather than just inexperience.</p>
-            </div>
-            
-            <div class="implication-item">
-              <div class="implication-icon">💰</div>
-              <h4>Insurance Models</h4>
-              <p>Current insurance pricing models that heavily penalize young drivers may need reconsideration based on actual violation patterns.</p>
-            </div>
-            
-            <div class="implication-item">
-              <div class="implication-icon">🤖</div>
-              <h4>Technology Adoption</h4>
-              <p>Automated enforcement systems reveal true violation patterns without human bias, supporting evidence-based policy making.</p>
-            </div>
-            
-            <div class="implication-item">
-              <div class="implication-icon">📚</div>
-              <h4>Education Programs</h4>
-              <p>Refresher training programs for experienced drivers could have significant impact on overall road safety.</p>
-            </div>
+      <!-- Chapter 5: Implications -->
+      <section class="story-chapter" id="implications" data-chapter="4">
+        <div class="narrative-container">
+          <div class="chapter-header">
+            <span class="chapter-number">Chapter 5</span>
+            <h2>What This Means for Road Safety</h2>
           </div>
           
-          <div class="key-takeaway">
-            <h4>The Bottom Line</h4>
-            <p>Experience doesn't guarantee compliance. After decades of driving, even the most experienced drivers need reminders about road safety rules and the importance of staying vigilant.</p>
+          <div class="narrative-content">
+            <p>This revelation has profound implications for how we approach road safety in Australia:</p>
+            
+            <div class="implications-grid">
+              <div class="implication-item">
+                <div class="implication-icon">🎯</div>
+                <h4>Targeted Campaigns</h4>
+                <p>Road safety campaigns should specifically address middle-aged drivers, focusing on complacency and overconfidence rather than just inexperience.</p>
+              </div>
+              
+              <div class="implication-item">
+                <div class="implication-icon">💰</div>
+                <h4>Insurance Models</h4>
+                <p>Current insurance pricing models that heavily penalize young drivers may need reconsideration based on actual violation patterns.</p>
+              </div>
+              
+              <div class="implication-item">
+                <div class="implication-icon">🤖</div>
+                <h4>Technology Adoption</h4>
+                <p>Automated enforcement systems reveal true violation patterns without human bias, supporting evidence-based policy making.</p>
+              </div>
+              
+              <div class="implication-item">
+                <div class="implication-icon">📚</div>
+                <h4>Education Programs</h4>
+                <p>Refresher training programs for experienced drivers could have significant impact on overall road safety.</p>
+              </div>
+            </div>
+            
+            <div class="key-takeaway">
+              <h4>The Bottom Line</h4>
+              <p>Experience doesn't guarantee compliance. After decades of driving, even the most experienced drivers need reminders about road safety rules and the importance of staying vigilant.</p>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Chapter 6: Conclusion -->
-    <section class="story-chapter" id="conclusion" data-chapter="5">
-      <div class="narrative-container">
-        <div class="chapter-header">
-          <span class="chapter-number">Conclusion</span>
-          <h2>Rethinking Road Safety</h2>
-        </div>
-        
-        <div class="narrative-content">
-          <p class="conclusion-text">Our analysis of 15 years of Australian road safety enforcement data challenges fundamental assumptions about driver behavior. The story isn't about young, reckless drivers - it's about the need for ongoing vigilance and education across all age groups, especially those with the most experience.</p>
-          
-          <p>This finding demonstrates the power of data to reveal truths that contradict our assumptions. By letting the data tell its story, we can make better-informed decisions about road safety policy, education, and enforcement strategies.</p>
-          
-          <div class="final-stats">
-            <div class="final-stat">
-              <div class="final-number">2.8M+</div>
-              <div class="final-label">Total fines analyzed</div>
-            </div>
-            <div class="final-stat">
-              <div class="final-number">15</div>
-              <div class="final-label">Years of data</div>
-            </div>
-            <div class="final-stat">
-              <div class="final-number">8</div>
-              <div class="final-label">Jurisdictions studied</div>
-            </div>
+      <!-- Chapter 6: Conclusion -->
+      <section class="story-chapter" id="conclusion" data-chapter="5">
+        <div class="narrative-container">
+          <div class="chapter-header">
+            <span class="chapter-number">Conclusion</span>
+            <h2>Rethinking Road Safety</h2>
           </div>
           
-          <p class="call-to-action-text">The next time you see a road safety campaign targeting young drivers, remember this analysis. The data tells us that road safety is everyone's responsibility - especially those who think their experience makes them immune to mistakes.</p>
-        </div>
-        
-        <div class="exploration-links">
-          <h4>Explore the Data Yourself</h4>
-          <div class="explore-buttons">
-            <a href="time-trends.html" class="explore-btn">📈 Time Trends Analysis</a>
-            <a href="jurisdictions.html" class="explore-btn">🗺️ Geographic Patterns</a>
-            <a href="age-analysis.html" class="explore-btn">👥 Age Demographics</a>
-            <a href="insights.html" class="explore-btn">💡 Key Insights</a>
+          <div class="narrative-content">
+            <p class="conclusion-text">Our analysis of 15 years of Australian road safety enforcement data challenges fundamental assumptions about driver behavior. The story isn't about young, reckless drivers - it's about the need for ongoing vigilance and education across all age groups, especially those with the most experience.</p>
+            
+            <p>This finding demonstrates the power of data to reveal truths that contradict our assumptions. By letting the data tell its story, we can make better-informed decisions about road safety policy, education, and enforcement strategies.</p>
+            
+            <div class="final-stats">
+              <div class="final-stat">
+                <div class="final-number">2.8M+</div>
+                <div class="final-label">Total fines analyzed</div>
+              </div>
+              <div class="final-stat">
+                <div class="final-number">15</div>
+                <div class="final-label">Years of data</div>
+              </div>
+              <div class="final-stat">
+                <div class="final-number">8</div>
+                <div class="final-label">Jurisdictions studied</div>
+              </div>
+            </div>
+            
+            <p class="call-to-action-text">The next time you see a road safety campaign targeting young drivers, remember this analysis. The data tells us that road safety is everyone's responsibility - especially those who think their experience makes them immune to mistakes.</p>
+          </div>
+          
+          <div class="exploration-links">
+            <h4>Explore the Data Yourself</h4>
+            <div class="explore-buttons">
+              <a href="time-trends.html" class="explore-btn">📈 Time Trends Analysis</a>
+              <a href="jurisdictions.html" class="explore-btn">🗺️ Geographic Patterns</a>
+              <a href="age-analysis.html" class="explore-btn">👥 Age Demographics</a>
+              <a href="insights.html" class="explore-btn">💡 Key Insights</a>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
+    </div>
+  </div>
 
   <footer class="footer">
     <div class="container">
