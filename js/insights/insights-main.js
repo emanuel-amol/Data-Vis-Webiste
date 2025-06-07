@@ -589,23 +589,15 @@ class InsightsMain {
             background: ${colors[type]}; color: white; padding: 16px 20px;
             border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             font-weight: 600; max-width: 400px; word-wrap: break-word;
-            transform: translateX(100%); transition: transform 0.3s ease;
         `;
         
         notification.textContent = message;
         document.body.appendChild(notification);
         
-        // Animate in
-        setTimeout(() => notification.style.transform = 'translateX(0)', 100);
-        
-        // Auto remove
         setTimeout(() => {
-            notification.style.transform = 'translateX(100%)';
-            setTimeout(() => {
-                if (document.body.contains(notification)) {
-                    document.body.removeChild(notification);
-                }
-            }, 300);
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
         }, 4000);
     }
 

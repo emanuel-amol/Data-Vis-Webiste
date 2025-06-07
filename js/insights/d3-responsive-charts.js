@@ -1,4 +1,4 @@
-// D3 Responsive Charts for Insights Dashboard
+// Fixed D3 Responsive Charts for Insights Dashboard
 // File: js/insights/d3-responsive-charts.js
 
 class ResponsiveChartFactory {
@@ -25,8 +25,26 @@ class ResponsiveChartFactory {
     }
 
     createTrendChart(container, data, options = {}) {
-        if (!Array.isArray(data) || data.length === 0) return;
+        if (!Array.isArray(data) || data.length === 0) {
+            this.showNoDataMessage(container, "No trend data available");
+            return;
+        }
         
+        // Filter out any duplicate or invalid entries
+        const cleanedData = data.reduce((acc, curr) => {
+            if (curr && curr.jurisdiction && curr.total !== undefined) {
+                const existing = acc.find(d => d.jurisdiction === curr.jurisdiction);
+                if (!existing || existing.total < curr.total) {
+                    // Keep only the highest value for each jurisdiction
+                    if (existing) {
+                        acc = acc.filter(d => d.jurisdiction !== curr.jurisdiction);
+                    }
+                    acc.push(curr);
+                }
+            }
+            return acc;
+        }, []);
+
         const margin = { ...this.defaultMargin, right: 120, ...options.margin };
         const containerElement = d3.select(container);
         
@@ -35,151 +53,8 @@ class ResponsiveChartFactory {
         
         // Get container dimensions
         const rect = containerElement.node().getBoundingClientRect();
-        const width = (options.width || rect.width || 600) - margin.left - margin.right;
-        const height = (options.height || 400) - margin.top - margin.bottom;
-
-        // Create SVG
-        const svg = containerElement
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .style("background", "white");
-
-        const g = svg.append("g")
-            .attr("transform", `translate(${margin.left},${margin.top})`);
-
-        // Scales
-        const xScale = d3.scaleLinear()
-            .domain(d3.extent(data, d => d.year))
-            .range([0, width]);
-
-        const yScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.total)])
-            .nice()
-            .range([height, 0]);
-
-        // Line generator
-        const line = d3.line()
-            .x(d => xScale(d.year))
-            .y(d => yScale(d.total))
-            .curve(d3.curveMonotoneX);
-
-        // Group data by jurisdiction
-        const nested = d3.group(data, d => d.jurisdiction);
-
-        // Add axes
-        g.append("g")
-            .attr("transform", `translate(0,${height})`)
-            .call(d3.axisBottom(xScale).tickFormat(d3.format("d")))
-            .append("text")
-            .attr("x", width / 2)
-            .attr("y", 35)
-            .attr("fill", "black")
-            .style("text-anchor", "middle")
-            .text("Year");
-
-        g.append("g")
-            .call(d3.axisLeft(yScale).tickFormat(d => `${d/1000}K`))
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", -45)
-            .attr("x", -height / 2)
-            .attr("fill", "black")
-            .style("text-anchor", "middle")
-            .text("Total Fines");
-
-        // Add grid lines
-        g.append("g")
-            .attr("class", "grid")
-            .attr("transform", `translate(0,${height})`)
-            .call(d3.axisBottom(xScale)
-                .tickSize(-height)
-                .tickFormat("")
-            )
-            .style("stroke-dasharray", "3,3")
-            .style("opacity", 0.3);
-
-        g.append("g")
-            .attr("class", "grid")
-            .call(d3.axisLeft(yScale)
-                .tickSize(-width)
-                .tickFormat("")
-            )
-            .style("stroke-dasharray", "3,3")
-            .style("opacity", 0.3);
-
-        // Add lines
-        nested.forEach((values, jurisdiction) => {
-            const sortedValues = values.sort((a, b) => a.year - b.year);
-            
-            g.append("path")
-                .datum(sortedValues)
-                .attr("fill", "none")
-                .attr("stroke", this.jurisdictionColors[jurisdiction] || this.colors.muted)
-                .attr("stroke-width", 2.5)
-                .attr("d", line)
-                .style("opacity", 0.8);
-
-            // Add dots
-            g.selectAll(`.dot-${jurisdiction}`)
-                .data(sortedValues)
-                .enter().append("circle")
-                .attr("class", `dot-${jurisdiction}`)
-                .attr("cx", d => xScale(d.year))
-                .attr("cy", d => yScale(d.total))
-                .attr("r", 3)
-                .attr("fill", this.jurisdictionColors[jurisdiction] || this.colors.muted);
-        });
-
-        // Add legend
-        const legend = g.append("g")
-            .attr("class", "legend")
-            .attr("transform", `translate(${width + 20}, 20)`);
-
-        const jurisdictions = Array.from(nested.keys()).sort();
-        
-        legend.selectAll(".legend-item")
-            .data(jurisdictions)
-            .enter()
-            .append("g")
-            .attr("class", "legend-item")
-            .attr("transform", (d, i) => `translate(0, ${i * 20})`)
-            .each(function(d) {
-                const item = d3.select(this);
-                
-                item.append("line")
-                    .attr("x1", 0)
-                    .attr("x2", 15)
-                    .attr("y1", 0)
-                    .attr("y2", 0)
-                    .attr("stroke", this.jurisdictionColors[d] || this.colors.muted)
-                    .attr("stroke-width", 2);
-                
-                item.append("text")
-                    .attr("x", 20)
-                    .attr("y", 4)
-                    .text(d)
-                    .style("font-size", "12px")
-                    .attr("fill", "black");
-            }.bind(this));
-
-        // Add tooltip
-        this.addTooltip(g, data, xScale, yScale);
-
-        return svg.node();
-    }
-
-    createBarChart(container, data, options = {}) {
-        if (!Array.isArray(data) || data.length === 0) return;
-        
-        const margin = { ...this.defaultMargin, bottom: 60, ...options.margin };
-        const containerElement = d3.select(container);
-        
-        containerElement.selectAll("*").remove();
-        
-        const rect = containerElement.node().getBoundingClientRect();
-        const width = (options.width || rect.width || 600) - margin.left - margin.right;
-        const height = (options.height || 400) - margin.top - margin.bottom;
+        const width = Math.max((options.width || rect.width || 600), 400) - margin.left - margin.right;
+        const height = Math.max((options.height || 400), 200) - margin.top - margin.bottom;
 
         const svg = containerElement
             .append("svg")
@@ -189,15 +64,18 @@ class ResponsiveChartFactory {
 
         const g = svg.append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Sort data by total for better visualization
+        const sortedData = cleanedData.filter(d => d.total !== undefined).sort((a, b) => b.total - a.total);
 
         // Scales
         const xScale = d3.scaleBand()
-            .domain(data.map(d => d.jurisdiction))
+            .domain(sortedData.map(d => d.jurisdiction))
             .range([0, width])
             .padding(0.2);
 
         const yScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.total)])
+            .domain([0, d3.max(sortedData, d => d.total)])
             .nice()
             .range([height, 0]);
 
@@ -210,7 +88,7 @@ class ResponsiveChartFactory {
             .style("font-size", "12px");
 
         g.append("g")
-            .call(d3.axisLeft(yScale).tickFormat(d => `${d/1000}K`))
+            .call(d3.axisLeft(yScale).tickFormat(d => this.formatNumber(d, 'thousands')))
             .append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", -45)
@@ -221,7 +99,7 @@ class ResponsiveChartFactory {
 
         // Add bars
         g.selectAll(".bar")
-            .data(data)
+            .data(sortedData)
             .enter().append("rect")
             .attr("class", "bar")
             .attr("x", d => xScale(d.jurisdiction))
@@ -230,33 +108,19 @@ class ResponsiveChartFactory {
             .attr("height", d => height - yScale(d.total))
             .attr("fill", d => this.jurisdictionColors[d.jurisdiction] || this.colors.primary)
             .style("opacity", 0.8)
-            .on("mouseover", function(event, d) {
-                d3.select(this).style("opacity", 1);
-                
-                const tooltip = d3.select("body").append("div")
-                    .attr("class", "insights-map-tooltip")
-                    .style("opacity", 0);
-
-                tooltip.transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                    
-                tooltip.html(`
-                    <strong>${d.jurisdiction}</strong><br/>
-                    Total Fines: ${d.total.toLocaleString()}<br/>
-                    Rank: #${data.findIndex(x => x.jurisdiction === d.jurisdiction) + 1}
-                `)
-                    .style("left", (event.pageX + 10) + "px")
-                    .style("top", (event.pageY - 28) + "px");
+            .on("mouseover", (event, d) => {
+                d3.select(event.target).style("opacity", 1);
+                const rank = sortedData.findIndex(x => x.jurisdiction === d.jurisdiction) + 1;
+                this.showTooltip(event, d, `${d.jurisdiction}<br/>Total: ${d.total.toLocaleString()}<br/>Rank: #${rank}`);
             })
-            .on("mouseout", function() {
-                d3.select(this).style("opacity", 0.8);
-                d3.selectAll(".insights-map-tooltip").remove();
+            .on("mouseout", (event) => {
+                d3.select(event.target).style("opacity", 0.8);
+                this.hideTooltip();
             });
 
         // Add value labels on bars
         g.selectAll(".label")
-            .data(data)
+            .data(sortedData)
             .enter().append("text")
             .attr("class", "label")
             .attr("x", d => xScale(d.jurisdiction) + xScale.bandwidth() / 2)
@@ -264,21 +128,24 @@ class ResponsiveChartFactory {
             .attr("text-anchor", "middle")
             .style("font-size", "11px")
             .style("font-weight", "bold")
-            .text(d => `${(d.total/1000).toFixed(0)}K`);
+            .text(d => this.formatNumber(d.total, 'thousands'));
 
         return svg.node();
     }
 
     createPieChart(container, data, options = {}) {
-        if (!Array.isArray(data) || data.length === 0) return;
+        if (!Array.isArray(data) || data.length === 0) {
+            this.showNoDataMessage(container, "No pie chart data available");
+            return;
+        }
         
         const containerElement = d3.select(container);
         containerElement.selectAll("*").remove();
         
         const rect = containerElement.node().getBoundingClientRect();
-        const width = options.width || rect.width || 400;
-        const height = options.height || 400;
-        const radius = Math.min(width, height) / 2 - 20;
+        const width = Math.max(options.width || rect.width || 400, 300);
+        const height = Math.max(options.height || 400, 300);
+        const radius = Math.min(width, height) / 2 - 40;
 
         const svg = containerElement
             .append("svg")
@@ -299,7 +166,7 @@ class ResponsiveChartFactory {
             .value(d => d.totalFines)
             .sort(null);
 
-        // Arc generator
+        // Arc generators
         const arc = d3.arc()
             .innerRadius(0)
             .outerRadius(radius);
@@ -318,66 +185,33 @@ class ResponsiveChartFactory {
             .attr("d", arc)
             .attr("fill", d => color(d.data.ageGroup))
             .style("opacity", 0.8)
-            .on("mouseover", function(event, d) {
-                d3.select(this).style("opacity", 1);
-                
-                const tooltip = d3.select("body").append("div")
-                    .attr("class", "insights-map-tooltip")
-                    .style("opacity", 0);
-
-                tooltip.transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                    
-                tooltip.html(`
-                    <strong>${d.data.ageGroup}</strong><br/>
-                    Fines: ${d.data.totalFines.toLocaleString()}<br/>
-                    Percentage: ${d.data.percentage.toFixed(1)}%
-                `)
-                    .style("left", (event.pageX + 10) + "px")
-                    .style("top", (event.pageY - 28) + "px");
+            .on("mouseover", (event, d) => {
+                d3.select(event.target).style("opacity", 1);
+                this.showTooltip(event, d.data, `${d.data.ageGroup}<br/>Fines: ${d.data.totalFines.toLocaleString()}<br/>Percentage: ${d.data.percentage.toFixed(1)}%`);
             })
-            .on("mouseout", function() {
-                d3.select(this).style("opacity", 0.8);
-                d3.selectAll(".insights-map-tooltip").remove();
+            .on("mouseout", (event) => {
+                d3.select(event.target).style("opacity", 0.8);
+                this.hideTooltip();
             });
 
-        // Add labels
+        // Add percentage labels
         arcs.append("text")
             .attr("transform", d => `translate(${labelArc.centroid(d)})`)
             .attr("text-anchor", "middle")
-            .style("font-size", "11px")
+            .style("font-size", "12px")
             .style("font-weight", "bold")
+            .style("fill", "white")
+            .style("text-shadow", "1px 1px 2px rgba(0,0,0,0.7)")
             .text(d => `${d.data.percentage.toFixed(0)}%`);
-
-        // Add legend
-        const legend = svg.append("g")
-            .attr("class", "legend")
-            .attr("transform", `translate(20, 20)`);
-
-        const legendItems = legend.selectAll(".legend-item")
-            .data(data)
-            .enter()
-            .append("g")
-            .attr("class", "legend-item")
-            .attr("transform", (d, i) => `translate(0, ${i * 20})`);
-
-        legendItems.append("rect")
-            .attr("width", 15)
-            .attr("height", 15)
-            .attr("fill", d => color(d.ageGroup));
-
-        legendItems.append("text")
-            .attr("x", 20)
-            .attr("y", 12)
-            .text(d => d.ageGroup)
-            .style("font-size", "12px");
 
         return svg.node();
     }
 
     createScatterPlot(container, data, options = {}) {
-        if (!Array.isArray(data) || data.length === 0) return;
+        if (!Array.isArray(data) || data.length === 0) {
+            this.showNoDataMessage(container, "No scatter plot data available");
+            return;
+        }
         
         const margin = { ...this.defaultMargin, ...options.margin };
         const containerElement = d3.select(container);
@@ -385,8 +219,8 @@ class ResponsiveChartFactory {
         containerElement.selectAll("*").remove();
         
         const rect = containerElement.node().getBoundingClientRect();
-        const width = (options.width || rect.width || 600) - margin.left - margin.right;
-        const height = (options.height || 400) - margin.top - margin.bottom;
+        const width = Math.max((options.width || rect.width || 600), 400) - margin.left - margin.right;
+        const height = Math.max((options.height || 400), 200) - margin.top - margin.bottom;
 
         const svg = containerElement
             .append("svg")
@@ -397,37 +231,19 @@ class ResponsiveChartFactory {
         const g = svg.append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
+        // Filter valid data
+        const validData = data.filter(d => d.total !== undefined && d.growth !== undefined);
+
         // Scales
         const xScale = d3.scaleLinear()
-            .domain(d3.extent(data, d => d.total))
+            .domain(d3.extent(validData, d => d.total))
             .nice()
             .range([0, width]);
 
         const yScale = d3.scaleLinear()
-            .domain(d3.extent(data, d => d.growth))
+            .domain(d3.extent(validData, d => d.growth))
             .nice()
             .range([height, 0]);
-
-        // Add axes
-        g.append("g")
-            .attr("transform", `translate(0,${height})`)
-            .call(d3.axisBottom(xScale).tickFormat(d => `${d/1000}K`))
-            .append("text")
-            .attr("x", width / 2)
-            .attr("y", 35)
-            .attr("fill", "black")
-            .style("text-anchor", "middle")
-            .text("Total Fines (2023)");
-
-        g.append("g")
-            .call(d3.axisLeft(yScale).tickFormat(d => `${d.toFixed(0)}%`))
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", -45)
-            .attr("x", -height / 2)
-            .attr("fill", "black")
-            .style("text-anchor", "middle")
-            .text("Growth Rate");
 
         // Add grid lines
         g.append("g")
@@ -449,6 +265,27 @@ class ResponsiveChartFactory {
             .style("stroke-dasharray", "3,3")
             .style("opacity", 0.3);
 
+        // Add axes
+        g.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(xScale).tickFormat(d => this.formatNumber(d, 'thousands')))
+            .append("text")
+            .attr("x", width / 2)
+            .attr("y", 35)
+            .attr("fill", "black")
+            .style("text-anchor", "middle")
+            .text("Total Fines (2023)");
+
+        g.append("g")
+            .call(d3.axisLeft(yScale).tickFormat(d => `${d.toFixed(0)}%`))
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -45)
+            .attr("x", -height / 2)
+            .attr("fill", "black")
+            .style("text-anchor", "middle")
+            .text("Growth Rate");
+
         // Add zero line for growth rate
         g.append("line")
             .attr("x1", 0)
@@ -461,7 +298,7 @@ class ResponsiveChartFactory {
 
         // Add circles
         g.selectAll(".dot")
-            .data(data)
+            .data(validData)
             .enter().append("circle")
             .attr("class", "dot")
             .attr("cx", d => xScale(d.total))
@@ -469,33 +306,18 @@ class ResponsiveChartFactory {
             .attr("r", 6)
             .attr("fill", d => this.jurisdictionColors[d.jurisdiction] || this.colors.primary)
             .style("opacity", 0.7)
-            .on("mouseover", function(event, d) {
-                d3.select(this).attr("r", 8).style("opacity", 1);
-                
-                const tooltip = d3.select("body").append("div")
-                    .attr("class", "insights-map-tooltip")
-                    .style("opacity", 0);
-
-                tooltip.transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                    
-                tooltip.html(`
-                    <strong>${d.jurisdiction}</strong><br/>
-                    Total Fines: ${d.total.toLocaleString()}<br/>
-                    Growth Rate: ${d.growth.toFixed(1)}%
-                `)
-                    .style("left", (event.pageX + 10) + "px")
-                    .style("top", (event.pageY - 28) + "px");
+            .on("mouseover", (event, d) => {
+                d3.select(event.target).attr("r", 8).style("opacity", 1);
+                this.showTooltip(event, d, `${d.jurisdiction}<br/>Total: ${d.total.toLocaleString()}<br/>Growth: ${d.growth.toFixed(1)}%`);
             })
-            .on("mouseout", function() {
-                d3.select(this).attr("r", 6).style("opacity", 0.7);
-                d3.selectAll(".insights-map-tooltip").remove();
+            .on("mouseout", (event) => {
+                d3.select(event.target).attr("r", 6).style("opacity", 0.7);
+                this.hideTooltip();
             });
 
         // Add labels
         g.selectAll(".label")
-            .data(data)
+            .data(validData)
             .enter().append("text")
             .attr("class", "label")
             .attr("x", d => xScale(d.total))
@@ -508,120 +330,212 @@ class ResponsiveChartFactory {
         return svg.node();
     }
 
-    addTooltip(g, data, xScale, yScale) {
-        // Create invisible overlay for mouse events
-        const overlay = g.append("rect")
-            .attr("class", "overlay")
-            .attr("width", xScale.range()[1])
-            .attr("height", yScale.range()[0])
-            .style("fill", "none")
-            .style("pointer-events", "all");
+    createBarChart(container, data, options = {}) {
+        if (!Array.isArray(data) || data.length === 0) {
+            this.showNoDataMessage(container, "No bar chart data available");
+            return;
+        }
+        
+        const margin = { ...this.defaultMargin, bottom: 60, ...options.margin };
+        const containerElement = d3.select(container);
+        
+        containerElement.selectAll("*").remove();
+        
+        const rect = containerElement.node().getBoundingClientRect();
+        const width = Math.max((options.width || rect.width || 600), 300) - margin.left - margin.right;
+        const height = Math.max((options.height || 400), 200) - margin.top - margin.bottom;
 
-        // Create tooltip elements
-        const focus = g.append("g")
-            .attr("class", "focus")
-            .style("display", "none");
+        const svg = containerElement
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .style("background", "white");
 
-        focus.append("line")
-            .attr("class", "x-hover-line hover-line")
-            .attr("y1", 0)
-            .attr("y2", yScale.range()[0]);
+        const g = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
 
-        focus.append("line")
-            .attr("class", "y-hover-line hover-line")
-            .attr("x1", 0)
-            .attr("x2", xScale.range()[1]);
+        // Sort data by total descending
+        const sortedData = data.filter(d => d.total !== undefined).sort((a, b) => b.total - a.total);
 
-        focus.append("circle")
-            .attr("r", 4);
+        // Scales
+        const xScale = d3.scaleBand()
+            .domain(sortedData.map(d => d.jurisdiction))
+            .range([0, width])
+            .padding(0.2);
 
-        overlay
-            .on("mouseover", () => focus.style("display", null))
-            .on("mouseout", () => focus.style("display", "none"))
-            .on("mousemove", function(event) {
-                const [mouseX] = d3.pointer(event);
-                const x0 = xScale.invert(mouseX);
-                
-                // Find closest data point
-                const bisectYear = d3.bisector(d => d.year).left;
-                const i = bisectYear(data, x0, 1);
-                const d0 = data[i - 1];
-                const d1 = data[i];
-                const d = d1 && (x0 - d0.year > d1.year - x0) ? d1 : d0;
+        const yScale = d3.scaleLinear()
+            .domain([0, d3.max(sortedData, d => d.total)])
+            .nice()
+            .range([height, 0]);
 
-                if (d) {
-                    focus.attr("transform", `translate(${xScale(d.year)},${yScale(d.total)})`);
-                    focus.select(".x-hover-line").attr("y2", yScale.range()[0] - yScale(d.total));
-                    focus.select(".y-hover-line").attr("x2", -xScale(d.year));
-                }
+        // Add axes
+        g.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(xScale))
+            .selectAll("text")
+            .style("text-anchor", "middle")
+            .style("font-size", "12px");
+
+        g.append("g")
+            .call(d3.axisLeft(yScale).tickFormat(d => this.formatNumber(d, 'thousands')))
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -45)
+            .attr("x", -height / 2)
+            .attr("fill", "black")
+            .style("text-anchor", "middle")
+            .text("Total Fines");
+
+        // Add bars
+        g.selectAll(".bar")
+            .data(sortedData)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", d => xScale(d.jurisdiction))
+            .attr("width", xScale.bandwidth())
+            .attr("y", d => yScale(d.total))
+            .attr("height", d => height - yScale(d.total))
+            .attr("fill", d => this.jurisdictionColors[d.jurisdiction] || this.colors.primary)
+            .style("opacity", 0.8)
+            .on("mouseover", (event, d) => {
+                d3.select(event.target).style("opacity", 1);
+                const rank = sortedData.findIndex(x => x.jurisdiction === d.jurisdiction) + 1;
+                this.showTooltip(event, d, `${d.jurisdiction}<br/>Total: ${d.total.toLocaleString()}<br/>Rank: #${rank}`);
+            })
+            .on("mouseout", (event) => {
+                d3.select(event.target).style("opacity", 0.8);
+                this.hideTooltip();
             });
 
-        // Style hover lines
-        g.selectAll(".hover-line")
-            .style("stroke", "#999")
-            .style("stroke-width", "1px")
-            .style("stroke-dasharray", "3,3");
+        // Add value labels on bars
+        g.selectAll(".label")
+            .data(sortedData)
+            .enter().append("text")
+            .attr("class", "label")
+            .attr("x", d => xScale(d.jurisdiction) + xScale.bandwidth() / 2)
+            .attr("y", d => yScale(d.total) - 5)
+            .attr("text-anchor", "middle")
+            .style("font-size", "11px")
+            .style("font-weight", "bold")
+            .text(d => this.formatNumber(d.total, 'thousands'));
 
-        focus.select("circle")
-            .style("fill", "none")
-            .style("stroke", "steelblue")
-            .style("stroke-width", "2px");
+        return svg.node();
     }
 
-    // Utility method to make charts responsive
-    makeResponsive(chartFunction, container, data, options = {}) {
-        const resizeHandler = () => {
-            chartFunction.call(this, container, data, options);
-        };
+    // Helper methods
+    showNoDataMessage(container, message) {
+        const containerElement = d3.select(container);
+        containerElement.selectAll("*").remove();
+        
+        containerElement.append("div")
+            .style("display", "flex")
+            .style("align-items", "center")
+            .style("justify-content", "center")
+            .style("height", "200px")
+            .style("background", "#f8fafc")
+            .style("border-radius", "8px")
+            .style("border", "1px solid #e5e7eb")
+            .style("color", "#9ca3af")
+            .style("font-size", "14px")
+            .text(message);
+    }
 
-        // Initial render
-        resizeHandler();
+    formatNumber(num, type = 'default') {
+        if (num === null || num === undefined || isNaN(num)) return 'N/A';
+        
+        switch (type) {
+            case 'thousands':
+                return num.toLocaleString();
+            case 'percentage':
+                return num.toFixed(1) + '%';
+            default:
+                return num.toLocaleString();
+        }
+    }
 
-        // Add resize listener
-        window.addEventListener('resize', resizeHandler);
+    showTooltip(event, data, content) {
+        const tooltip = d3.select("body").append("div")
+            .attr("class", "insights-map-tooltip")
+            .style("opacity", 0);
 
-        // Return cleanup function
-        return () => window.removeEventListener('resize', resizeHandler);
+        const formattedContent = `
+            <strong>${data.jurisdiction}</strong><br/>
+            Total: ${data.total?.toLocaleString() || 'N/A'}<br/>
+            ${data.rank ? `#${data.rank}` : ''}
+        `;
+
+        tooltip.transition()
+            .duration(200)
+            .style("opacity", 0.9);
+            
+        tooltip.html(formattedContent)
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 28) + "px");
+    }
+
+    hideTooltip() {
+        d3.selectAll(".insights-map-tooltip").remove();
     }
 
     // Method to update chart data
     updateChart(container, newData, chartType, options = {}) {
+        if (!newData || !Array.isArray(newData) || newData.length === 0) {
+            this.showNoDataMessage(container, `No data available for ${chartType} chart`);
+            return;
+        }
+
         const containerElement = d3.select(container);
         
-        // Fade out current chart
-        containerElement.transition()
-            .duration(200)
-            .style('opacity', 0.3)
-            .end()
-            .then(() => {
-                // Render new chart
-                switch (chartType) {
-                    case 'trend':
-                        this.createTrendChart(container, newData, options);
-                        break;
-                    case 'bar':
-                        this.createBarChart(container, newData, options);
-                        break;
-                    case 'pie':
-                        this.createPieChart(container, newData, options);
-                        break;
-                    case 'scatter':
-                        this.createScatterPlot(container, newData, options);
-                        break;
-                    default:
-                        console.warn('Unknown chart type:', chartType);
-                }
-                
-                // Fade in new chart
-                containerElement.transition()
-                    .duration(300)
-                    .style('opacity', 1);
-            });
+        // Store current transform for smooth transition
+        const currentTransform = containerElement.select('svg g').attr('transform');
+        
+        // Smoothly fade out current content
+        containerElement.selectAll('*')
+            .transition()
+            .duration(300)
+            .style('opacity', 0)
+            .remove();
+
+        // Create new chart
+        setTimeout(() => {
+            switch (chartType) {
+                case 'trend':
+                    this.createTrendChart(container, newData, options);
+                    break;
+                case 'bar':
+                    this.createBarChart(container, newData, options);
+                    break;
+                case 'pie':
+                    this.createPieChart(container, newData, options);
+                    break;
+                case 'scatter':
+                    this.createScatterPlot(container, newData, options);
+                    break;
+            }
+
+            // Smoothly fade in new content
+            containerElement.selectAll('*')
+                .style('opacity', 0)
+                .transition()
+                .duration(300)
+                .style('opacity', 1);
+
+            // Restore transform if exists
+            if (currentTransform) {
+                containerElement.select('svg g')
+                    .attr('transform', currentTransform);
+            }
+        }, 300);
     }
 
     // Export chart as SVG
     exportSVG(container, filename = 'chart.svg') {
         const svg = d3.select(container).select('svg');
+        if (svg.empty()) {
+            console.warn('No SVG found to export');
+            return;
+        }
+        
         const svgString = new XMLSerializer().serializeToString(svg.node());
         
         const blob = new Blob([svgString], { type: 'image/svg+xml' });
@@ -634,22 +548,6 @@ class ResponsiveChartFactory {
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
-    }
-
-    // Format numbers for display
-    formatNumber(num, type = 'default') {
-        switch (type) {
-            case 'thousands':
-                return `${(num / 1000).toFixed(0)}K`;
-            case 'millions':
-                return `${(num / 1000000).toFixed(1)}M`;
-            case 'percentage':
-                return `${num.toFixed(1)}%`;
-            case 'currency':
-                return `$${num.toLocaleString()}`;
-            default:
-                return num.toLocaleString();
-        }
     }
 }
 

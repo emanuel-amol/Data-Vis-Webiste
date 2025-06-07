@@ -232,23 +232,21 @@ class EnhancedChartInteractions {
       .attr('width', textBBox.width + 16)
       .attr('height', textBBox.height + 8);
 
-    // Animate annotation appearance
+    // Modify the animation and event handling
     annotationContainer
-      .transition()
-      .delay(index * 300)
-      .duration(600)
-      .style('opacity', 1);
-
-    // Add interactivity
-    annotationContainer
-      .style('cursor', 'pointer')
-      .on('click', () => {
+      .style("cursor", "pointer")
+      .on("click", () => {
         if (annotation.onClick) {
           annotation.onClick(annotation);
         } else {
           this.showAnnotationDetail(annotation);
         }
-      });
+      })
+      .transition()
+      .duration(600)
+      .style("opacity", 1);
+
+    return annotationContainer;
   }
 
   showAnnotationDetail(annotation) {

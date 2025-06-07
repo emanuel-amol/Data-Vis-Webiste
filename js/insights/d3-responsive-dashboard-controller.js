@@ -13,6 +13,7 @@ class InsightsDashboardController {
         this.charts = {};
         this.resizeHandlers = [];
         this.initializationPromise = null;
+        this.isInitialized = false;
     }
 
     async initialize() {
@@ -52,6 +53,7 @@ class InsightsDashboardController {
             this.renderAllVisualizations();
             this.setupResizeHandlers();
             
+            this.isInitialized = true;
             console.log('Dashboard Controller initialized successfully');
             
         } catch (error) {
@@ -114,16 +116,57 @@ class InsightsDashboardController {
         }
     }
 
+    updateVisualizations() {
+        try {
+            console.log(`Updating visualizations for metric: ${this.currentMetric}, year: ${this.currentYear}`);
+            
+            const data = this.getDataForMetric(this.currentMetric, this.currentYear);
+            
+            // Update bar chart
+            if (this.charts.barChart) {
+                this.chartFactory.updateChart('#jurisdiction-bar-chart', data, 'bar');
+            } else {
+                this.renderBarChart();
+            }
+            
+            // Update map visualization
+            if (this.mapVisualization) {
+                this.mapVisualization.updateData(data);
+            }
+            
+            // Update scatter plot if needed
+            const scatterData = this.getScatterData();
+            if (this.charts.scatterPlot) {
+                this.chartFactory.updateChart('#performance-scatter', scatterData, 'scatter');
+            }
+            
+            // Update trend chart based on year selection
+            if (this.currentYear !== 'all' && this.charts.trendChart) {
+                const filteredTrendData = this.currentData.trendData.filter(d => d.year <= parseInt(this.currentYear));
+                this.chartFactory.updateChart('#trend-chart', filteredTrendData, 'trend');
+            }
+            
+            // Update insights panel if a jurisdiction is selected
+            if (this.selectedJurisdiction) {
+                this.updateInsightsPanel(this.selectedJurisdiction);
+            }
+            
+        } catch (error) {
+            console.error('Error updating visualizations:', error);
+            this.showError('Failed to update visualizations');
+        }
+    }
+
     renderAllVisualizations() {
         try {
             console.log('Rendering all visualizations...');
             
-            // Render in order of dependencies
-            this.renderMap();
-            this.renderTrendChart();
-            this.renderBarChart();
-            this.renderPieChart();
-            this.renderScatterPlot();
+            // Render in order with error handling for each
+            this.safeRender('map', () => this.renderMap());
+            this.safeRender('trend chart', () => this.renderTrendChart());
+            this.safeRender('bar chart', () => this.renderBarChart());
+            this.safeRender('pie chart', () => this.renderPieChart());
+            this.safeRender('scatter plot', () => this.renderScatterPlot());
             this.updateInsightsPanel();
             
             console.log('All visualizations rendered successfully');
@@ -134,166 +177,182 @@ class InsightsDashboardController {
         }
     }
 
-    renderMap() {
+    safeRender(name, renderFunction) {
         try {
-            const container = '#australia-map';
-            const containerElement = document.querySelector(container);
-            
-            if (!containerElement) {
-                console.warn('Map container not found:', container);
-                return;
-            }
-
-            if (!this.currentData || !this.currentData.totalsByJurisdiction2023) {
-                console.warn('No data available for map rendering');
-                return;
-            }
-
-            const data = this.getDataForMetric('total-fines', '2023');
-            
-            // Add rank to data
-            const rankedData = data
-                .sort((a, b) => b.total - a.total)
-                .map((d, i) => ({ ...d, rank: i + 1 }));
-            
-            const mapContainer = document.querySelector('#australia-map-container');
-            const width = mapContainer ? mapContainer.clientWidth : 600;
-            
-            this.mapVisualization.create(container, rankedData, {
-                width: width,
-                height: 400
-            });
-            
-            console.log('Map rendered successfully');
-            
+            renderFunction();
         } catch (error) {
-            console.error('Error rendering map:', error);
+            console.error(`Error rendering ${name}:`, error);
         }
+    }
+
+    renderMap() {
+        const container = '#australia-map';
+        const containerElement = document.querySelector(container);
+        
+        if (!containerElement) {
+            console.warn('Map container not found:', container);
+            return;
+        }
+
+        if (!this.currentData || !this.currentData.totalsByJurisdiction2023) {
+            console.warn('No data available for map rendering');
+            return;
+        }
+
+        const data = this.getDataForMetric('total-fines', '2023');
+        
+        if (!data || data.length === 0) {
+            console.warn('No valid data for map');
+            return;
+        }
+
+        // Add rank to data
+        const rankedData = data
+            .sort((a, b) => b.total - a.total)
+            .map((d, i) => ({ ...d, rank: i + 1 }));
+        
+        const mapContainer = document.querySelector('#australia-map-container');
+        const width = mapContainer ? mapContainer.clientWidth : 600;
+        
+        this.mapVisualization.create(container, rankedData, {
+            width: Math.max(width, 400),
+            height: 400
+        });
+        
+        console.log('Map rendered successfully');
     }
 
     renderTrendChart() {
-        try {
-            const container = '#trend-chart';
-            const containerElement = document.querySelector(container);
-            
-            if (!containerElement || !this.currentData?.trendData) {
-                console.log('Skipping trend chart - container or data not available');
-                return;
-            }
-            
-            const data = this.currentData.trendData;
-            
-            this.charts.trendChart = this.chartFactory.createTrendChart(container, data, {
-                width: 600,
-                height: 300,
-                margin: { top: 20, right: 120, bottom: 50, left: 80 }
-            });
-            
-            console.log('Trend chart rendered successfully');
-            
-        } catch (error) {
-            console.error('Error rendering trend chart:', error);
+        const container = '#trend-chart';
+        const containerElement = document.querySelector(container);
+        
+        if (!containerElement) {
+            console.log('Trend chart container not found');
+            return;
         }
+        
+        if (!this.currentData?.trendData) {
+            console.log('No trend data available');
+            return;
+        }
+        
+        const data = this.currentData.trendData;
+        
+        this.charts.trendChart = this.chartFactory.createTrendChart(container, data, {
+            width: 600,
+            height: 300,
+            margin: { top: 20, right: 120, bottom: 50, left: 80 }
+        });
+        
+        console.log('Trend chart rendered successfully');
     }
 
     renderBarChart() {
-        try {
-            const container = '#jurisdiction-bar-chart';
-            const containerElement = document.querySelector(container);
-            
-            if (!containerElement) {
-                console.log('Skipping bar chart - container not available');
-                return;
-            }
-            
-            const data = this.getDataForMetric(this.currentMetric, this.currentYear);
-            
-            if (!data || data.length === 0) {
-                console.warn('No data available for bar chart');
-                return;
-            }
-            
-            this.charts.barChart = this.chartFactory.createBarChart(container, data, {
-                width: 600,
-                height: 300
-            });
-            
-            console.log('Bar chart rendered successfully');
-            
-        } catch (error) {
-            console.error('Error rendering bar chart:', error);
+        const container = '#jurisdiction-bar-chart';
+        const containerElement = document.querySelector(container);
+        
+        if (!containerElement) {
+            console.log('Bar chart container not found');
+            return;
         }
+        
+        const data = this.getDataForMetric(this.currentMetric, this.currentYear);
+        
+        if (!data || data.length === 0) {
+            console.warn('No data available for bar chart');
+            return;
+        }
+        
+        this.charts.barChart = this.chartFactory.createBarChart(container, data, {
+            width: 600,
+            height: 300
+        });
+        
+        console.log('Bar chart rendered successfully');
     }
 
     renderPieChart() {
-        try {
-            const container = '#age-pie-chart';
-            const containerElement = document.querySelector(container);
-            
-            if (!containerElement || !this.currentData?.ageDistribution2023) {
-                console.log('Skipping pie chart - container or data not available');
-                return;
-            }
-            
-            const data = this.currentData.ageDistribution2023;
-            
-            this.charts.pieChart = this.chartFactory.createPieChart(container, data, {
-                width: 400,
-                height: 300
-            });
-            
-            console.log('Pie chart rendered successfully');
-            
-        } catch (error) {
-            console.error('Error rendering pie chart:', error);
+        const container = '#age-pie-chart';
+        const containerElement = document.querySelector(container);
+        
+        if (!containerElement) {
+            console.log('Pie chart container not found');
+            return;
         }
+        
+        if (!this.currentData?.ageDistribution2023) {
+            console.log('No age distribution data available');
+            return;
+        }
+        
+        const data = this.currentData.ageDistribution2023;
+        
+        this.charts.pieChart = this.chartFactory.createPieChart(container, data, {
+            width: 400,
+            height: 300
+        });
+        
+        console.log('Pie chart rendered successfully');
     }
 
     renderScatterPlot() {
-        try {
-            const container = '#performance-scatter';
-            const containerElement = document.querySelector(container);
-            
-            if (!containerElement) {
-                console.log('Skipping scatter plot - container not available');
-                return;
-            }
-            
-            const data = this.getScatterData();
-            
-            if (!data || data.length === 0) {
-                console.warn('No data available for scatter plot');
-                return;
-            }
-            
-            this.charts.scatterPlot = this.chartFactory.createScatterPlot(container, data, {
-                width: 600,
-                height: 300
-            });
-            
-            console.log('Scatter plot rendered successfully');
-            
-        } catch (error) {
-            console.error('Error rendering scatter plot:', error);
+        const container = '#performance-scatter';
+        const containerElement = document.querySelector(container);
+        
+        if (!containerElement) {
+            console.log('Scatter plot container not found');
+            return;
         }
+        
+        const data = this.getScatterData();
+        
+        if (!data || data.length === 0) {
+            console.warn('No data available for scatter plot');
+            return;
+        }
+        
+        this.charts.scatterPlot = this.chartFactory.createScatterPlot(container, data, {
+            width: 600,
+            height: 300
+        });
+        
+        console.log('Scatter plot rendered successfully');
     }
 
     getDataForMetric(metric, year) {
         if (!this.currentData) return [];
         
         try {
+            let data;
             switch (metric) {
                 case 'total-fines':
-                    return this.currentData.totalsByJurisdiction2023 || [];
+                    data = year === 'all' 
+                        ? this.currentData.byJurisdiction 
+                        : this.currentData.totalsByJurisdiction2023;
+                    break;
+                    
                 case 'per-capita':
-                    return this.calculatePerCapitaData();
+                    data = this.calculatePerCapitaData(year);
+                    break;
+                    
                 case 'growth-rate':
-                    return this.calculateGrowthData();
+                    data = this.calculateGrowthData(year);
+                    break;
+                    
                 case 'technology-impact':
-                    return this.calculateTechnologyImpactData();
+                    data = this.calculateTechnologyImpactData(year);
+                    break;
+                    
                 default:
-                    return this.currentData.totalsByJurisdiction2023 || [];
+                    data = this.currentData.totalsByJurisdiction2023;
             }
+            
+            // Filter by year if not 'all'
+            if (year !== 'all' && Array.isArray(data)) {
+                return data.filter(d => !d.year || d.year.toString() === year);
+            }
+            
+            return data;
         } catch (error) {
             console.error('Error getting data for metric:', metric, error);
             return [];
@@ -312,7 +371,7 @@ class InsightsDashboardController {
         return this.currentData.totalsByJurisdiction2023.map(d => ({
             ...d,
             total: populationData[d.jurisdiction] ? 
-                (d.total / populationData[d.jurisdiction]) * 1000 : 0
+                Math.round((d.total / populationData[d.jurisdiction]) * 1000) : 0
         }));
     }
 
@@ -370,6 +429,11 @@ class InsightsDashboardController {
         
         // Highlight in other charts if needed
         this.highlightJurisdictionInCharts(jurisdiction);
+        
+        // Dispatch custom event
+        window.dispatchEvent(new CustomEvent('jurisdictionSelected', {
+            detail: { jurisdiction, data }
+        }));
     }
 
     updateInsightsPanel(jurisdiction = null) {
@@ -504,7 +568,7 @@ class InsightsDashboardController {
                 recommendations.push('Analyze capacity to handle increased violation processing');
             }
             
-            return recommendations;
+            return recommendations.length > 0 ? recommendations : ['Continue monitoring current enforcement strategies'];
         } catch (error) {
             console.error('Error generating policy recommendations:', error);
             return ['Unable to generate recommendations at this time'];
@@ -513,22 +577,7 @@ class InsightsDashboardController {
 
     highlightJurisdictionInCharts(jurisdiction) {
         console.log(`Highlighting ${jurisdiction} in charts`);
-    }
-
-    updateVisualizations() {
-        try {
-            console.log(`Updating visualizations for metric: ${this.currentMetric}, year: ${this.currentYear}`);
-            
-            // Re-render charts that depend on current selections
-            this.renderBarChart();
-            
-            // Update map if metric changed
-            if (this.currentMetric !== 'total-fines') {
-                this.renderMap();
-            }
-        } catch (error) {
-            console.error('Error updating visualizations:', error);
-        }
+        // This could be enhanced to actually highlight the jurisdiction in the charts
     }
 
     setupResizeHandlers() {
@@ -549,14 +598,16 @@ class InsightsDashboardController {
             const mapContainer = document.querySelector('#australia-map-container');
             if (mapContainer && this.mapVisualization) {
                 const newWidth = mapContainer.clientWidth;
-                this.mapVisualization.resize(newWidth, 400);
+                if (this.mapVisualization.resize) {
+                    this.mapVisualization.resize(newWidth, 400);
+                }
             }
 
             // Re-render other charts to fit new container sizes
-            this.renderTrendChart();
-            this.renderBarChart();
-            this.renderPieChart();
-            this.renderScatterPlot();
+            this.safeRender('trend chart', () => this.renderTrendChart());
+            this.safeRender('bar chart', () => this.renderBarChart());
+            this.safeRender('pie chart', () => this.renderPieChart());
+            this.safeRender('scatter plot', () => this.renderScatterPlot());
             
         } catch (error) {
             console.error('Error during resize:', error);
@@ -573,7 +624,9 @@ class InsightsDashboardController {
                 summary: this.currentData?.summaryStats || {},
                 jurisdictionRankings: this.dataLoader?.getJurisdictionRanking(2023) || [],
                 selectedJurisdiction: this.selectedJurisdiction,
-                keyInsights: this.generateKeyInsights()
+                keyInsights: this.generateKeyInsights(),
+                currentMetric: this.currentMetric,
+                currentYear: this.currentYear
             };
 
             // Convert to downloadable format
@@ -623,13 +676,15 @@ class InsightsDashboardController {
             if (rankings.length >= 2) {
                 const topJurisdiction = rankings[0];
                 const bottomJurisdiction = rankings[rankings.length - 1];
-                const ratio = topJurisdiction.total / bottomJurisdiction.total;
-                
-                insights.push({
-                    title: "Policy Impact",
-                    finding: `${ratio.toFixed(0)}:1 ratio between highest (${topJurisdiction.jurisdiction}) and lowest (${bottomJurisdiction.jurisdiction}) performing jurisdictions`,
-                    implication: "Policy choices determine enforcement outcomes"
-                });
+                if (topJurisdiction && bottomJurisdiction && bottomJurisdiction.total > 0) {
+                    const ratio = topJurisdiction.total / bottomJurisdiction.total;
+                    
+                    insights.push({
+                        title: "Policy Impact",
+                        finding: `${ratio.toFixed(0)}:1 ratio between highest (${topJurisdiction.jurisdiction}) and lowest (${bottomJurisdiction.jurisdiction}) performing jurisdictions`,
+                        implication: "Policy choices determine enforcement outcomes"
+                    });
+                }
             }
 
             return insights;
@@ -675,6 +730,15 @@ class InsightsDashboardController {
         }, 3000);
     }
 
+    // Getter for external access
+    isReady() {
+        return this.isInitialized && this.currentData;
+    }
+
+    getCurrentData() {
+        return this.currentData;
+    }
+
     // Cleanup method
     destroy() {
         // Remove event listeners
@@ -691,6 +755,8 @@ class InsightsDashboardController {
         if (this.resizeTimeout) {
             clearTimeout(this.resizeTimeout);
         }
+
+        this.isInitialized = false;
     }
 }
 

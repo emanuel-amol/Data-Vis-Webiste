@@ -350,6 +350,24 @@
       text-align: center;
     }
 
+    /* Remove animation keyframes and transitions */
+    .animate-in {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .loading-shimmer::before {
+        display: none;
+    }
+
+    /* Remove transition effects */
+    .stat-card, .tool-card, .insight-item,
+    .tool-btn, .export-btn, .reveal-trigger,
+    .insight-content,
+    #australia-map, #trend-chart, #jurisdiction-bar-chart, #age-pie-chart, #performance-scatter {
+        transition: none;
+    }
+
     @media (max-width: 1024px) {
       .dashboard-grid {
         grid-template-columns: 1fr;
@@ -416,7 +434,7 @@
           <div class="stat-card">
             <div class="stat-icon">🎯</div>
             <div class="stat-card-content">
-              <span class="key-stat">45</span>
+              <span class="key-stat counter" data-target="45">45</span>
               <div class="stat-description">% of violations by middle-aged drivers (40-64)</div>
               <div class="stat-change">Challenges conventional wisdom</div>
             </div>
@@ -424,7 +442,7 @@
           <div class="stat-card">
             <div class="stat-icon">📊</div>
             <div class="stat-card-content">
-              <span class="key-stat">604,750</span>
+              <span class="key-stat counter" data-target="604750">604,750</span>
               <div class="stat-description">Middle-aged driver fines</div>
               <div class="stat-change">vs 298,300 young drivers</div>
             </div>
@@ -562,89 +580,67 @@
     </div>
   </main>
 
-  <!-- Scripts -->
+  <!-- Scripts in proper loading order -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
-  
-  <!-- File System API Mock for Development -->
   <script>
-    // File system API for reading the CSV data
-    if (!window.fs) {
-      window.fs = {
-        readFile: async function(filename, options) {
-          console.log('Reading file:', filename);
-          
-          try {
-            const response = await fetch(filename);
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const content = await response.text();
-            return content;
-          } catch (error) {
-            console.error('Error reading file:', error);
-            // Return mock data as fallback
-            return this.getMockCSVData();
-          }
-        },
-        
-        getMockCSVData: function() {
-          return `YEAR,JURISDICTION,AGE_GROUP,METRIC,DETECTION_METHOD,FINES
-2023,NSW,40-64,mobile_phone_use,Police issued,50000
-2023,VIC,40-64,mobile_phone_use,Police issued,45000
-2023,QLD,40-64,mobile_phone_use,Police issued,40000
-2023,WA,40-64,mobile_phone_use,Police issued,35000
-2023,SA,40-64,mobile_phone_use,Police issued,30000
-2023,TAS,40-64,mobile_phone_use,Police issued,25000
-2023,ACT,40-64,mobile_phone_use,Police issued,20000
-2023,NT,40-64,mobile_phone_use,Police issued,15000
-2023,NSW,26-39,mobile_phone_use,Police issued,35000
-2023,VIC,26-39,mobile_phone_use,Police issued,32000
-2023,QLD,26-39,mobile_phone_use,Police issued,28000
-2023,WA,26-39,mobile_phone_use,Police issued,25000
-2023,SA,26-39,mobile_phone_use,Police issued,22000
-2023,TAS,26-39,mobile_phone_use,Police issued,18000
-2023,ACT,26-39,mobile_phone_use,Police issued,15000
-2023,NT,26-39,mobile_phone_use,Police issued,12000
-2023,NSW,17-25,mobile_phone_use,Police issued,25000
-2023,VIC,17-25,mobile_phone_use,Police issued,23000
-2023,QLD,17-25,mobile_phone_use,Police issued,20000
-2023,WA,17-25,mobile_phone_use,Police issued,18000
-2023,SA,17-25,mobile_phone_use,Police issued,16000
-2023,TAS,17-25,mobile_phone_use,Police issued,14000
-2023,ACT,17-25,mobile_phone_use,Police issued,12000
-2023,NT,17-25,mobile_phone_use,Police issued,10000
-2022,NSW,40-64,mobile_phone_use,Police issued,48000
-2022,VIC,40-64,mobile_phone_use,Police issued,43000
-2021,NSW,40-64,mobile_phone_use,Police issued,46000
-2021,VIC,40-64,mobile_phone_use,Police issued,41000`;
+    // Script loading with error handling
+    function loadScript(src) {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = resolve;
+        script.onerror = () => reject(new Error(`Failed to load ${src}`));
+        document.head.appendChild(script);
+      });
+    }
+
+    // Load scripts in sequence
+    async function loadInsightsScripts() {
+      try {
+        const scripts = [
+          '/js/insights/enhanced-d3-data-loader.js',
+          '/js/insights/d3-responsive-charts.js', 
+          '/js/insights/d3-responsive-map-visualization.js',
+          '/js/insights/d3-responsive-dashboard-controller.js',
+          '/js/insights/d3-integration.js',
+          '/js/insights/insights-main.js'
+        ];
+
+        for (const src of scripts) {
+          await loadScript(src);
+          console.log(`Loaded ${src}`);
         }
-      };
+      } catch (error) {
+        console.error('Error loading scripts:', error);
+        document.getElementById('visualization-error').style.display = 'block';
+        document.getElementById('visualization-error').innerHTML = `
+          <div class="error-message">
+            Failed to load required scripts. Please refresh the page or check console for details.
+          </div>
+        `;
+      }
+    }
+
+    // Start loading when D3 is ready
+    if (typeof d3 !== 'undefined') {
+      loadInsightsScripts();
+    } else {
+      document.querySelector('script[src*="d3.v7.min.js"]').addEventListener('load', loadInsightsScripts);
     }
   </script>
-  
-  <!-- Component Scripts in Order -->
-  <script src="js/insights/enhanced-d3-data-loader.js"></script>
-  <script src="js/insights/d3-responsive-map-visualization.js"></script>
-  <script src="js/insights/d3-responsive-charts.js"></script>
-  <script src="js/insights/d3-responsive-dashboard-controller.js"></script>
-  <script src="js/insights/d3-integration.js"></script>
-  <script src="js/insights/insights-animations.js"></script>
-  <script src="js/insights/insights-main.js"></script>
-  
+
+  <!-- Debug utilities remain unchanged -->
   <script>
-    // Initialize the system when everything is loaded
-    console.log('Page loaded, starting initialization...');
-    
     // Debug utilities
     window.debugDashboard = function() {
-      if (window.d3Integration) {
-        window.d3Integration.debugDashboard();
-      } else {
-        console.log('D3 Integration not available');
-      }
+      console.log('=== Debug Information ===');
+      console.log('D3 available:', typeof d3 !== 'undefined');
+      console.log('File API available:', !!window.fs);
+      console.log('D3 Integration:', !!window.d3Integration);
+      console.log('Dashboard ready:', window.d3Integration ? window.d3Integration.isReady() : false);
     };
     
-    // Error handling
+    // Global error handling
     window.addEventListener('error', function(event) {
       console.error('Global error:', event.error);
     });

@@ -113,7 +113,8 @@ class D3IntegrationManager {
 
         // Check file system API
         if (!window.fs || !window.fs.readFile) {
-            throw new Error('File system API not available');
+            console.warn('File system API not available - using fallback data');
+            // Don't throw error, let data loader handle fallback
         }
 
         // Check required classes - load them if they don't exist
@@ -175,6 +176,17 @@ class D3IntegrationManager {
         window.addEventListener('debugDashboard', () => {
             this.debugDashboard();
         });
+
+        // Handle window resize with debouncing
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                if (this.dashboard && this.dashboard.handleResize) {
+                    this.dashboard.handleResize();
+                }
+            }, 250);
+        });
     }
 
     showFallbackContent() {
@@ -185,14 +197,12 @@ class D3IntegrationManager {
             mapContainer.innerHTML = `
                 <div style="display: flex; align-items: center; justify-content: center; height: 400px; background: #f8fafc; border-radius: 8px; border: 2px dashed #d1d5db;">
                     <div style="text-align: center; color: #6b7280;">
-                        <div style="font-size: 48px; margin-bottom: 16px;">📊</div>
+                        <div style="margin-bottom: 16px;">📊</div>
                         <div style="font-weight: 600; margin-bottom: 8px;">Interactive Features Unavailable</div>
                         <div style="font-size: 14px;">Please refresh the page to retry loading</div>
-                        <div style="margin-top: 16px;">
-                            <button onclick="location.reload()" style="background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">
-                                Refresh Page
-                            </button>
-                        </div>
+                        <button onclick="location.reload()" style="background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-top: 16px;">
+                            Refresh Page
+                        </button>
                     </div>
                 </div>
             `;
@@ -232,7 +242,8 @@ class D3IntegrationManager {
         console.log('Dashboard exists:', !!this.dashboard);
         
         if (this.dashboard) {
-            console.log('Current Data:', this.dashboard.currentData);
+            console.log('Dashboard ready:', this.dashboard.isReady());
+            console.log('Current Data exists:', !!this.dashboard.getCurrentData());
             console.log('Current Metric:', this.dashboard.currentMetric);
             console.log('Current Year:', this.dashboard.currentYear);
             console.log('Selected Jurisdiction:', this.dashboard.selectedJurisdiction);
@@ -253,6 +264,8 @@ class D3IntegrationManager {
         console.log('Australia map:', !!document.querySelector('#australia-map'));
         console.log('Trend chart:', !!document.querySelector('#trend-chart'));
         console.log('Bar chart:', !!document.querySelector('#jurisdiction-bar-chart'));
+        console.log('Pie chart:', !!document.querySelector('#age-pie-chart'));
+        console.log('Scatter plot:', !!document.querySelector('#performance-scatter'));
         
         // Check dependencies
         console.log('=== Dependencies ===');
@@ -270,7 +283,7 @@ class D3IntegrationManager {
     }
 
     selectJurisdiction(jurisdiction) {
-        if (this.dashboard) {
+        if (this.dashboard && this.dashboard.handleJurisdictionSelect) {
             this.dashboard.handleJurisdictionSelect(jurisdiction);
         }
     }
@@ -290,17 +303,17 @@ class D3IntegrationManager {
     }
 
     exportData() {
-        if (this.dashboard) {
+        if (this.dashboard && this.dashboard.exportReport) {
             this.dashboard.exportReport();
         }
     }
 
     isReady() {
-        return this.isInitialized && this.dashboard;
+        return this.isInitialized && this.dashboard && this.dashboard.isReady();
     }
 
     async reinitialize() {
-        if (this.dashboard) {
+        if (this.dashboard && this.dashboard.destroy) {
             this.dashboard.destroy();
         }
         
@@ -309,6 +322,29 @@ class D3IntegrationManager {
         this.initializationPromise = null;
         
         return this.initialize();
+    }
+
+    // Method to handle errors gracefully
+    handleError(error, context = 'Unknown') {
+        console.error(`D3 Integration Error in ${context}:`, error);
+        
+        // Show user-friendly error message
+        const errorDiv = document.getElementById('visualization-error');
+        if (errorDiv) {
+            errorDiv.style.display = 'block';
+            errorDiv.innerHTML = `
+                <div style="background: #fee2e2; border: 1px solid #fecaca; border-radius: 8px; padding: 16px; margin: 20px 0;">
+                    <div style="color: #dc2626; font-weight: 600;">Visualization Error</div>
+                    <div style="color: #7f1d1d; margin-top: 4px;">
+                        ${context}: ${error.message || 'An unexpected error occurred'}
+                    </div>
+                    <button onclick="window.d3Integration.reinitialize()" 
+                            style="margin-top: 10px; background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">
+                        Retry
+                    </button>
+                </div>
+            `;
+        }
     }
 }
 
@@ -321,6 +357,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         await window.d3Integration.initialize();
     } catch (error) {
         console.error('Failed to auto-initialize D3 integration:', error);
+        window.d3Integration.handleError(error, 'Auto-initialization');
     }
 });
 
@@ -331,6 +368,7 @@ if (document.readyState !== 'loading') {
             await window.d3Integration.initialize();
         } catch (error) {
             console.error('Failed to initialize D3 integration:', error);
+            window.d3Integration.handleError(error, 'Manual initialization');
         }
     }, 100);
 }
@@ -341,3 +379,18 @@ window.selectJurisdiction = (jurisdiction) => window.d3Integration.selectJurisdi
 window.updateDashboardMetric = (metric) => window.d3Integration.updateMetric(metric);
 window.updateDashboardYear = (year) => window.d3Integration.updateYear(year);
 window.exportDashboardData = () => window.d3Integration.exportData();
+
+// Error handling for global errors
+window.addEventListener('error', (event) => {
+    if (event.error && event.error.message && event.error.message.includes('d3') || 
+        event.filename && event.filename.includes('insights')) {
+        window.d3Integration.handleError(event.error, 'Global error handler');
+    }
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+    if (event.reason && event.reason.message && 
+        (event.reason.message.includes('d3') || event.reason.message.includes('dashboard'))) {
+        window.d3Integration.handleError(event.reason, 'Unhandled promise rejection');
+    }
+});
